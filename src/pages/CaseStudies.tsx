@@ -48,26 +48,38 @@ const CaseStudies = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      <section className="py-20 border-b border-border">
-        <div className="container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-4">Results</p>
-            <h1 className="text-5xl md:text-7xl font-black uppercase text-foreground leading-[0.95]">
+      <section className="relative overflow-hidden py-28 md:py-36 bg-[#060918]">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-google-green rounded-full blur-[120px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-google-red rounded-full blur-[100px]" />
+        </div>
+        <div className="relative z-10 container mx-auto px-6">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-2 h-2 rounded-full bg-google-blue" />
+              <div className="w-2 h-2 rounded-full bg-google-red" />
+              <div className="w-2 h-2 rounded-full bg-google-yellow" />
+              <div className="w-2 h-2 rounded-full bg-google-green" />
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 ml-2">Results</p>
+            </div>
+            <h1 className="text-5xl md:text-7xl font-black uppercase text-white leading-[0.95] mb-6">
               Case
               <br />
               Studies
             </h1>
+            <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
+              Real businesses. Real results. See how we've helped clients dominate Google Maps in their markets.
+            </p>
           </motion.div>
         </div>
+        <div className="absolute bottom-0 left-0 right-0 h-1 flex z-10">
+          <div className="flex-1 bg-google-blue" />
+          <div className="flex-1 bg-google-red" />
+          <div className="flex-1 bg-google-yellow" />
+          <div className="flex-1 bg-google-green" />
+        </div>
       </section>
-
-      {/* Color bar */}
-      <div className="h-1 flex">
-        <div className="flex-1 bg-google-blue" />
-        <div className="flex-1 bg-google-red" />
-        <div className="flex-1 bg-google-yellow" />
-        <div className="flex-1 bg-google-green" />
-      </div>
 
       <section className="py-24">
         <div className="container mx-auto px-6">
