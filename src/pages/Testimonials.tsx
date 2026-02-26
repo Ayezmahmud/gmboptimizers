@@ -239,8 +239,21 @@ const Testimonials = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.3) }}
-                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow flex flex-col"
+                className="group relative bg-background p-8 border border-border hover:shadow-lg transition-shadow flex flex-col overflow-hidden"
               >
+                {/* Portrait overlay on hover */}
+                <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                  <img 
+                    src={t.image} 
+                    alt={t.name} 
+                    className="w-24 h-24 rounded-full object-cover border-4 border-google-blue mb-4 shadow-lg"
+                  />
+                  <p className="text-sm font-bold uppercase text-foreground text-center">{t.name}</p>
+                  <p className="text-xs text-muted-foreground text-center mb-2">{t.business}</p>
+                  <p className="text-xs font-bold text-google-green">{t.result}</p>
+                  <p className="text-xs text-google-blue mt-1 uppercase tracking-wider">{t.industry}</p>
+                </div>
+
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, j) => (
