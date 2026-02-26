@@ -114,11 +114,11 @@ const Index = () => {
       <Header />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden min-h-[90vh] flex items-center bg-[#060918]">
+      <section className="relative overflow-hidden min-h-screen lg:min-h-[90vh] flex items-center bg-[#060918]">
         {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
 
-        <div className="relative z-10 container mx-auto px-6 py-20 md:py-32 flex flex-col lg:flex-row items-center gap-8">
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-24 pb-8 md:py-32 flex flex-col lg:flex-row items-center gap-4 lg:gap-8">
           {/* Text side */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -135,17 +135,17 @@ const Index = () => {
                 Google Maps Optimization
               </p>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95] mb-6 text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95] mb-4 md:mb-6 text-white">
               Get Your Business
               <br />
               to <span className="text-google-blue">#1</span> on
               <br />
               Google Maps
             </h1>
-            <p className="text-base md:text-lg text-white/60 max-w-lg mb-8 leading-relaxed">
+            <p className="text-sm md:text-lg text-white/60 max-w-lg mb-6 md:mb-8 leading-relaxed">
               We help local businesses dominate Google Maps rankings with proven, data-driven optimization strategies. Trusted by 500+ businesses across 12+ countries.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 mb-6 md:mb-8">
               <Link
                 to="/contact"
                 className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider bg-google-blue text-primary-foreground hover:opacity-90 transition-opacity"
@@ -180,7 +180,7 @@ const Index = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="w-full lg:w-1/2 h-[400px] md:h-[500px] lg:h-[600px]"
+            className="w-full lg:w-1/2 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] -mx-4 sm:mx-0"
           >
             <Suspense fallback={
               <div className="w-full h-full flex items-center justify-center">
