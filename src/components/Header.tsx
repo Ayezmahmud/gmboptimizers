@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
@@ -13,10 +13,21 @@ const links = [
 
 const Header = () => {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 bg-background border-b border-border">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+      scrolled
+        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg shadow-black/5"
+        : "bg-transparent border-b border-transparent"
+    }`}>
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         <Link to="/" className="text-xl font-black uppercase tracking-tight text-foreground">
           GB Optimizers
