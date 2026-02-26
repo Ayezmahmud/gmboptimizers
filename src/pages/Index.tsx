@@ -112,79 +112,77 @@ const Index = () => {
       <Header />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-secondary/30">
-        <div className="container mx-auto px-6 py-20 md:py-32">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
-              <div className="flex items-center gap-2 mb-6">
-                <div className="w-2 h-2 rounded-full bg-google-blue" />
-                <div className="w-2 h-2 rounded-full bg-google-red" />
-                <div className="w-2 h-2 rounded-full bg-google-yellow" />
-                <div className="w-2 h-2 rounded-full bg-google-green" />
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground ml-2">
-                  Google Maps Optimization
-                </p>
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95] mb-6 text-foreground">
-                Get Your Business
-                <br />
-                to <span className="text-google-blue">#1</span> on
-                <br />
-                Google Maps
-              </h1>
-              <p className="text-base md:text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
-                We help local businesses dominate Google Maps rankings with proven, data-driven optimization strategies. Trusted by 500+ businesses across 12+ countries.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 mb-8">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider bg-google-blue text-primary-foreground hover:opacity-90 transition-opacity"
-                >
-                  Get Free Consultation
-                </Link>
-                <Link
-                  to="/pricing"
-                  className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-secondary transition-colors"
-                >
-                  View Packages
-                </Link>
-              </div>
-              <div className="flex items-center gap-6 text-xs text-muted-foreground">
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-google-green" />
-                  <span>No Contracts</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-google-green" />
-                  <span>Results in 4–8 Weeks</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-google-green" />
-                  <span>98% Retention</span>
-                </div>
-              </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="hidden md:block"
-            >
-              <img
-                src="/images/hero-mockup.png"
-                alt="MacBook and iPhone showing #1 Google Maps business ranking"
-                className="w-full"
-                loading="eager"
-              />
-            </motion.div>
-          </div>
+      <section className="relative overflow-hidden min-h-[90vh] flex items-center">
+        {/* Full-bleed background image */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/hero-mockup.png"
+            alt="MacBook and iPhone showing #1 Google Maps business ranking"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/40 md:to-transparent" />
         </div>
+
+        <div className="relative z-10 container mx-auto px-6 py-20 md:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-xl"
+          >
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-2 h-2 rounded-full bg-google-blue" />
+              <div className="w-2 h-2 rounded-full bg-google-red" />
+              <div className="w-2 h-2 rounded-full bg-google-yellow" />
+              <div className="w-2 h-2 rounded-full bg-google-green" />
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground ml-2">
+                Google Maps Optimization
+              </p>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95] mb-6 text-foreground">
+              Get Your Business
+              <br />
+              to <span className="text-google-blue">#1</span> on
+              <br />
+              Google Maps
+            </h1>
+            <p className="text-base md:text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
+              We help local businesses dominate Google Maps rankings with proven, data-driven optimization strategies. Trusted by 500+ businesses across 12+ countries.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 mb-8">
+              <Link
+                to="/contact"
+                className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider bg-google-blue text-primary-foreground hover:opacity-90 transition-opacity"
+              >
+                Get Free Consultation
+              </Link>
+              <Link
+                to="/pricing"
+                className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-secondary transition-colors bg-background/80 backdrop-blur-sm"
+              >
+                View Packages
+              </Link>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-google-green" />
+                <span>No Contracts</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-google-green" />
+                <span>Results in 4–8 Weeks</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-google-green" />
+                <span>98% Retention</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
         {/* Decorative color bar */}
-        <div className="h-1 flex">
+        <div className="absolute bottom-0 left-0 right-0 h-1 flex z-10">
           <div className="flex-1 bg-google-blue" />
           <div className="flex-1 bg-google-red" />
           <div className="flex-1 bg-google-yellow" />
