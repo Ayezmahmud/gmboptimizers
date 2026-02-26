@@ -1,6 +1,6 @@
-import { useRef, Suspense, useMemo } from "react";
+import { useRef, Suspense, useMemo, useState } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, Stars } from "@react-three/drei";
+import { OrbitControls, Stars, Html } from "@react-three/drei";
 import * as THREE from "three";
 
 // Convert lat/lng to 3D position on sphere
@@ -27,14 +27,14 @@ const PIN_LOCATIONS = [
 
 const GOOGLE_COLORS = ["#4285F4", "#EA4335", "#FBBC04", "#34A853"];
 
-const PulsingPin = ({ lat, lng, color, delay }: { lat: number; lng: number; color: string; delay: number }) => {
+const PulsingPin = ({ lat, lng, color, delay, label }: { lat: number; lng: number; color: string; delay: number; label: string }) => {
   const pinRef = useRef<THREE.Group>(null);
   const pulseRef = useRef<THREE.Mesh>(null);
+  const [hovered, setHovered] = useState(false);
   const pos = useMemo(() => latLngToPos(lat, lng, 2.03), [lat, lng]);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime() + delay;
-    // Pulsing scale
     const pulse = 1 + 0.4 * Math.sin(t * 2.5);
     if (pulseRef.current) {
       pulseRef.current.scale.setScalar(pulse);
@@ -43,27 +43,56 @@ const PulsingPin = ({ lat, lng, color, delay }: { lat: number; lng: number; colo
   });
 
   return (
-    <group ref={pinRef} position={pos}>
+    <group
+      ref={pinRef}
+      position={pos}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = "pointer"; }}
+      onPointerOut={() => { setHovered(false); document.body.style.cursor = "auto"; }}
+    >
+      {/* Invisible larger hit area */}
+      <mesh>
+        <sphereGeometry args={[0.12, 16, 16]} />
+        <meshBasicMaterial transparent opacity={0} />
+      </mesh>
       {/* Core dot */}
       <mesh>
-        <sphereGeometry args={[0.035, 16, 16]} />
+        <sphereGeometry args={[hovered ? 0.05 : 0.035, 16, 16]} />
         <meshBasicMaterial color={color} />
       </mesh>
       {/* Pulse ring */}
-      <mesh ref={pulseRef} rotation={[0, 0, 0]}>
+      <mesh ref={pulseRef}>
         <ringGeometry args={[0.04, 0.07, 32]} />
         <meshBasicMaterial color={color} transparent opacity={0.5} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {/* Vertical beam */}
       <mesh position={[0, 0.12, 0]}>
         <cylinderGeometry args={[0.003, 0.003, 0.2, 8]} />
-        <meshBasicMaterial color={color} transparent opacity={0.4} />
+        <meshBasicMaterial color={color} transparent opacity={hovered ? 0.8 : 0.4} />
       </mesh>
       {/* Top glow */}
       <mesh position={[0, 0.22, 0]}>
         <sphereGeometry args={[0.018, 12, 12]} />
         <meshBasicMaterial color={color} transparent opacity={0.7} />
       </mesh>
+      {/* Tooltip */}
+      {hovered && (
+        <Html position={[0, 0.35, 0]} center distanceFactor={5} zIndexRange={[100, 0]}>
+          <div
+            className="pointer-events-none px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap shadow-lg"
+            style={{
+              background: color,
+              color: color === "#FBBC04" ? "#1a1a1a" : "#ffffff",
+              transform: "translateY(-4px)",
+            }}
+          >
+            {label}
+            <div
+              className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2 h-2 rotate-45"
+              style={{ background: color }}
+            />
+          </div>
+        </Html>
+      )}
     </group>
   );
 };
@@ -108,6 +137,7 @@ const Earth = () => {
           lng={loc.lng}
           color={GOOGLE_COLORS[i % 4]}
           delay={i * 0.8}
+          label={loc.label}
         />
       ))}
     </group>
