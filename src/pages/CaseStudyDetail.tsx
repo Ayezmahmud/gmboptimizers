@@ -1,9 +1,24 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, Clock, MapPin, TrendingUp } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getCaseStudyBySlug, caseStudies } from "@/data/caseStudies";
+
+const parseRank = (rank: string): number => parseInt(rank.replace("#", ""), 10);
+
+const generateRankingData = (startRank: string, endRank: string, timeline: { week: string }[]) => {
+  const start = parseRank(startRank);
+  const end = parseRank(endRank);
+  const data = [{ week: "Start", rank: start }];
+  for (let i = 0; i < timeline.length; i++) {
+    const progress = (i + 1) / timeline.length;
+    const eased = 1 - Math.pow(1 - progress, 2.5);
+    data.push({ week: timeline[i].week, rank: Math.round(start - (start - end) * eased) });
+  }
+  return data;
+};
 
 const CaseStudyDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -238,6 +253,86 @@ const CaseStudyDetail = () => {
               </div>
               <h2 className="text-3xl md:text-4xl font-black uppercase text-foreground mb-6">What We Achieved</h2>
               <p className="text-muted-foreground leading-relaxed text-base">{study.results}</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Ranking Progression Chart */}
+      <section className="py-24 border-b border-border bg-secondary">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 rounded-full bg-google-blue" />
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue">Ranking Progression</p>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black uppercase text-foreground mb-2">Before & After</h2>
+              <p className="text-muted-foreground text-sm mb-10">Google Maps ranking position over the optimization period. Lower is better.</p>
+              
+              <div className="bg-background border border-border p-6 md:p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-google-red" />
+                      <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Start: {study.startRank}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-google-green" />
+                      <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Final: {study.endRank}</span>
+                    </div>
+                  </div>
+                  <span className="text-xs text-muted-foreground">{study.duration}</span>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <AreaChart data={generateRankingData(study.startRank, study.endRank, study.timeline)} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="rankGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="hsl(142, 71%, 45%)" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="hsl(142, 71%, 45%)" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis 
+                      dataKey="week" 
+                      tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }} 
+                      axisLine={{ stroke: 'hsl(var(--border))' }}
+                      tickLine={false}
+                    />
+                    <YAxis 
+                      reversed 
+                      domain={[1, 'dataMax']}
+                      tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                      axisLine={{ stroke: 'hsl(var(--border))' }}
+                      tickLine={false}
+                      tickFormatter={(v) => `#${v}`}
+                    />
+                    <Tooltip 
+                      contentStyle={{ 
+                        background: 'hsl(var(--background))', 
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: 0,
+                        fontSize: 12,
+                        fontWeight: 700,
+                      }}
+                      formatter={(value: number) => [`#${value}`, 'Ranking']}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="rank" 
+                      stroke="hsl(142, 71%, 45%)" 
+                      strokeWidth={3}
+                      fill="url(#rankGradient)" 
+                      dot={{ r: 5, fill: 'hsl(142, 71%, 45%)', stroke: 'hsl(var(--background))', strokeWidth: 2 }}
+                      activeDot={{ r: 7 }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </motion.div>
           </div>
         </div>
