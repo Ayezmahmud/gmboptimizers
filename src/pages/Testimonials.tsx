@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Link } from "react-router-dom";
 
 const testimonials = [
   {
@@ -10,24 +11,28 @@ const testimonials = [
     business: "Mitchell's Bakery, Melbourne",
     text: "GB Optimizers took our bakery from page 3 to the #1 spot on Google Maps in just 8 weeks. Our foot traffic has doubled!",
     initials: "SM",
+    color: "bg-google-blue",
   },
   {
     name: "James Chen",
     business: "Chen Auto Repairs, Sydney",
     text: "Professional, data-driven, and results-focused. Our calls increased by 300% within the first month of optimization.",
     initials: "JC",
+    color: "bg-google-red",
   },
   {
     name: "Lisa Rodriguez",
     business: "Rodriguez Legal, Brisbane",
     text: "The team at GB Optimizers truly understands local SEO. Their strategy transformed our online presence entirely.",
     initials: "LR",
+    color: "bg-google-yellow",
   },
   {
     name: "David Park",
     business: "Park Dental Clinic, Perth",
     text: "Outstanding results and communication. We've seen a massive increase in new patient bookings from Google Maps.",
     initials: "DP",
+    color: "bg-google-green",
   },
 ];
 
@@ -44,7 +49,7 @@ const Testimonials = () => {
       <section className="py-20 border-b border-border">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">What Clients Say</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-yellow mb-4">What Clients Say</p>
             <h1 className="text-5xl md:text-7xl font-black uppercase text-foreground leading-[0.95]">
               Testimonials
             </h1>
@@ -52,7 +57,54 @@ const Testimonials = () => {
         </div>
       </section>
 
-      <section className="py-24">
+      {/* Color bar */}
+      <div className="h-1 flex">
+        <div className="flex-1 bg-google-blue" />
+        <div className="flex-1 bg-google-red" />
+        <div className="flex-1 bg-google-yellow" />
+        <div className="flex-1 bg-google-green" />
+      </div>
+
+      {/* Hero Image */}
+      <section className="border-b border-border">
+        <div className="container mx-auto px-6 py-16">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <img
+                src="/images/testimonials-hero.png"
+                alt="Happy business owners showing 5-star Google reviews"
+                className="w-full shadow-lg border border-border"
+                loading="lazy"
+              />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl font-black uppercase text-foreground mb-4">Trusted by 500+ Businesses</h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Our clients consistently achieve top rankings on Google Maps. Don't just take our word for it — hear directly from the business owners we've helped succeed.
+              </p>
+              <div className="flex gap-1 mb-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 fill-google-yellow text-google-yellow" />
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground">Average client rating: <span className="font-bold text-foreground">4.9/5</span></p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Testimonial Carousel */}
+      <section className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <AnimatePresence mode="wait">
@@ -62,18 +114,19 @@ const Testimonials = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -40 }}
                 transition={{ duration: 0.4 }}
-                className="border-l-4 border-foreground pl-8 md:pl-12"
+                className="border-l-4 border-google-blue pl-8 md:pl-12"
               >
+                <Quote className="w-8 h-8 text-google-blue/30 mb-4" />
                 <div className="flex gap-1 mb-6">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-foreground text-foreground" />
+                    <Star key={i} className="w-4 h-4 fill-google-yellow text-google-yellow" />
                   ))}
                 </div>
                 <p className="text-xl md:text-2xl font-medium leading-relaxed text-foreground mb-8">
                   "{t.text}"
                 </p>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-secondary flex items-center justify-center text-sm font-bold text-foreground">
+                  <div className={`w-12 h-12 ${t.color} text-primary-foreground flex items-center justify-center text-sm font-bold`}>
                     {t.initials}
                   </div>
                   <div>
@@ -87,13 +140,13 @@ const Testimonials = () => {
             <div className="flex gap-3 mt-12">
               <button
                 onClick={prev}
-                className="w-12 h-12 border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
+                className="w-12 h-12 border border-border flex items-center justify-center text-foreground hover:bg-google-blue hover:text-primary-foreground hover:border-google-blue transition-colors"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={next}
-                className="w-12 h-12 border border-border flex items-center justify-center text-foreground hover:bg-secondary transition-colors"
+                className="w-12 h-12 border border-border flex items-center justify-center text-foreground hover:bg-google-blue hover:text-primary-foreground hover:border-google-blue transition-colors"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -102,6 +155,59 @@ const Testimonials = () => {
               </span>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* All Testimonials Grid */}
+      <section className="py-24 bg-secondary">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">More Reviews</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">All Client Reviews</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {testimonials.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} className="w-3.5 h-3.5 fill-google-yellow text-google-yellow" />
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">"{t.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 ${t.color} text-primary-foreground flex items-center justify-center text-xs font-bold`}>
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase text-foreground">{t.name}</p>
+                    <p className="text-xs text-muted-foreground">{t.business}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-gradient-blue-green text-primary-foreground py-20">
+        <div className="container mx-auto px-6 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Ready to Be Our Next Success Story?</h2>
+            <p className="text-primary-foreground/60 mb-8 max-w-lg mx-auto">
+              Join hundreds of businesses that trust GB Optimizers for their Google Maps rankings.
+            </p>
+            <Link to="/contact" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
+              Get Started
+            </Link>
+          </motion.div>
         </div>
       </section>
 
