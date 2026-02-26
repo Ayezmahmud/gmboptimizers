@@ -1,22 +1,118 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "framer-motion";
+import {
+  MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText,
+  CheckCircle2, Shield, Clock, Users, ArrowRight, Phone, Globe,
+  Zap, Target, Award, ChevronDown, ChevronUp
+} from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+/* ── Animated Counter ── */
+const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 2000;
+    const increment = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+};
+
+/* ── Data ── */
 const stats = [
-  { value: "500+", label: "Businesses Ranked" },
-  { value: "98%", label: "Client Retention" },
-  { value: "30+", label: "Industries Served" },
-  { value: "12+", label: "Countries" },
+  { value: 500, suffix: "+", label: "Businesses Ranked" },
+  { value: 98, suffix: "%", label: "Client Retention Rate" },
+  { value: 30, suffix: "+", label: "Industries Served" },
+  { value: 12, suffix: "+", label: "Countries Worldwide" },
 ];
 
+const services = [
+  { icon: MapPin, title: "Google Business Profile Setup", desc: "Complete setup, verification, and optimization of your Google Business Profile for maximum local visibility and customer engagement." },
+  { icon: TrendingUp, title: "Google Maps Ranking", desc: "Strategic optimization techniques to push your business to the top of Google Maps results in your target area." },
+  { icon: Search, title: "Local SEO Strategy", desc: "Comprehensive local SEO strategies tailored to dominate your specific market area and outrank competitors." },
+  { icon: Star, title: "Review Management", desc: "Build and manage your online reputation with strategic review generation and professional response management." },
+  { icon: Building2, title: "Citation Building", desc: "High-authority citation building across top directories to strengthen trust signals and local relevance." },
+  { icon: BarChart3, title: "Performance Reporting", desc: "Detailed monthly reports tracking rankings, traffic, conversions, and ROI with actionable insights." },
+];
+
+const trustLogos = [
+  "Google Partner", "Clutch Top Agency", "SEMrush Certified", "BrightLocal Partner", "Yext Partner"
+];
+
+const process = [
+  { step: "01", title: "Discovery & Audit", desc: "We analyze your current Google presence, competitors, and market opportunity to create a tailored strategy." },
+  { step: "02", title: "Strategy & Setup", desc: "We optimize your Google Business Profile, build citations, and implement our proven ranking methodology." },
+  { step: "03", title: "Optimization & Growth", desc: "Ongoing optimization including review management, content updates, and geo-targeted strategies." },
+  { step: "04", title: "Reporting & Scaling", desc: "Monthly performance reports with clear metrics, and scaling strategies to expand your local dominance." },
+];
+
+const caseHighlights = [
+  { business: "Melbourne Dental Clinic", industry: "Healthcare", rank: "#14 → #1", calls: "+340%", visits: "+520%" },
+  { business: "Sydney Auto Repair", industry: "Automotive", rank: "#22 → #2", calls: "+280%", visits: "+410%" },
+  { business: "Brisbane Law Firm", industry: "Legal", rank: "#18 → #1", calls: "+190%", visits: "+350%" },
+];
+
+const testimonials = [
+  { name: "Sarah Mitchell", business: "Mitchell's Bakery, Melbourne", text: "GB Optimizers took our bakery from page 3 to the #1 spot on Google Maps in just 8 weeks. Our foot traffic has doubled!", initials: "SM" },
+  { name: "James Chen", business: "Chen Auto Repairs, Sydney", text: "Professional, data-driven, and results-focused. Our calls increased by 300% within the first month of optimization.", initials: "JC" },
+  { name: "David Park", business: "Park Dental Clinic, Perth", text: "Outstanding results and communication. We've seen a massive increase in new patient bookings from Google Maps.", initials: "DP" },
+];
+
+const faqs = [
+  { q: "How long does it take to see results?", a: "Most clients see measurable improvements within 4-8 weeks. Significant ranking changes typically occur within 2-3 months depending on competition level." },
+  { q: "Do you guarantee #1 rankings?", a: "While no ethical SEO provider can guarantee specific rankings, our 98% client retention rate and proven track record speak to our consistent ability to deliver top results." },
+  { q: "What industries do you work with?", a: "We've successfully optimized businesses across 30+ industries including healthcare, legal, automotive, hospitality, retail, real estate, and professional services." },
+  { q: "How is GB Optimizers different from other agencies?", a: "We specialize exclusively in Google Maps and local SEO optimization. This singular focus means deeper expertise, better strategies, and faster results than generalist agencies." },
+  { q: "What's included in the monthly reports?", a: "Our reports cover ranking positions, search impressions, customer actions (calls, website visits, direction requests), review metrics, and strategic recommendations." },
+];
+
+const whyUs = [
+  { icon: Target, title: "Specialized Focus", desc: "We exclusively focus on Google Maps optimization — no distractions, no generalist approaches." },
+  { icon: Shield, title: "Proven Methodology", desc: "Our proprietary framework has been refined across 500+ successful campaigns worldwide." },
+  { icon: Zap, title: "Fast Results", desc: "Most clients see measurable improvements within 4-8 weeks of starting with us." },
+  { icon: Award, title: "Industry Recognition", desc: "Recognized as a top local SEO agency by Clutch, SEMrush, and industry peers." },
+];
+
+/* ── FAQ Accordion ── */
+const FAQItem = ({ q, a }: { q: string; a: string }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-border">
+      <button onClick={() => setOpen(!open)} className="w-full flex items-center justify-between py-5 text-left group">
+        <span className="text-sm font-bold uppercase tracking-wide text-foreground group-hover:text-muted-foreground transition-colors">{q}</span>
+        {open ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0 ml-4" /> : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0 ml-4" />}
+      </button>
+      {open && (
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="pb-5">
+          <p className="text-sm text-muted-foreground leading-relaxed">{a}</p>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+/* ── Page ── */
 const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      {/* Hero */}
-      <section className="py-24 md:py-40">
+      {/* ═══ HERO ═══ */}
+      <section className="py-24 md:py-36 border-b border-border">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -25,7 +121,7 @@ const Index = () => {
             className="max-w-4xl"
           >
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-6">
-              Google Maps Optimization
+              Google Maps Optimization Agency
             </p>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-[0.95] mb-8 text-foreground">
               Dominate
@@ -34,8 +130,8 @@ const Index = () => {
               <br />
               <span className="text-gradient-google">Own Your Market.</span>
             </h1>
-            <p className="text-lg text-muted-foreground max-w-xl mb-10">
-              We turn businesses into #1 ranked local brands on Google Maps.
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 leading-relaxed">
+              We help local businesses achieve #1 rankings on Google Maps through data-driven optimization strategies. Trusted by 500+ businesses across 12+ countries.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -55,8 +151,19 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="border-y border-border">
+      {/* ═══ TRUST BAR ═══ */}
+      <section className="py-8 border-b border-border bg-secondary">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
+            {trustLogos.map((name) => (
+              <span key={name} className="text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground">{name}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ STATS ═══ */}
+      <section className="border-b border-border">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((s, i) => (
@@ -66,9 +173,11 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`py-10 text-center ${i < stats.length - 1 ? "md:border-r border-border" : ""}`}
+                className={`py-12 text-center ${i < stats.length - 1 ? "md:border-r border-border" : ""}`}
               >
-                <p className="text-3xl md:text-4xl font-black text-foreground">{s.value}</p>
+                <p className="text-3xl md:text-5xl font-black text-foreground">
+                  <Counter target={s.value} suffix={s.suffix} />
+                </p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground mt-2">{s.label}</p>
               </motion.div>
             ))}
@@ -76,8 +185,53 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Brief services */}
-      <section className="py-24">
+      {/* ═══ ABOUT COMPANY ═══ */}
+      <section className="py-24 border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16 items-start">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-3">About GB Optimizers</p>
+              <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">
+                The #1 Google Maps Agency
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-6">
+                Founded with a singular mission — to make every local business discoverable — GB Optimizers has grown into a globally trusted Google Maps optimization agency. We combine deep technical expertise with data-driven strategies to deliver measurable results.
+              </p>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                Unlike generalist marketing agencies, we focus exclusively on Google Business Profile and Google Maps optimization. This specialization means deeper knowledge, faster results, and higher ROI for every client we work with.
+              </p>
+              <Link to="/about" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground hover:text-muted-foreground transition-colors">
+                Learn More About Us <ArrowRight className="w-4 h-4" />
+              </Link>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="space-y-6"
+            >
+              {whyUs.map((item) => (
+                <div key={item.title} className="flex items-start gap-4 p-6 bg-secondary">
+                  <item.icon className="w-6 h-6 text-foreground shrink-0 mt-0.5" strokeWidth={1.5} />
+                  <div>
+                    <h3 className="text-sm font-bold uppercase text-foreground mb-1">{item.title}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ SERVICES ═══ */}
+      <section className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
@@ -88,22 +242,18 @@ const Index = () => {
               View All Services →
             </Link>
           </div>
-          <div className="grid md:grid-cols-3 gap-px bg-border">
-            {[
-              { title: "Profile Setup", desc: "Complete Google Business Profile setup and verification." },
-              { title: "Maps Ranking", desc: "Strategic optimization for top Google Maps placement." },
-              { title: "Local SEO", desc: "Comprehensive local SEO to dominate your area." },
-            ].map((s, i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-border">
+            {services.map((s, i) => (
               <motion.div
                 key={s.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background p-10"
+                transition={{ duration: 0.5, delay: i * 0.06 }}
+                className="bg-background p-10 group hover:bg-secondary transition-colors duration-300"
               >
-                <p className="text-xs font-bold text-muted-foreground mb-4 uppercase tracking-wider">0{i + 1}</p>
-                <h3 className="text-xl font-bold uppercase text-foreground mb-3">{s.title}</h3>
+                <s.icon className="w-7 h-7 text-foreground mb-5" strokeWidth={1.5} />
+                <h3 className="text-sm font-bold uppercase text-foreground mb-3">{s.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
               </motion.div>
             ))}
@@ -111,7 +261,186 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* ═══ HOW IT WORKS ═══ */}
+      <section className="py-24 border-b border-border bg-secondary">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-3">Our Process</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">How It Works</h2>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8">
+            {process.map((p, i) => (
+              <motion.div
+                key={p.step}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="text-center"
+              >
+                <p className="text-5xl font-black text-border mb-4">{p.step}</p>
+                <h3 className="text-sm font-bold uppercase text-foreground mb-3">{p.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CASE STUDY HIGHLIGHTS ═══ */}
+      <section className="py-24 border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-3">Proven Results</p>
+              <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Case Studies</h2>
+            </div>
+            <Link to="/case-studies" className="text-xs font-bold uppercase tracking-wider text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors">
+              View All Results →
+            </Link>
+          </div>
+          <div className="space-y-0">
+            {caseHighlights.map((c, i) => (
+              <motion.div
+                key={c.business}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="border-b border-border py-10 grid md:grid-cols-5 gap-6 items-center"
+              >
+                <div className="md:col-span-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1">{c.industry}</p>
+                  <h3 className="text-xl font-black uppercase text-foreground">{c.business}</h3>
+                </div>
+                <div className="text-center">
+                  <TrendingUp className="w-4 h-4 text-muted-foreground mx-auto mb-1" />
+                  <p className="text-xl font-black text-foreground">{c.rank}</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">Ranking</p>
+                </div>
+                <div className="text-center">
+                  <Phone className="w-4 h-4 text-muted-foreground mx-auto mb-1" />
+                  <p className="text-xl font-black text-foreground">{c.calls}</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">Calls</p>
+                </div>
+                <div className="text-center">
+                  <Globe className="w-4 h-4 text-muted-foreground mx-auto mb-1" />
+                  <p className="text-xl font-black text-foreground">{c.visits}</p>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider">Website Visits</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ TESTIMONIALS ═══ */}
+      <section className="py-24 border-b border-border bg-secondary">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-3">Client Feedback</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">What Our Clients Say</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-background p-8 border border-border"
+              >
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} className="w-3.5 h-3.5 fill-foreground text-foreground" />
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6">"{t.text}"</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-secondary flex items-center justify-center text-xs font-bold text-foreground">
+                    {t.initials}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase text-foreground">{t.name}</p>
+                    <p className="text-xs text-muted-foreground">{t.business}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link to="/testimonials" className="text-xs font-bold uppercase tracking-wider text-foreground underline underline-offset-4 hover:text-muted-foreground transition-colors">
+              Read More Reviews →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ PRICING PREVIEW ═══ */}
+      <section className="py-24 border-b border-border">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-3">Transparent Pricing</p>
+          <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">Packages Starting at $99.99 AUD</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+            Choose from four tailored packages designed for businesses at every stage. No hidden fees, no long-term contracts — just results.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border max-w-3xl mx-auto mb-10">
+            {[
+              { name: "Basic", price: "$99.99" },
+              { name: "Premium", price: "$149.99" },
+              { name: "Advance", price: "$199.99" },
+              { name: "Enterprise", price: "$299.99" },
+            ].map((pkg, i) => (
+              <motion.div
+                key={pkg.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className="bg-background py-8 px-4"
+              >
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">{pkg.name}</p>
+                <p className="text-2xl font-black text-foreground">{pkg.price}</p>
+                <p className="text-xs text-muted-foreground mt-1">AUD / month</p>
+              </motion.div>
+            ))}
+          </div>
+          <Link
+            to="/pricing"
+            className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider border-2 border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors"
+          >
+            Compare All Packages
+          </Link>
+        </div>
+      </section>
+
+      {/* ═══ FAQ ═══ */}
+      <section className="py-24 border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-16">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-3">FAQ</p>
+              <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">
+                Common Questions
+              </h2>
+              <p className="text-muted-foreground leading-relaxed mb-8">
+                Everything you need to know about our Google Maps optimization services. Can't find what you're looking for? Get in touch with our team.
+              </p>
+              <Link to="/contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground hover:text-muted-foreground transition-colors">
+                Contact Us <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="border-t border-border">
+              {faqs.map((faq) => (
+                <FAQItem key={faq.q} q={faq.q} a={faq.a} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CTA ═══ */}
       <section className="bg-primary text-primary-foreground py-24">
         <div className="container mx-auto px-6 text-center">
           <motion.div
@@ -121,9 +450,14 @@ const Index = () => {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-4xl md:text-5xl font-black uppercase mb-6">Ready to Rank #1?</h2>
-            <p className="text-primary-foreground/60 mb-10 max-w-lg mx-auto">
-              Join 500+ businesses that trust GB Optimizers to dominate their local market.
+            <p className="text-primary-foreground/60 mb-4 max-w-lg mx-auto">
+              Join 500+ businesses that trust GB Optimizers to dominate their local market on Google Maps.
             </p>
+            <div className="flex items-center justify-center gap-6 text-primary-foreground/40 text-xs uppercase tracking-wider mb-10">
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> No Contracts</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> Results in 4-8 Weeks</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> 98% Retention</span>
+            </div>
             <Link
               to="/contact"
               className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors"
