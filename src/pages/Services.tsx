@@ -4,13 +4,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const services = [
-  { icon: MapPin, title: "Google Business Profile Setup", desc: "Complete setup and verification of your Google Business Profile for maximum local visibility." },
-  { icon: TrendingUp, title: "Google Maps Ranking Optimization", desc: "Strategic optimization to push your business to the top of Google Maps results." },
-  { icon: Search, title: "Local SEO Strategy", desc: "Comprehensive local SEO strategies tailored to dominate your market area." },
-  { icon: Star, title: "Review Growth & Management", desc: "Build and manage your online reputation with strategic review generation." },
-  { icon: Building2, title: "Citation Building", desc: "High-authority citation building across top directories for trust signals." },
-  { icon: BarChart3, title: "Competitor Analysis", desc: "Deep competitor analysis to identify gaps and outperform the competition." },
-  { icon: FileText, title: "Monthly Performance Reporting", desc: "Detailed monthly reports tracking rankings, traffic, and conversion metrics." },
+  { icon: MapPin, title: "Google Business Profile Setup", desc: "Complete setup and verification of your Google Business Profile for maximum local visibility.", color: "text-google-blue" },
+  { icon: TrendingUp, title: "Google Maps Ranking Optimization", desc: "Strategic optimization to push your business to the top of Google Maps results.", color: "text-google-green" },
+  { icon: Search, title: "Local SEO Strategy", desc: "Comprehensive local SEO strategies tailored to dominate your market area.", color: "text-google-red" },
+  { icon: Star, title: "Review Growth & Management", desc: "Build and manage your online reputation with strategic review generation.", color: "text-google-yellow" },
+  { icon: Building2, title: "Citation Building", desc: "High-authority citation building across top directories for trust signals.", color: "text-google-blue" },
+  { icon: BarChart3, title: "Competitor Analysis", desc: "Deep competitor analysis to identify gaps and outperform the competition.", color: "text-google-red" },
+  { icon: FileText, title: "Monthly Performance Reporting", desc: "Detailed monthly reports tracking rankings, traffic, and conversion metrics.", color: "text-google-green" },
 ];
 
 const Services = () => {
@@ -21,7 +21,7 @@ const Services = () => {
       <section className="py-20 border-b border-border">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">What We Offer</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-4">What We Offer</p>
             <h1 className="text-5xl md:text-7xl font-black uppercase text-foreground leading-[0.95]">
               Our
               <br />
@@ -44,7 +44,7 @@ const Services = () => {
                 className="bg-background p-10 md:p-12 group hover:bg-secondary transition-colors duration-300"
               >
                 <div className="flex items-start gap-6">
-                  <s.icon className="w-8 h-8 text-foreground shrink-0 mt-1" strokeWidth={1.5} />
+                  <s.icon className={`w-8 h-8 ${s.color} shrink-0 mt-1`} strokeWidth={1.5} />
                   <div>
                     <h3 className="text-lg font-bold uppercase text-foreground mb-3">{s.title}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
