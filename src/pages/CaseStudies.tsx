@@ -1,53 +1,16 @@
 import { motion } from "framer-motion";
-import { ArrowUp, Phone, Globe, Star } from "lucide-react";
+import { ArrowUp, Phone, Globe, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
-const cases = [
-  {
-    business: "Melbourne Dental Clinic",
-    industry: "Healthcare",
-    image: "/images/case-study-1.png",
-    imageAlt: "Business owner viewing top Google Maps ranking on tablet",
-    description: "A leading dental practice in Melbourne's CBD was struggling with online visibility despite excellent patient reviews. We implemented a comprehensive Google Maps strategy that transformed their digital presence.",
-    stats: [
-      { icon: ArrowUp, label: "Ranking Improvement", value: "#14 → #1", color: "text-google-green" },
-      { icon: Phone, label: "Monthly Calls Increase", value: "+340%", color: "text-google-blue" },
-      { icon: Globe, label: "Website Visits Increase", value: "+520%", color: "text-google-red" },
-    ],
-  },
-  {
-    business: "Sydney Auto Repair",
-    industry: "Automotive",
-    image: "/images/case-study-2.png",
-    imageAlt: "Modern auto repair shop with Google Maps pin overlay",
-    description: "A family-owned auto repair shop in Sydney faced stiff competition from larger chains. Our targeted local SEO and citation strategy helped them dominate their suburb on Google Maps.",
-    stats: [
-      { icon: ArrowUp, label: "Ranking Improvement", value: "#22 → #2", color: "text-google-green" },
-      { icon: Phone, label: "Monthly Calls Increase", value: "+280%", color: "text-google-blue" },
-      { icon: Globe, label: "Website Visits Increase", value: "+410%", color: "text-google-red" },
-    ],
-  },
-  {
-    business: "Brisbane Law Firm",
-    industry: "Legal",
-    image: "/images/case-study-3.png",
-    imageAlt: "Modern law firm office interior",
-    description: "A mid-size law firm in Brisbane needed to attract more local clients. We optimized their Google Business Profile and built a review strategy that established them as the go-to firm in their area.",
-    stats: [
-      { icon: ArrowUp, label: "Ranking Improvement", value: "#18 → #1", color: "text-google-green" },
-      { icon: Phone, label: "Monthly Calls Increase", value: "+190%", color: "text-google-blue" },
-      { icon: Globe, label: "Website Visits Increase", value: "+350%", color: "text-google-red" },
-    ],
-  },
-];
+import { caseStudies } from "@/data/caseStudies";
 
 const CaseStudies = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
+      {/* Hero */}
       <section className="relative overflow-hidden py-28 md:py-36 bg-[#060918]">
         <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
         <div className="absolute inset-0 opacity-10">
@@ -81,19 +44,19 @@ const CaseStudies = () => {
         </div>
       </section>
 
+      {/* Case Studies */}
       <section className="py-24">
         <div className="container mx-auto px-6">
-          {cases.map((c, i) => (
+          {caseStudies.map((c, i) => (
             <motion.div
-              key={c.business}
+              key={c.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               className="mb-20 last:mb-0"
             >
-              <div className={`grid md:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "md:direction-rtl" : ""}`}>
-                {/* Image - alternates sides */}
+              <div className={`grid md:grid-cols-2 gap-12 items-center`}>
                 <div className={i % 2 === 1 ? "md:order-2" : ""}>
                   <img
                     src={c.image}
@@ -103,25 +66,34 @@ const CaseStudies = () => {
                   />
                 </div>
 
-                {/* Content */}
                 <div className={i % 2 === 1 ? "md:order-1" : ""}>
-                  <p className="text-xs font-bold uppercase tracking-wider text-google-blue mb-2">{c.industry}</p>
+                  <div className="flex items-center gap-3 mb-2">
+                    <p className="text-xs font-bold uppercase tracking-wider text-google-blue">{c.industry}</p>
+                    <span className="text-muted-foreground/30">•</span>
+                    <p className="text-xs text-muted-foreground">{c.location}</p>
+                  </div>
                   <h3 className="text-3xl md:text-4xl font-black uppercase text-foreground mb-4">{c.business}</h3>
-                  <p className="text-muted-foreground leading-relaxed mb-8">{c.description}</p>
+                  <p className="text-muted-foreground leading-relaxed mb-6">{c.summary}</p>
 
-                  <div className="grid grid-cols-3 gap-4">
-                    {c.stats.map((s) => (
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    {c.stats.slice(0, 3).map((s) => (
                       <div key={s.label} className="bg-secondary p-4 border border-border">
-                        <s.icon className={`w-5 h-5 ${s.color} mb-2`} />
-                        <p className="text-2xl font-black text-foreground">{s.value}</p>
+                        <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
                         <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
                       </div>
                     ))}
                   </div>
+
+                  <Link
+                    to={`/case-studies/${c.slug}`}
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity"
+                  >
+                    Read Full Case Study <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </div>
 
-              {i < cases.length - 1 && <div className="border-b border-border mt-20" />}
+              {i < caseStudies.length - 1 && <div className="border-b border-border mt-20" />}
             </motion.div>
           ))}
         </div>
