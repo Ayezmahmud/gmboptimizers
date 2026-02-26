@@ -1,46 +1,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Quote, Filter } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { testimonials } from "@/data/testimonials";
 
-const testimonials = [
-  {
-    name: "Sarah Mitchell",
-    business: "Mitchell's Bakery, Melbourne",
-    text: "GB Optimizers took our bakery from page 3 to the #1 spot on Google Maps in just 8 weeks. Our foot traffic has doubled!",
-    initials: "SM",
-    color: "bg-google-blue",
-  },
-  {
-    name: "James Chen",
-    business: "Chen Auto Repairs, Sydney",
-    text: "Professional, data-driven, and results-focused. Our calls increased by 300% within the first month of optimization.",
-    initials: "JC",
-    color: "bg-google-red",
-  },
-  {
-    name: "Lisa Rodriguez",
-    business: "Rodriguez Legal, Brisbane",
-    text: "The team at GB Optimizers truly understands local SEO. Their strategy transformed our online presence entirely.",
-    initials: "LR",
-    color: "bg-google-yellow",
-  },
-  {
-    name: "David Park",
-    business: "Park Dental Clinic, Perth",
-    text: "Outstanding results and communication. We've seen a massive increase in new patient bookings from Google Maps.",
-    initials: "DP",
-    color: "bg-google-green",
-  },
-];
+const industries = ["All", ...Array.from(new Set(testimonials.map(t => t.industry)))];
 
 const Testimonials = () => {
   const [idx, setIdx] = useState(0);
+  const [filter, setFilter] = useState("All");
   const prev = () => setIdx((i) => (i === 0 ? testimonials.length - 1 : i - 1));
   const next = () => setIdx((i) => (i === testimonials.length - 1 ? 0 : i + 1));
   const t = testimonials[idx];
+
+  const filtered = filter === "All" ? testimonials : testimonials.filter(t => t.industry === filter);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -65,7 +40,7 @@ const Testimonials = () => {
               Testimonials
             </h1>
             <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
-              Don't just take our word for it — hear from the businesses we've helped reach the top.
+              30 real stories from businesses we've helped dominate Google Maps. Read their journeys.
             </p>
           </motion.div>
         </div>
@@ -89,7 +64,7 @@ const Testimonials = () => {
             >
               <img
                 src="/images/testimonials-hero.png"
-                alt="Happy business owners showing 5-star Google reviews"
+                alt="Happy business owners showing 5-star Google Maps reviews on their phones"
                 className="w-full shadow-lg border border-border"
                 loading="lazy"
               />
@@ -102,14 +77,14 @@ const Testimonials = () => {
             >
               <h2 className="text-3xl font-black uppercase text-foreground mb-4">Trusted by 500+ Businesses</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Our clients consistently achieve top rankings on Google Maps. Don't just take our word for it — hear directly from the business owners we've helped succeed.
+                Our clients consistently achieve top rankings on Google Maps across 30+ industries. These aren't just reviews — they're detailed success stories from real business owners who share their complete journey with GB Optimizers.
               </p>
               <div className="flex gap-1 mb-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 fill-google-yellow text-google-yellow" />
                 ))}
               </div>
-              <p className="text-sm text-muted-foreground">Average client rating: <span className="font-bold text-foreground">4.9/5</span></p>
+              <p className="text-sm text-muted-foreground">Average client rating: <span className="font-bold text-foreground">4.9/5</span> across {testimonials.length} reviews</p>
             </motion.div>
           </div>
         </div>
@@ -129,12 +104,15 @@ const Testimonials = () => {
                 className="border-l-4 border-google-blue pl-8 md:pl-12"
               >
                 <Quote className="w-8 h-8 text-google-blue/30 mb-4" />
-                <div className="flex gap-1 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-google-yellow text-google-yellow" />
-                  ))}
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-google-yellow text-google-yellow" />
+                    ))}
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-google-green">{t.result}</span>
                 </div>
-                <p className="text-xl md:text-2xl font-medium leading-relaxed text-foreground mb-8">
+                <p className="text-lg md:text-xl font-medium leading-relaxed text-foreground mb-6">
                   "{t.text}"
                 </p>
                 <div className="flex items-center gap-4">
@@ -144,6 +122,7 @@ const Testimonials = () => {
                   <div>
                     <p className="font-bold text-foreground uppercase text-sm">{t.name}</p>
                     <p className="text-xs text-muted-foreground">{t.business}</p>
+                    <p className="text-xs text-google-blue mt-0.5">{t.industry}</p>
                   </div>
                 </div>
               </motion.div>
@@ -170,30 +149,52 @@ const Testimonials = () => {
         </div>
       </section>
 
-      {/* All Testimonials Grid */}
+      {/* Industry Filter */}
       <section className="py-24 bg-secondary">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">More Reviews</p>
-            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">All Client Reviews</h2>
+          <div className="text-center mb-8">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">Browse by Industry</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-8">All {testimonials.length} Client Stories</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {testimonials.map((t, i) => (
+
+          {/* Filter buttons */}
+          <div className="flex flex-wrap justify-center gap-2 mb-12">
+            {industries.map((ind) => (
+              <button
+                key={ind}
+                onClick={() => setFilter(ind)}
+                className={`px-4 py-2 text-xs font-bold uppercase tracking-wider border transition-colors ${
+                  filter === ind
+                    ? "bg-google-blue text-primary-foreground border-google-blue"
+                    : "border-border text-muted-foreground hover:border-google-blue hover:text-foreground"
+                }`}
+              >
+                {ind}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filtered.map((t, i) => (
               <motion.div
                 key={t.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow"
+                transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.3) }}
+                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow flex flex-col"
               >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-3.5 h-3.5 fill-google-yellow text-google-yellow" />
-                  ))}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-3.5 h-3.5 fill-google-yellow text-google-yellow" />
+                    ))}
+                  </div>
+                  <span className="text-xs font-bold text-google-green">{t.result}</span>
                 </div>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6">"{t.text}"</p>
-                <div className="flex items-center gap-3">
+                <p className="text-xs uppercase tracking-wider text-google-blue mb-3">{t.industry}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">"{t.text}"</p>
+                <div className="flex items-center gap-3 pt-4 border-t border-border">
                   <div className={`w-10 h-10 ${t.color} text-primary-foreground flex items-center justify-center text-xs font-bold`}>
                     {t.initials}
                   </div>
@@ -214,7 +215,7 @@ const Testimonials = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Ready to Be Our Next Success Story?</h2>
             <p className="text-primary-foreground/60 mb-8 max-w-lg mx-auto">
-              Join hundreds of businesses that trust GB Optimizers for their Google Maps rankings.
+              Join {testimonials.length * 16}+ businesses that trust GB Optimizers for their Google Maps rankings.
             </p>
             <Link to="/contact" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started
