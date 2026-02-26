@@ -68,11 +68,8 @@ const caseHighlights = [
   { business: "Brisbane Law Firm", industry: "Legal", rank: "#18 → #1", calls: "+190%", visits: "+350%" },
 ];
 
-const testimonials = [
-  { name: "Sarah Mitchell", business: "Mitchell's Bakery, Melbourne", text: "GB Optimizers took our bakery from page 3 to the #1 spot on Google Maps in just 8 weeks. Our foot traffic has doubled!", initials: "SM", color: "bg-google-blue" },
-  { name: "James Chen", business: "Chen Auto Repairs, Sydney", text: "Professional, data-driven, and results-focused. Our calls increased by 300% within the first month of optimization.", initials: "JC", color: "bg-google-red" },
-  { name: "David Park", business: "Park Dental Clinic, Perth", text: "Outstanding results and communication. We've seen a massive increase in new patient bookings from Google Maps.", initials: "DP", color: "bg-google-green" },
-];
+import { testimonials as allTestimonials } from "@/data/testimonials";
+const testimonials = allTestimonials.slice(0, 3);
 
 const faqs = [
   { q: "How long does it take to see results?", a: "Most clients see measurable improvements within 4-8 weeks. Significant ranking changes typically occur within 2-3 months depending on competition level." },
