@@ -149,17 +149,20 @@ const Index = () => {
               </div>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="hidden md:block"
+              className="hidden md:flex items-center justify-center"
             >
-              <img
-                src="/images/hero-pin.png"
-                alt="Colorful Google Maps pin on a city map"
-                className="w-full"
-                loading="eager"
-              />
+              <div className="relative">
+                <img
+                  src="/images/hero-pin.png"
+                  alt="Colorful Google Maps pin on a city map"
+                  className="w-full animate-float drop-shadow-2xl"
+                  loading="eager"
+                />
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-2/3 h-6 bg-foreground/10 rounded-[50%] blur-xl animate-float-shadow" />
+              </div>
             </motion.div>
           </div>
         </div>
