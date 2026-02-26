@@ -155,9 +155,9 @@ const Index = () => {
               className="hidden md:block"
             >
               <img
-                src="/images/hero-maps.png"
-                alt="Google Maps optimization dashboard showing business rankings"
-                className="w-full shadow-2xl border border-border"
+                src="/images/hero-pin.png"
+                alt="Colorful Google Maps pin on a city map"
+                className="w-full"
                 loading="eager"
               />
             </motion.div>
