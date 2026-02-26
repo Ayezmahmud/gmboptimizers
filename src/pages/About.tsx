@@ -3,12 +3,27 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
+import { Target, Shield, Zap, Award, Users, Globe, Heart } from "lucide-react";
 
 const stats = [
-  { value: 500, suffix: "+", label: "Businesses Ranked" },
-  { value: 98, suffix: "%", label: "Client Retention" },
-  { value: 30, suffix: "+", label: "Industries Served" },
-  { value: 12, suffix: "+", label: "Countries" },
+  { value: 500, suffix: "+", label: "Businesses Ranked", color: "bg-google-blue" },
+  { value: 98, suffix: "%", label: "Client Retention", color: "bg-google-red" },
+  { value: 30, suffix: "+", label: "Industries Served", color: "bg-google-yellow" },
+  { value: 12, suffix: "+", label: "Countries", color: "bg-google-green" },
+];
+
+const values = [
+  { icon: Target, title: "Results-Driven", desc: "Every strategy we implement is measured against clear KPIs and business outcomes.", color: "text-google-blue" },
+  { icon: Shield, title: "Ethical Practices", desc: "We only use white-hat, Google-compliant optimization techniques.", color: "text-google-red" },
+  { icon: Heart, title: "Client-First", desc: "Your success is our success. We treat every business like our own.", color: "text-google-yellow" },
+  { icon: Award, title: "Excellence", desc: "We continuously refine our methods to stay ahead of algorithm changes.", color: "text-google-green" },
+];
+
+const team = [
+  { name: "Alex Thompson", role: "Founder & CEO", initials: "AT", color: "bg-google-blue" },
+  { name: "Maria Santos", role: "Head of SEO", initials: "MS", color: "bg-google-red" },
+  { name: "David Kim", role: "Lead Strategist", initials: "DK", color: "bg-google-green" },
+  { name: "Rachel Chen", role: "Client Success Manager", initials: "RC", color: "bg-google-yellow" },
 ];
 
 const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
@@ -23,12 +38,8 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
     const increment = target / (duration / 16);
     const timer = setInterval(() => {
       start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
     }, 16);
     return () => clearInterval(timer);
   }, [inView, target]);
@@ -41,11 +52,11 @@ const About = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      {/* Page hero */}
+      {/* Hero */}
       <section className="py-20 border-b border-border">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">About Us</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-4">About Us</p>
             <h1 className="text-5xl md:text-7xl font-black uppercase text-foreground leading-[0.95]">
               Why GB
               <br />
@@ -55,10 +66,31 @@ const About = () => {
         </div>
       </section>
 
-      {/* Content */}
-      <section className="py-24">
+      {/* Color bar */}
+      <div className="h-1 flex">
+        <div className="flex-1 bg-google-blue" />
+        <div className="flex-1 bg-google-red" />
+        <div className="flex-1 bg-google-yellow" />
+        <div className="flex-1 bg-google-green" />
+      </div>
+
+      {/* About Content with Image */}
+      <section className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-start mb-24">
+          <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <img
+                src="/images/about-office.png"
+                alt="GB Optimizers office with SEO analytics dashboards"
+                className="w-full shadow-lg border border-border"
+                loading="lazy"
+              />
+            </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -73,21 +105,100 @@ const About = () => {
                 With a team of experienced local SEO specialists, we've helped businesses across 30+ industries and 12+ countries achieve top rankings on Google Maps.
               </p>
             </motion.div>
+          </div>
+
+          {/* Mission with Strategy Image */}
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.15 }}
+              transition={{ duration: 0.6 }}
               className="stripe-accent pl-8"
             >
               <h3 className="text-xl font-bold uppercase mb-4 text-foreground">Our Mission</h3>
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed mb-6">
                 To make every local business discoverable. We believe that great businesses deserve great visibility, and we make that happen through strategic, ethical Google Maps optimization.
               </p>
+              <h3 className="text-xl font-bold uppercase mb-4 text-foreground">Our Vision</h3>
+              <p className="text-muted-foreground leading-relaxed">
+                To be the world's most trusted Google Maps optimization agency, empowering local businesses to compete and win in the digital landscape.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+            >
+              <img
+                src="/images/about-strategy.png"
+                alt="Team planning local SEO strategy on whiteboard"
+                className="w-full shadow-lg border border-border"
+                loading="lazy"
+              />
             </motion.div>
           </div>
+        </div>
+      </section>
 
-          {/* Stats */}
+      {/* Values */}
+      <section className="py-24 border-b border-border bg-secondary">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">What Drives Us</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Our Core Values</h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {values.map((v, i) => (
+              <motion.div
+                key={v.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow"
+              >
+                <v.icon className={`w-8 h-8 ${v.color} mb-5`} strokeWidth={1.5} />
+                <h3 className="text-sm font-bold uppercase text-foreground mb-2">{v.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-24 border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">Our Team</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Meet the Experts</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {team.map((t, i) => (
+              <motion.div
+                key={t.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="text-center"
+              >
+                <div className={`w-20 h-20 ${t.color} text-primary-foreground flex items-center justify-center text-lg font-black mx-auto mb-4`}>
+                  {t.initials}
+                </div>
+                <h3 className="text-sm font-bold uppercase text-foreground">{t.name}</h3>
+                <p className="text-xs text-muted-foreground mt-1">{t.role}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Stats */}
+      <section className="border-b border-border">
+        <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
             {stats.map((s, i) => (
               <motion.div
@@ -98,6 +209,7 @@ const About = () => {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className="bg-background py-12 text-center"
               >
+                <div className={`w-2 h-2 ${s.color} rounded-full mx-auto mb-3`} />
                 <p className="text-4xl md:text-5xl font-black text-foreground">
                   <Counter target={s.value} suffix={s.suffix} />
                 </p>

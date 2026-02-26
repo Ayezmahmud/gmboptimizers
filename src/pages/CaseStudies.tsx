@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowUp, Phone, Globe } from "lucide-react";
+import { ArrowUp, Phone, Globe, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -7,28 +8,37 @@ const cases = [
   {
     business: "Melbourne Dental Clinic",
     industry: "Healthcare",
+    image: "/images/case-study-1.png",
+    imageAlt: "Business owner viewing top Google Maps ranking on tablet",
+    description: "A leading dental practice in Melbourne's CBD was struggling with online visibility despite excellent patient reviews. We implemented a comprehensive Google Maps strategy that transformed their digital presence.",
     stats: [
-      { icon: ArrowUp, label: "Ranking Improvement", value: "#14 → #1" },
-      { icon: Phone, label: "Monthly Calls Increase", value: "+340%" },
-      { icon: Globe, label: "Website Visits Increase", value: "+520%" },
+      { icon: ArrowUp, label: "Ranking Improvement", value: "#14 → #1", color: "text-google-green" },
+      { icon: Phone, label: "Monthly Calls Increase", value: "+340%", color: "text-google-blue" },
+      { icon: Globe, label: "Website Visits Increase", value: "+520%", color: "text-google-red" },
     ],
   },
   {
     business: "Sydney Auto Repair",
     industry: "Automotive",
+    image: "/images/case-study-2.png",
+    imageAlt: "Modern auto repair shop with Google Maps pin overlay",
+    description: "A family-owned auto repair shop in Sydney faced stiff competition from larger chains. Our targeted local SEO and citation strategy helped them dominate their suburb on Google Maps.",
     stats: [
-      { icon: ArrowUp, label: "Ranking Improvement", value: "#22 → #2" },
-      { icon: Phone, label: "Monthly Calls Increase", value: "+280%" },
-      { icon: Globe, label: "Website Visits Increase", value: "+410%" },
+      { icon: ArrowUp, label: "Ranking Improvement", value: "#22 → #2", color: "text-google-green" },
+      { icon: Phone, label: "Monthly Calls Increase", value: "+280%", color: "text-google-blue" },
+      { icon: Globe, label: "Website Visits Increase", value: "+410%", color: "text-google-red" },
     ],
   },
   {
     business: "Brisbane Law Firm",
     industry: "Legal",
+    image: "/images/case-study-3.png",
+    imageAlt: "Modern law firm office interior",
+    description: "A mid-size law firm in Brisbane needed to attract more local clients. We optimized their Google Business Profile and built a review strategy that established them as the go-to firm in their area.",
     stats: [
-      { icon: ArrowUp, label: "Ranking Improvement", value: "#18 → #1" },
-      { icon: Phone, label: "Monthly Calls Increase", value: "+190%" },
-      { icon: Globe, label: "Website Visits Increase", value: "+350%" },
+      { icon: ArrowUp, label: "Ranking Improvement", value: "#18 → #1", color: "text-google-green" },
+      { icon: Phone, label: "Monthly Calls Increase", value: "+190%", color: "text-google-blue" },
+      { icon: Globe, label: "Website Visits Increase", value: "+350%", color: "text-google-red" },
     ],
   },
 ];
@@ -41,7 +51,7 @@ const CaseStudies = () => {
       <section className="py-20 border-b border-border">
         <div className="container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">Results</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-4">Results</p>
             <h1 className="text-5xl md:text-7xl font-black uppercase text-foreground leading-[0.95]">
               Case
               <br />
@@ -51,34 +61,79 @@ const CaseStudies = () => {
         </div>
       </section>
 
+      {/* Color bar */}
+      <div className="h-1 flex">
+        <div className="flex-1 bg-google-blue" />
+        <div className="flex-1 bg-google-red" />
+        <div className="flex-1 bg-google-yellow" />
+        <div className="flex-1 bg-google-green" />
+      </div>
+
       <section className="py-24">
-        <div className="container mx-auto px-6 space-y-0">
+        <div className="container mx-auto px-6">
           {cases.map((c, i) => (
             <motion.div
               key={c.business}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="border-b border-border py-12 md:py-16"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="mb-20 last:mb-0"
             >
-              <div className="grid md:grid-cols-2 gap-8 items-start">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">{c.industry}</p>
-                  <h3 className="text-2xl md:text-3xl font-black uppercase text-foreground">{c.business}</h3>
+              <div className={`grid md:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "md:direction-rtl" : ""}`}>
+                {/* Image - alternates sides */}
+                <div className={i % 2 === 1 ? "md:order-2" : ""}>
+                  <img
+                    src={c.image}
+                    alt={c.imageAlt}
+                    className="w-full shadow-lg border border-border"
+                    loading="lazy"
+                  />
                 </div>
-                <div className="grid grid-cols-3 gap-6">
-                  {c.stats.map((s) => (
-                    <div key={s.label}>
-                      <s.icon className="w-5 h-5 text-muted-foreground mb-2" />
-                      <p className="text-2xl md:text-3xl font-black text-foreground">{s.value}</p>
-                      <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
-                    </div>
-                  ))}
+
+                {/* Content */}
+                <div className={i % 2 === 1 ? "md:order-1" : ""}>
+                  <p className="text-xs font-bold uppercase tracking-wider text-google-blue mb-2">{c.industry}</p>
+                  <h3 className="text-3xl md:text-4xl font-black uppercase text-foreground mb-4">{c.business}</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">{c.description}</p>
+
+                  <div className="grid grid-cols-3 gap-4">
+                    {c.stats.map((s) => (
+                      <div key={s.label} className="bg-secondary p-4 border border-border">
+                        <s.icon className={`w-5 h-5 ${s.color} mb-2`} />
+                        <p className="text-2xl font-black text-foreground">{s.value}</p>
+                        <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
+
+              {i < cases.length - 1 && <div className="border-b border-border mt-20" />}
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-primary text-primary-foreground py-20">
+        <div className="container mx-auto px-6 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Want Results Like These?</h2>
+            <p className="text-primary-foreground/60 mb-8 max-w-lg mx-auto">
+              Join 500+ businesses that have achieved #1 rankings with GB Optimizers.
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors"
+            >
+              Get Started Today
+            </Link>
+          </motion.div>
         </div>
       </section>
 
