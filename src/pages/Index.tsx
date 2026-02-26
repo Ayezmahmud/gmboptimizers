@@ -112,16 +112,16 @@ const Index = () => {
       <Header />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden min-h-[90vh] flex items-center">
+      <section className="relative overflow-hidden min-h-[90vh] flex items-center bg-[#0a0a0a]">
         {/* Full-bleed background image */}
         <div className="absolute inset-0">
           <img
-            src="/images/hero-mockup.png"
-            alt="MacBook and iPhone showing #1 Google Maps business ranking"
+            src="/images/hero-gmap.png"
+            alt="City skyline with glowing Google Maps pins and search rankings"
             className="w-full h-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/40 md:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/85 to-[#0a0a0a]/30" />
         </div>
 
         <div className="relative z-10 container mx-auto px-6 py-20 md:py-32">
@@ -136,18 +136,18 @@ const Index = () => {
               <div className="w-2 h-2 rounded-full bg-google-red" />
               <div className="w-2 h-2 rounded-full bg-google-yellow" />
               <div className="w-2 h-2 rounded-full bg-google-green" />
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground ml-2">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 ml-2">
                 Google Maps Optimization
               </p>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95] mb-6 text-foreground">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95] mb-6 text-white">
               Get Your Business
               <br />
               to <span className="text-google-blue">#1</span> on
               <br />
               Google Maps
             </h1>
-            <p className="text-base md:text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
+            <p className="text-base md:text-lg text-white/60 max-w-lg mb-8 leading-relaxed">
               We help local businesses dominate Google Maps rankings with proven, data-driven optimization strategies. Trusted by 500+ businesses across 12+ countries.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mb-8">
@@ -159,12 +159,12 @@ const Index = () => {
               </Link>
               <Link
                 to="/pricing"
-                className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-secondary transition-colors bg-background/80 backdrop-blur-sm"
+                className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider border border-white/20 text-white hover:bg-white/10 transition-colors backdrop-blur-sm"
               >
                 View Packages
               </Link>
             </div>
-            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-xs text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-4 md:gap-6 text-xs text-white/50">
               <div className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-google-green" />
                 <span>No Contracts</span>
