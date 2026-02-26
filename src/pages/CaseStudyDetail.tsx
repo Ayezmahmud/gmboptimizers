@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, Clock, MapPin, TrendingUp } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getCaseStudyBySlug, caseStudies } from "@/data/caseStudies";
@@ -16,6 +16,22 @@ const generateRankingData = (startRank: string, endRank: string, timeline: { wee
     const progress = (i + 1) / timeline.length;
     const eased = 1 - Math.pow(1 - progress, 2.5);
     data.push({ week: timeline[i].week, rank: Math.round(start - (start - end) * eased) });
+  }
+  return data;
+};
+
+const generateTrafficData = (timeline: { week: string }[]) => {
+  const baselineCalls = 100;
+  const baselineVisits = 200;
+  const data = [{ week: "Start", calls: baselineCalls, visits: baselineVisits }];
+  for (let i = 0; i < timeline.length; i++) {
+    const progress = (i + 1) / timeline.length;
+    const eased = 1 - Math.pow(1 - progress, 3);
+    data.push({
+      week: timeline[i].week,
+      calls: Math.round(baselineCalls * (1 + eased * 2.5)),
+      visits: Math.round(baselineVisits * (1 + eased * 4)),
+    });
   }
   return data;
 };
@@ -331,6 +347,66 @@ const CaseStudyDetail = () => {
                       activeDot={{ r: 7 }}
                     />
                   </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Calls & Traffic Growth Chart */}
+      <section className="py-24 border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-2 h-2 rounded-full bg-google-red" />
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red">Traffic Growth</p>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black uppercase text-foreground mb-2">Calls & Website Visits</h2>
+              <p className="text-muted-foreground text-sm mb-10">Monthly calls and website visits growth throughout the optimization campaign.</p>
+
+              <div className="bg-secondary border border-border p-6 md:p-8">
+                <div className="flex items-center gap-6 mb-6">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-google-blue" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Calls</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-google-yellow" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Website Visits</span>
+                  </div>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={generateTrafficData(study.timeline)} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                    <XAxis
+                      dataKey="week"
+                      tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                      axisLine={{ stroke: 'hsl(var(--border))' }}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                      axisLine={{ stroke: 'hsl(var(--border))' }}
+                      tickLine={false}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        background: 'hsl(var(--background))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: 0,
+                        fontSize: 12,
+                        fontWeight: 700,
+                      }}
+                    />
+                    <Bar dataKey="calls" name="Calls" fill="hsl(217, 91%, 60%)" radius={[2, 2, 0, 0]} />
+                    <Bar dataKey="visits" name="Website Visits" fill="hsl(48, 96%, 53%)" radius={[2, 2, 0, 0]} />
+                  </BarChart>
                 </ResponsiveContainer>
               </div>
             </motion.div>
