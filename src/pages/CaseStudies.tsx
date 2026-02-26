@@ -84,6 +84,14 @@ const CaseStudies = () => {
                     ))}
                   </div>
 
+                  <div className="flex items-center gap-3 mb-6">
+                    <img src={c.ownerImage} alt={c.testimonialAuthor} className="w-10 h-10 rounded-full object-cover border-2 border-border" />
+                    <div>
+                      <p className="text-sm font-bold text-foreground">{c.testimonialAuthor}</p>
+                      <p className="text-xs text-muted-foreground">{c.testimonialRole}</p>
+                    </div>
+                  </div>
+
                   <Link
                     to={`/case-studies/${c.slug}`}
                     className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity"

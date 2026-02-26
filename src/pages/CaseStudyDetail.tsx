@@ -256,9 +256,12 @@ const CaseStudyDetail = () => {
               <p className="text-xl md:text-2xl font-medium leading-relaxed text-foreground mb-6">
                 "{study.testimonialQuote}"
               </p>
-              <div>
-                <p className="font-bold text-foreground uppercase text-sm">{study.testimonialAuthor}</p>
-                <p className="text-xs text-muted-foreground">{study.testimonialRole}</p>
+              <div className="flex items-center gap-4">
+                <img src={study.ownerImage} alt={study.testimonialAuthor} className="w-14 h-14 rounded-full object-cover border-2 border-border" />
+                <div>
+                  <p className="font-bold text-foreground uppercase text-sm">{study.testimonialAuthor}</p>
+                  <p className="text-xs text-muted-foreground">{study.testimonialRole}</p>
+                </div>
               </div>
             </motion.div>
           </div>

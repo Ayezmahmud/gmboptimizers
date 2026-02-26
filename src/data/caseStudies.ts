@@ -23,6 +23,7 @@ export interface CaseStudy {
   location: string;
   image: string;
   imageAlt: string;
+  ownerImage: string;
   summary: string;
   challenge: string;
   solution: string;
@@ -46,6 +47,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Melbourne CBD, VIC",
     image: "/images/case-study-1.png",
     imageAlt: "Dental clinic ranking #1 on Google Maps on a tablet screen",
+    ownerImage: "/images/owner-sarah-chen.png",
     summary: "A leading dental practice in Melbourne's CBD was struggling with online visibility despite excellent patient reviews. We implemented a comprehensive Google Maps strategy that transformed their digital presence.",
     challenge: "Despite having 15 years of experience and a loyal patient base, Melbourne Dental Clinic was virtually invisible on Google Maps. They ranked #14 for 'dentist near me' in their area, losing hundreds of potential patients monthly to competitors with stronger online profiles. Their Google Business Profile was incomplete, they had inconsistent NAP data across directories, and their review count was low compared to top-ranking competitors. The clinic was spending $4,000/month on Google Ads just to stay visible, with diminishing returns.",
     solution: "We conducted a full audit of their Google Business Profile, local citations, and competitor landscape. Our team identified 23 citation inconsistencies, an incomplete profile with missing categories, and opportunities to leverage their excellent patient satisfaction into review growth. We implemented a 12-week optimization program targeting all three core Google Maps ranking factors.",
@@ -87,6 +89,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Parramatta, Sydney, NSW",
     image: "/images/case-study-2.png",
     imageAlt: "Auto repair shop Google Maps listing on a smartphone",
+    ownerImage: "/images/owner-james-chen.png",
     summary: "A family-owned auto repair shop in Sydney faced stiff competition from larger chains. Our targeted local SEO and citation strategy helped them dominate their suburb on Google Maps.",
     challenge: "Sydney Auto Repair, a third-generation family business, was losing customers to franchise chains like Ultra Tune and Midas that dominated Google Maps in the Parramatta area. Ranking at #22, they were completely invisible in the local pack. Their Google Business Profile hadn't been updated in 3 years, they had only 8 reviews (compared to competitors with 200+), and their business information was incorrect on 40+ directories. Monthly leads from Google had dropped 60% over the past year.",
     solution: "We developed an aggressive catch-up strategy to overcome the significant gap between Sydney Auto Repair and the established franchise competitors. Our approach combined rapid citation building, a differentiated positioning strategy (emphasizing personalized family service vs. corporate chains), and an innovative geo-targeting approach that focused on surrounding suburbs where competition was thinner.",
@@ -126,6 +129,7 @@ export const caseStudies: CaseStudy[] = [
     location: "Fortitude Valley, Brisbane, QLD",
     image: "/images/case-study-3.png",
     imageAlt: "Law firm office with Google Maps pin overlay on laptop",
+    ownerImage: "/images/owner-michael-torres.png",
     summary: "A mid-size law firm in Brisbane needed to attract more local clients. We optimized their Google Business Profile and built a review strategy that established them as the go-to firm in their area.",
     challenge: "Brisbane Law Firm, a 5-partner practice specializing in family law and property conveyancing, was spending $8,000/month on Google Ads and legal lead generation platforms with increasingly poor ROI. Ranking at #18 on Google Maps, they were losing market share to smaller boutique firms that had invested in local SEO early. Their Google Business Profile listed them under a single generic 'lawyer' category, had no photos, only 12 reviews (some from 4 years ago), and their appointment booking link was broken. Competing firms had 150+ reviews and fully optimized profiles.",
     solution: "We implemented a prestige-focused optimization strategy that positioned the firm as Brisbane's most trusted legal team. Our approach combined aggressive profile optimization, a sophisticated review generation system tailored to the legal industry's sensitivity around client confidentiality, and a content strategy built around legal education Google Posts that showcased expertise without soliciting clients directly.",
