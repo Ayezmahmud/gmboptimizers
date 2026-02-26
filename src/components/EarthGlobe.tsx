@@ -10,11 +10,8 @@ const Earth = () => {
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
-    if (meshRef.current) {
-      meshRef.current.rotation.y = t * 0.15;
-    }
     if (cloudsRef.current) {
-      cloudsRef.current.rotation.y = t * 0.18;
+      cloudsRef.current.rotation.y = t * 0.03;
     }
   });
 
@@ -91,8 +88,12 @@ const EarthGlobe = () => {
         <OrbitControls
           enableZoom={false}
           enablePan={false}
-          autoRotate={false}
-          enableRotate={false}
+          autoRotate
+          autoRotateSpeed={0.5}
+          enableRotate
+          rotateSpeed={0.5}
+          enableDamping
+          dampingFactor={0.1}
         />
       </Canvas>
     </div>
