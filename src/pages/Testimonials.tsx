@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star, Quote, Filter, TrendingUp, Phone, MapPin, Users, Award, BarChart3 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Quote, Filter, TrendingUp, Phone, MapPin, Users, Award, BarChart3, X } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { testimonials } from "@/data/testimonials";
+import { testimonials, Testimonial } from "@/data/testimonials";
 
 const industries = ["All", ...Array.from(new Set(testimonials.map(t => t.industry)))];
 
@@ -42,6 +42,7 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 const Testimonials = () => {
   const [idx, setIdx] = useState(0);
   const [filter, setFilter] = useState("All");
+  const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
   const prev = () => setIdx((i) => (i === 0 ? testimonials.length - 1 : i - 1));
   const next = () => setIdx((i) => (i === testimonials.length - 1 ? 0 : i + 1));
   const t = testimonials[idx];
@@ -239,10 +240,11 @@ const Testimonials = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.3) }}
-                className="group relative bg-background p-8 border border-border hover:shadow-lg transition-shadow flex flex-col overflow-hidden"
+                onClick={() => setSelectedTestimonial(t)}
+                className="group relative bg-background p-8 border border-border hover:shadow-lg transition-shadow flex flex-col overflow-hidden cursor-pointer"
               >
                 {/* Portrait overlay on hover */}
-                <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
                   <img 
                     src={t.image} 
                     alt={t.name} 
@@ -252,6 +254,7 @@ const Testimonials = () => {
                   <p className="text-xs text-muted-foreground text-center mb-2">{t.business}</p>
                   <p className="text-xs font-bold text-google-green">{t.result}</p>
                   <p className="text-xs text-google-blue mt-1 uppercase tracking-wider">{t.industry}</p>
+                  <p className="text-xs text-muted-foreground mt-4 uppercase tracking-wider">Click to read full story →</p>
                 </div>
 
                 <div className="flex items-center justify-between mb-4">
@@ -263,7 +266,7 @@ const Testimonials = () => {
                   <span className="text-xs font-bold text-google-green">{t.result}</span>
                 </div>
                 <p className="text-xs uppercase tracking-wider text-google-blue mb-3">{t.industry}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">"{t.text}"</p>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1 line-clamp-4">"{t.text}"</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-border">
                   <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover border-2 border-border" />
                   <div>
@@ -293,6 +296,71 @@ const Testimonials = () => {
       </section>
 
       <Footer />
+
+      {/* Testimonial Modal */}
+      <AnimatePresence>
+        {selectedTestimonial && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-foreground/60 backdrop-blur-sm"
+            onClick={() => setSelectedTestimonial(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3 }}
+              className="relative bg-background border border-border max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setSelectedTestimonial(null)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-foreground transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Header with large portrait */}
+              <div className="bg-secondary border-b border-border p-10 flex flex-col items-center text-center">
+                <img
+                  src={selectedTestimonial.image}
+                  alt={selectedTestimonial.name}
+                  className="w-32 h-32 rounded-full object-cover border-4 border-google-blue shadow-lg mb-6"
+                />
+                <h3 className="text-xl font-black uppercase text-foreground mb-1">{selectedTestimonial.name}</h3>
+                <p className="text-sm text-muted-foreground mb-3">{selectedTestimonial.business}</p>
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-google-yellow text-google-yellow" />
+                    ))}
+                  </div>
+                  <span className="text-xs font-bold uppercase tracking-wider text-google-blue">{selectedTestimonial.industry}</span>
+                </div>
+              </div>
+
+              {/* Result badge */}
+              <div className="flex justify-center -mt-4">
+                <div className="bg-google-green text-primary-foreground px-6 py-2">
+                  <p className="text-xs font-bold uppercase tracking-wider">{selectedTestimonial.result}</p>
+                </div>
+              </div>
+
+              {/* Full testimonial text */}
+              <div className="p-10">
+                <Quote className="w-8 h-8 text-google-blue/20 mb-4" />
+                <p className="text-base text-foreground leading-relaxed">
+                  "{selectedTestimonial.text}"
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
