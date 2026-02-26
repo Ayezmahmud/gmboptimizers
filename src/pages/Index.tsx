@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense, lazy } from "react";
 import { useInView } from "framer-motion";
 import {
   MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText,
@@ -9,6 +9,8 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+
+const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
 
 /* ── Animated Counter ── */
 const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
@@ -112,19 +114,12 @@ const Index = () => {
       <Header />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden min-h-[90vh] flex items-center bg-[#0a0a0a]">
-        {/* Full-bleed background image */}
-        <div className="absolute inset-0">
-          <img
-            src="/images/hero-gmap.png"
-            alt="City skyline with glowing Google Maps pins and search rankings"
-            className="w-full h-full object-cover"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/85 to-[#0a0a0a]/30" />
-        </div>
+      <section className="relative overflow-hidden min-h-[90vh] flex items-center bg-[#060918]">
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
 
-        <div className="relative z-10 container mx-auto px-6 py-20 md:py-32">
+        <div className="relative z-10 container mx-auto px-6 py-20 md:py-32 flex flex-col lg:flex-row items-center gap-8">
+          {/* Text side */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -178,6 +173,22 @@ const Index = () => {
                 <span>98% Retention</span>
               </div>
             </div>
+          </motion.div>
+
+          {/* 3D Earth Globe */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="w-full lg:w-1/2 h-[400px] md:h-[500px] lg:h-[600px]"
+          >
+            <Suspense fallback={
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="w-16 h-16 border-2 border-google-blue/30 border-t-google-blue rounded-full animate-spin" />
+              </div>
+            }>
+              <EarthGlobe />
+            </Suspense>
           </motion.div>
         </div>
 
