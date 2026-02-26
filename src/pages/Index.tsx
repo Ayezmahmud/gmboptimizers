@@ -443,9 +443,7 @@ const Index = () => {
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-6">"{t.text}"</p>
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 ${t.color} text-primary-foreground flex items-center justify-center text-xs font-bold`}>
-                    {t.initials}
-                  </div>
+                  <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover border-2 border-border" />
                   <div>
                     <p className="text-xs font-bold uppercase text-foreground">{t.name}</p>
                     <p className="text-xs text-muted-foreground">{t.business}</p>
