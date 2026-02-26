@@ -6,6 +6,7 @@ export interface Testimonial {
   color: string;
   industry: string;
   result: string;
+  image: string;
 }
 
 const colors = ["bg-google-blue", "bg-google-red", "bg-google-yellow", "bg-google-green"];
@@ -19,6 +20,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Food & Beverage",
     result: "Page 3 → #1 in 8 weeks",
+    image: "/images/testimonial-1.png",
   },
   {
     name: "James Chen",
@@ -28,6 +30,7 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "Automotive",
     result: "+300% calls in 30 days",
+    image: "/images/testimonial-2.png",
   },
   {
     name: "Lisa Rodriguez",
@@ -37,6 +40,7 @@ export const testimonials: Testimonial[] = [
     color: colors[2],
     industry: "Legal",
     result: "Replaced $5K/mo ad spend",
+    image: "/images/testimonial-3.png",
   },
   {
     name: "David Park",
@@ -46,6 +50,7 @@ export const testimonials: Testimonial[] = [
     color: colors[3],
     industry: "Healthcare",
     result: "#2 ranking in 3 months",
+    image: "/images/testimonial-4.png",
   },
   {
     name: "Amanda Foster",
@@ -55,6 +60,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Retail",
     result: "12 → 80+ five-star reviews",
+    image: "/images/testimonial-5.png",
   },
   {
     name: "Michael Torres",
@@ -64,6 +70,7 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "Home Services",
     result: "+250% emergency calls",
+    image: "/images/testimonial-6.png",
   },
   {
     name: "Priya Sharma",
@@ -73,6 +80,7 @@ export const testimonials: Testimonial[] = [
     color: colors[2],
     industry: "Restaurant",
     result: "2K → 15K monthly views",
+    image: "/images/testimonial-7.png",
   },
   {
     name: "Tom Henderson",
@@ -82,6 +90,7 @@ export const testimonials: Testimonial[] = [
     color: colors[3],
     industry: "Legal",
     result: "+180% consultation requests",
+    image: "/images/testimonial-8.png",
   },
   {
     name: "Rebecca Nguyen",
@@ -91,6 +100,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Beauty & Wellness",
     result: "#34 → #3 in 10 weeks",
+    image: "/images/testimonial-9.png",
   },
   {
     name: "Chris O'Brien",
@@ -100,6 +110,7 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "Trade Services",
     result: "Recovered #2 after algorithm hit",
+    image: "/images/testimonial-10.png",
   },
   {
     name: "Emily Watson",
@@ -109,6 +120,7 @@ export const testimonials: Testimonial[] = [
     color: colors[2],
     industry: "Education",
     result: "+40% parent inquiries",
+    image: "/images/testimonial-11.png",
   },
   {
     name: "Hassan Ali",
@@ -118,6 +130,7 @@ export const testimonials: Testimonial[] = [
     color: colors[3],
     industry: "Healthcare",
     result: "#1 for 'pharmacy near me'",
+    image: "/images/testimonial-12.png",
   },
   {
     name: "Jasmine Lee",
@@ -127,6 +140,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Pet Services",
     result: "15+ calls/week from Maps",
+    image: "/images/testimonial-13.png",
   },
   {
     name: "Robert Fitzgerald",
@@ -136,6 +150,7 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "Real Estate",
     result: "#1 in 2 suburbs",
+    image: "/images/testimonial-14.png",
   },
   {
     name: "Mei Lin Zhang",
@@ -145,6 +160,7 @@ export const testimonials: Testimonial[] = [
     color: colors[2],
     industry: "Fitness",
     result: "45 reviews & #1 in 8 weeks",
+    image: "/images/testimonial-15.png",
   },
   {
     name: "Daniel Murphy",
@@ -154,6 +170,7 @@ export const testimonials: Testimonial[] = [
     color: colors[3],
     industry: "Hospitality",
     result: "60 → 200+ reviews, #1 ranking",
+    image: "/images/testimonial-16.png",
   },
   {
     name: "Natasha Volkov",
@@ -163,6 +180,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Professional Services",
     result: "+220% qualified leads",
+    image: "/images/testimonial-17.png",
   },
   {
     name: "Ryan Cooper",
@@ -172,6 +190,7 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "Automotive",
     result: "#7 → #1 in 5 weeks",
+    image: "/images/testimonial-18.png",
   },
   {
     name: "Sophie Martin",
@@ -181,6 +200,7 @@ export const testimonials: Testimonial[] = [
     color: colors[2],
     industry: "Design",
     result: "Revenue doubled in 6 months",
+    image: "/images/testimonial-19.png",
   },
   {
     name: "Andrew Kim",
@@ -190,6 +210,7 @@ export const testimonials: Testimonial[] = [
     color: colors[3],
     industry: "Sports & Recreation",
     result: "+150% enrollment",
+    image: "/images/testimonial-20.png",
   },
   {
     name: "Olivia Thompson",
@@ -199,6 +220,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Veterinary",
     result: "15 new patients/week from Maps",
+    image: "/images/testimonial-21.png",
   },
   {
     name: "Marcus Brown",
@@ -208,6 +230,7 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "Finance",
     result: "+200% tax season inquiries",
+    image: "/images/testimonial-22.png",
   },
   {
     name: "Zara Patel",
@@ -217,6 +240,7 @@ export const testimonials: Testimonial[] = [
     color: colors[2],
     industry: "Healthcare",
     result: "All 3 locations in top 3",
+    image: "/images/testimonial-23.png",
   },
   {
     name: "William Scott",
@@ -226,6 +250,7 @@ export const testimonials: Testimonial[] = [
     color: colors[3],
     industry: "Construction",
     result: "Eliminated $3K/mo lead-gen cost",
+    image: "/images/testimonial-24.png",
   },
   {
     name: "Grace Taylor",
@@ -235,6 +260,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Arts & Education",
     result: "140+ reviews, #1 ranking",
+    image: "/images/testimonial-25.png",
   },
   {
     name: "Kevin Russo",
@@ -244,6 +270,7 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "Food Delivery",
     result: "+180% delivery orders",
+    image: "/images/testimonial-26.png",
   },
   {
     name: "Diana Hughes",
@@ -253,6 +280,7 @@ export const testimonials: Testimonial[] = [
     color: colors[2],
     industry: "Photography",
     result: "Booked 8 months in advance",
+    image: "/images/testimonial-27.png",
   },
   {
     name: "Samuel Wright",
@@ -262,6 +290,7 @@ export const testimonials: Testimonial[] = [
     color: colors[3],
     industry: "Fitness",
     result: "5 → 25 sign-ups/month",
+    image: "/images/testimonial-28.png",
   },
   {
     name: "Isabella Garcia",
@@ -271,6 +300,7 @@ export const testimonials: Testimonial[] = [
     color: colors[0],
     industry: "Events",
     result: "2-3 → 15+ monthly inquiries",
+    image: "/images/testimonial-29.png",
   },
   {
     name: "Liam Anderson",
@@ -280,5 +310,6 @@ export const testimonials: Testimonial[] = [
     color: colors[1],
     industry: "HVAC",
     result: "+70% off-season revenue",
+    image: "/images/testimonial-30.png",
   },
 ];
