@@ -112,57 +112,74 @@ const Index = () => {
       <Header />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden">
-        <div className="container mx-auto px-6 py-24 md:py-36">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      <section className="relative overflow-hidden bg-secondary/30">
+        <div className="container mx-auto px-6 py-20 md:py-32">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-6">
-                Google Maps Optimization Agency
-              </p>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black uppercase leading-[0.95] mb-8 text-foreground">
-                Dominate
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-2 h-2 rounded-full bg-google-blue" />
+                <div className="w-2 h-2 rounded-full bg-google-red" />
+                <div className="w-2 h-2 rounded-full bg-google-yellow" />
+                <div className="w-2 h-2 rounded-full bg-google-green" />
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground ml-2">
+                  Google Maps Optimization
+                </p>
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-[0.95] mb-6 text-foreground">
+                Get Your Business
                 <br />
-                Google Maps.
+                to <span className="text-google-blue">#1</span> on
                 <br />
-                <span className="text-gradient-google">Own Your Market.</span>
+                Google Maps
               </h1>
-              <p className="text-lg text-muted-foreground max-w-xl mb-10 leading-relaxed">
-                We help local businesses achieve #1 rankings on Google Maps through data-driven optimization strategies. Trusted by 500+ businesses across 12+ countries.
+              <p className="text-base md:text-lg text-muted-foreground max-w-lg mb-8 leading-relaxed">
+                We help local businesses dominate Google Maps rankings with proven, data-driven optimization strategies. Trusted by 500+ businesses across 12+ countries.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 mb-8">
                 <Link
                   to="/contact"
                   className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider bg-google-blue text-primary-foreground hover:opacity-90 transition-opacity"
                 >
-                  Get Started
+                  Get Free Consultation
                 </Link>
                 <Link
                   to="/pricing"
-                  className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider border-2 border-foreground text-foreground hover:bg-foreground hover:text-background transition-colors"
+                  className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-secondary transition-colors"
                 >
                   View Packages
                 </Link>
               </div>
+              <div className="flex items-center gap-6 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-google-green" />
+                  <span>No Contracts</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-google-green" />
+                  <span>Results in 4–8 Weeks</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-google-green" />
+                  <span>98% Retention</span>
+                </div>
+              </div>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="hidden md:flex items-center justify-center"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="hidden md:block"
             >
-              <div className="relative">
-                <img
-                  src="/images/hero-pin.png"
-                  alt="Colorful Google Maps pin on a city map"
-                  className="w-full animate-float drop-shadow-2xl"
-                  loading="eager"
-                />
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-2/3 h-6 bg-foreground/10 rounded-[50%] blur-xl animate-float-shadow" />
-              </div>
+              <img
+                src="/images/hero-mockup.png"
+                alt="MacBook and iPhone showing #1 Google Maps business ranking"
+                className="w-full"
+                loading="eager"
+              />
             </motion.div>
           </div>
         </div>
