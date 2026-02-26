@@ -1,12 +1,43 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star, Quote, Filter } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { ChevronLeft, ChevronRight, Star, Quote, Filter, TrendingUp, Phone, MapPin, Users, Award, BarChart3 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { testimonials } from "@/data/testimonials";
 
 const industries = ["All", ...Array.from(new Set(testimonials.map(t => t.industry)))];
+
+const aggregateStats = [
+  { icon: Users, value: 500, suffix: "+", label: "Businesses Ranked", color: "text-google-blue", dotColor: "bg-google-blue" },
+  { icon: TrendingUp, value: 94, suffix: "%", label: "Achieved Top 3 Ranking", color: "text-google-green", dotColor: "bg-google-green" },
+  { icon: Phone, value: 245, suffix: "%", label: "Avg. Call Increase", color: "text-google-red", dotColor: "bg-google-red" },
+  { icon: Star, value: 4.9, suffix: "/5", label: "Average Client Rating", color: "text-google-yellow", dotColor: "bg-google-yellow" },
+  { icon: Award, value: 30, suffix: "+", label: "Industries Served", color: "text-google-blue", dotColor: "bg-google-blue" },
+  { icon: BarChart3, value: 12, suffix: "x", label: "Average ROI", color: "text-google-green", dotColor: "bg-google-green" },
+];
+
+const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref as React.RefObject<Element>, { once: true });
+
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const duration = 2000;
+    const isDecimal = target % 1 !== 0;
+    const increment = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += increment;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(isDecimal ? Math.round(start * 10) / 10 : Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+};
 
 const Testimonials = () => {
   const [idx, setIdx] = useState(0);
@@ -90,7 +121,35 @@ const Testimonials = () => {
         </div>
       </section>
 
-      {/* Featured Testimonial Carousel */}
+      {/* Results at a Glance */}
+      <section className="border-b border-border">
+        <div className="container mx-auto px-6">
+          <div className="py-6 mb-2 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-2">Results at a Glance</p>
+            <h2 className="text-3xl md:text-4xl font-black uppercase text-foreground">Aggregate Client Metrics</h2>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            {aggregateStats.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                className={`py-10 text-center ${i < aggregateStats.length - 1 ? "lg:border-r border-border" : ""} ${i < 4 ? "border-b lg:border-b-0 border-border" : ""}`}
+              >
+                <s.icon className={`w-6 h-6 ${s.color} mx-auto mb-3`} strokeWidth={1.5} />
+                <p className={`text-3xl md:text-4xl font-black text-foreground`}>
+                  <Counter target={s.value} suffix={s.suffix} />
+                </p>
+                <p className="text-xs uppercase tracking-wider text-muted-foreground mt-2 px-2">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
       <section className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
