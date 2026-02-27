@@ -61,23 +61,39 @@ const About = () => {
           <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-google-green rounded-full blur-[100px]" />
         </div>
         <div className="relative z-10 container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <div className="flex items-center gap-2 mb-6">
-              <div className="w-2 h-2 rounded-full bg-google-blue" />
-              <div className="w-2 h-2 rounded-full bg-google-red" />
-              <div className="w-2 h-2 rounded-full bg-google-yellow" />
-              <div className="w-2 h-2 rounded-full bg-google-green" />
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 ml-2">About Us</p>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-black uppercase text-white leading-[0.95] mb-6">
-              Why GB
-              <br />
-              Optimizers?
-            </h1>
-            <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
-              We're the team behind 500+ businesses ranking #1 on Google Maps. Data-driven, ethical, and relentlessly focused on results.
-            </p>
-          </motion.div>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-2 h-2 rounded-full bg-google-blue" />
+                <div className="w-2 h-2 rounded-full bg-google-red" />
+                <div className="w-2 h-2 rounded-full bg-google-yellow" />
+                <div className="w-2 h-2 rounded-full bg-google-green" />
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 ml-2">About Us</p>
+              </div>
+              <h1 className="text-5xl md:text-7xl font-black uppercase text-white leading-[0.95] mb-6">
+                Why GB
+                <br />
+                Optimizers?
+              </h1>
+              <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
+                We're the team behind 500+ businesses ranking #1 on Google Maps. Data-driven, ethical, and relentlessly focused on results.
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+              className="hidden md:flex items-center justify-center"
+            >
+              <motion.img
+                src="/images/google-maps-pin-hero.png"
+                alt="Google Maps Pin"
+                className="w-72 lg:w-96 drop-shadow-[0_0_60px_rgba(66,133,244,0.3)]"
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </motion.div>
+          </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-1 flex z-10">
           <div className="flex-1 bg-google-blue" />
