@@ -44,10 +44,16 @@ const TermsConditions = () => {
                 <h2 className="text-2xl font-bold text-foreground mb-4">3. Payment Terms</h2>
                 <ul className="list-disc list-inside text-muted-foreground space-y-2">
                   <li>All fees are due as specified in your service agreement</li>
-                  <li>Payments are non-refundable unless otherwise stated in your package terms</li>
                   <li>We reserve the right to modify pricing with 30 days' written notice</li>
                   <li>Late payments may result in suspension of services</li>
                 </ul>
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold text-foreground mb-4">4. 30-Day Refund Policy</h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  We offer a <span className="text-foreground font-semibold">30-day money-back guarantee</span> on all our services. If you are not satisfied with our work within the first 30 days of your service period, you may request a full refund. To initiate a refund, simply contact our team via email or phone within the 30-day window. Refunds will be processed within 7–10 business days.
+                </p>
               </div>
 
               <div>

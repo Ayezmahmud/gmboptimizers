@@ -1,7 +1,7 @@
 import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check, Shield, Zap, Users } from "lucide-react";
+import { Check, Shield, Zap, Users, RefreshCw } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
@@ -85,6 +85,7 @@ const packages = [
 
 const guarantees = [
   { icon: Shield, title: "No Long-Term Contracts", desc: "Cancel anytime. We earn your business every month.", color: "text-google-blue", border: "border-google-blue/20", glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.2)]" },
+  { icon: RefreshCw, title: "30-Day Money-Back Guarantee", desc: "Not satisfied? Get a full refund within 30 days — no questions asked.", color: "text-google-yellow", border: "border-google-yellow/20", glowHover: "hover:shadow-[0_0_40px_rgba(251,188,4,0.2)]" },
   { icon: Zap, title: "Results in 4-8 Weeks", desc: "See measurable ranking improvements fast.", color: "text-google-red", border: "border-google-red/20", glowHover: "hover:shadow-[0_0_40px_rgba(234,67,53,0.2)]" },
   { icon: Users, title: "Dedicated Support", desc: "Your own account manager for personalized service.", color: "text-google-green", border: "border-google-green/20", glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.2)]" },
 ];
@@ -238,7 +239,7 @@ const Pricing = () => {
       {/* Guarantees */}
       <ScrollRevealSection className="py-20 border-t border-border bg-secondary">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-4 gap-6">
             {guarantees.map((g, i) => (
               <MagneticCard key={g.title} intensity={6}>
                 <ScrollStaggerItem index={i} className={`group relative overflow-hidden bg-background p-8 border ${g.border} text-center h-full transition-all duration-700 ${g.glowHover}`}>
