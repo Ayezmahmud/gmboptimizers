@@ -21,10 +21,16 @@ const SignUp = () => {
   const handleOAuth = async (provider: "google" | "apple") => {
     try {
       const result = await lovable.auth.signInWithOAuth(provider, {
-        redirect_uri: window.location.origin + "/dashboard",
+        redirect_uri: window.location.origin,
       });
+
       if (result?.error) {
         toast({ title: "Sign up failed", description: result.error.message || String(result.error), variant: "destructive" });
+        return;
+      }
+
+      if (!result?.redirected) {
+        navigate("/dashboard");
       }
     } catch (err: any) {
       console.error("OAuth error:", err);
