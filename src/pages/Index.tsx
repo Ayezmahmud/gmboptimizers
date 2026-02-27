@@ -484,6 +484,26 @@ const Index = () => {
             Compare All Packages
           </Link>
         </div>
+
+        {/* Certifications Marquee */}
+        <div className="mt-16 overflow-hidden space-y-3">
+          <div className="flex animate-marquee whitespace-nowrap">
+            {[...certifications, ...certifications].map((cert, i) => (
+              <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
+                <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
+                <span style={{ color: cert.color }}>{cert.name}</span>
+              </span>
+            ))}
+          </div>
+          <div className="flex animate-marquee-reverse whitespace-nowrap">
+            {[...certifications.slice().reverse(), ...certifications.slice().reverse()].map((cert, i) => (
+              <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
+                <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
+                <span style={{ color: cert.color }}>{cert.name}</span>
+              </span>
+            ))}
+          </div>
+        </div>
       </ScrollRevealSection>
 
       {/* ═══ FAQ ═══ */}
