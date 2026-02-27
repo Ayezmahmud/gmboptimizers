@@ -10,7 +10,6 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
-import GlobeToMapTransition from "@/components/GlobeToMapTransition";
 
 const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
 
@@ -223,9 +222,6 @@ const Index = () => {
           </div>
         </div>
       </ScrollRevealSection>
-
-      {/* ═══ GLOBE → MAP TRANSITION ═══ */}
-      <GlobeToMapTransition />
 
       {/* ═══ ABOUT COMPANY ═══ */}
       <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
