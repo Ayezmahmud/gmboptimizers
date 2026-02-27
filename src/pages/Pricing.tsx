@@ -1,3 +1,4 @@
+import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Check, CheckCircle2, Shield, Zap, Users } from "lucide-react";
@@ -88,13 +89,7 @@ const Pricing = () => {
         <HeroBackground />
         <div className="relative z-10 container mx-auto px-6 flex items-center justify-center text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-2xl">
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <div className="w-2 h-2 rounded-full bg-google-blue" />
-              <div className="w-2 h-2 rounded-full bg-google-red" />
-              <div className="w-2 h-2 rounded-full bg-google-yellow" />
-              <div className="w-2 h-2 rounded-full bg-google-green" />
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 ml-2">Packages</p>
-            </div>
+            <AnimatedDots label="Packages" className="justify-center mb-6" />
             <h1 className="text-5xl md:text-7xl font-black uppercase text-white leading-[0.95] mb-6">
               Pricing
             </h1>
