@@ -54,7 +54,7 @@ const CaseStudies = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
+              transition={{ duration: 0.6, delay: i * 0.2 }}
               className="mb-20 last:mb-0"
             >
               <div className={`grid md:grid-cols-2 gap-12 items-center`}>
