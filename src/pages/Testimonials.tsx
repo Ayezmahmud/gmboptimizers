@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star, Quote, Filter, TrendingUp, Phone, MapPin, Users, Award, BarChart3, X } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HeroBackground from "@/components/HeroBackground";
 import ParallaxImage from "@/components/ParallaxImage";
 import { Link } from "react-router-dom";
 import { testimonials, Testimonial } from "@/data/testimonials";
@@ -54,15 +55,12 @@ const Testimonials = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      <section className="relative overflow-hidden py-28 md:py-36 bg-[#060918]">
+      <section className="relative overflow-hidden py-28 md:py-44 bg-[#060918]">
         <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 right-1/3 w-96 h-96 bg-google-yellow rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/3 left-1/4 w-72 h-72 bg-google-blue rounded-full blur-[100px]" />
-        </div>
-        <div className="relative z-10 container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <div className="flex items-center gap-2 mb-6">
+        <HeroBackground />
+        <div className="relative z-10 container mx-auto px-6 flex items-center justify-center text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-2xl">
+            <div className="flex items-center justify-center gap-2 mb-6">
               <div className="w-2 h-2 rounded-full bg-google-blue" />
               <div className="w-2 h-2 rounded-full bg-google-red" />
               <div className="w-2 h-2 rounded-full bg-google-yellow" />
