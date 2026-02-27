@@ -54,15 +54,50 @@ const About = () => {
       <Header />
 
       {/* Hero */}
-      <section className="relative overflow-hidden py-28 md:py-36 bg-[#060918]">
+      <section className="relative overflow-hidden py-28 md:py-44 bg-[#060918]">
         <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-google-blue rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 left-1/3 w-72 h-72 bg-google-green rounded-full blur-[100px]" />
+        
+        {/* Animated floating orbs background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute w-[500px] h-[500px] rounded-full bg-google-blue/[0.07] blur-[100px]"
+            animate={{ x: [0, 80, -40, 0], y: [0, -60, 40, 0], scale: [1, 1.2, 0.9, 1] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            style={{ top: "10%", right: "5%" }}
+          />
+          <motion.div
+            className="absolute w-[400px] h-[400px] rounded-full bg-google-green/[0.06] blur-[90px]"
+            animate={{ x: [0, -60, 50, 0], y: [0, 50, -30, 0], scale: [1, 0.85, 1.15, 1] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            style={{ top: "30%", right: "15%" }}
+          />
+          <motion.div
+            className="absolute w-[350px] h-[350px] rounded-full bg-google-red/[0.05] blur-[80px]"
+            animate={{ x: [0, 40, -70, 0], y: [0, -40, 60, 0], scale: [1, 1.1, 0.95, 1] }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 4 }}
+            style={{ bottom: "10%", right: "25%" }}
+          />
+          <motion.div
+            className="absolute w-[300px] h-[300px] rounded-full bg-google-yellow/[0.05] blur-[70px]"
+            animate={{ x: [0, -50, 30, 0], y: [0, 30, -50, 0], scale: [1, 1.15, 0.9, 1] }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 6 }}
+            style={{ top: "50%", right: "35%" }}
+          />
+          {/* Floating grid dots */}
+          {Array.from({ length: 20 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-1 rounded-full bg-white/[0.08]"
+              animate={{ opacity: [0.03, 0.12, 0.03], scale: [1, 1.5, 1] }}
+              transition={{ duration: 3 + (i % 4), repeat: Infinity, delay: i * 0.5 }}
+              style={{ top: `${15 + (i * 4) % 70}%`, right: `${5 + (i * 7) % 50}%` }}
+            />
+          ))}
         </div>
-        <div className="relative z-10 container mx-auto px-6">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <div className="flex items-center gap-2 mb-6">
+
+        <div className="relative z-10 container mx-auto px-6 flex items-center justify-center text-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-2xl">
+            <div className="flex items-center justify-center gap-2 mb-6">
               <div className="w-2 h-2 rounded-full bg-google-blue" />
               <div className="w-2 h-2 rounded-full bg-google-red" />
               <div className="w-2 h-2 rounded-full bg-google-yellow" />
@@ -74,7 +109,7 @@ const About = () => {
               <br />
               Optimizers?
             </h1>
-            <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
+            <p className="text-base md:text-lg text-white/60 max-w-lg mx-auto leading-relaxed">
               We're the team behind 500+ businesses ranking #1 on Google Maps. Data-driven, ethical, and relentlessly focused on results.
             </p>
           </motion.div>
