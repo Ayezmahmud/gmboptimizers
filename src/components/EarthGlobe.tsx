@@ -146,7 +146,7 @@ const Earth = () => {
 
 const EarthGlobe = () => {
   return (
-    <div className="w-full h-full">
+    <div style={{ width: "100%", height: "100%", minHeight: "300px" }}>
       <Canvas
         camera={{ position: [0, 0, 5.5], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
