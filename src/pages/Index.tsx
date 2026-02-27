@@ -108,11 +108,11 @@ const FAQItem = ({ q, a }: { q: string; a: string }) => {
 /* ── Page ── */
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground snap-y snap-mandatory overflow-y-auto h-screen">
       <Header />
 
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden min-h-screen lg:min-h-[90vh] flex items-center bg-[#060918]">
+      <section className="relative overflow-hidden min-h-screen lg:min-h-[90vh] flex items-center bg-[#060918] snap-start snap-always">
         <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
 
         <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-24 pb-8 md:py-32 flex flex-col lg:flex-row items-center gap-4 lg:gap-8">
@@ -196,7 +196,7 @@ const Index = () => {
       </section>
 
       {/* ═══ TRUST BAR ═══ */}
-      <ScrollRevealSection className="py-8 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-8 border-b border-border bg-secondary snap-section">
         <div className="container mx-auto px-6">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
             {trustLogos.map((name) => (
@@ -207,7 +207,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ STATS ═══ */}
-      <ScrollRevealSection className="border-b border-border">
+      <ScrollRevealSection className="border-b border-border snap-section">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((s, i) => (
@@ -224,7 +224,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ ABOUT COMPANY ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
+      <ScrollRevealSection className="py-24 border-b border-border snap-section" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <ScrollParallaxImage
@@ -252,7 +252,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ WHY US ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-24 border-b border-border bg-secondary snap-section">
         <div className="container mx-auto px-6">
           <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">Why Choose Us</p>
@@ -271,7 +271,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ SERVICES ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border snap-section">
         <div className="container mx-auto px-6">
           <ScrollTextReveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
@@ -295,7 +295,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ HOW IT WORKS ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
+      <ScrollRevealSection className="py-24 border-b border-border snap-section" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <ScrollTextReveal>
@@ -331,7 +331,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ CASE STUDY HIGHLIGHTS ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border bg-primary text-primary-foreground">
+      <ScrollRevealSection className="py-24 border-b border-border bg-primary text-primary-foreground snap-section">
         <div className="container mx-auto px-6">
           <ScrollTextReveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
@@ -371,7 +371,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ TESTIMONIALS ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border snap-section">
         <div className="container mx-auto px-6">
           <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Client Feedback</p>
@@ -405,7 +405,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ PRICING PREVIEW ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-24 border-b border-border bg-secondary snap-section">
         <div className="container mx-auto px-6 text-center">
           <ScrollTextReveal>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">Transparent Pricing</p>
@@ -439,7 +439,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ FAQ ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border snap-section">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16">
             <ScrollTextReveal>
@@ -464,7 +464,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ CTA ═══ */}
-      <ScrollRevealSection className="bg-gradient-blue-green text-primary-foreground py-24">
+      <ScrollRevealSection className="bg-gradient-blue-green text-primary-foreground py-24 snap-section">
         <div className="container mx-auto px-6 text-center">
           <ScrollTextReveal>
             <h2 className="text-4xl md:text-5xl font-black uppercase mb-6">Ready to Rank #1?</h2>
