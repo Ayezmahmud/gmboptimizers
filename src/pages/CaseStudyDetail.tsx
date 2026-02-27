@@ -476,7 +476,7 @@ const CaseStudyDetail = () => {
               Get a free consultation and see how we can transform your Google Maps presence.
             </p>
             <Link
-              to="/contact"
+              to="/pricing"
               className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors"
             >
               Get Started Today
