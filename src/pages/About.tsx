@@ -106,6 +106,15 @@ const About = () => {
         </div>
 
         <div className="relative z-10 container mx-auto px-6 flex items-center justify-center text-center">
+          {/* Radial gradient spotlight */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <motion.div
+              className="w-[600px] h-[600px] rounded-full"
+              style={{ background: "radial-gradient(circle, hsla(217, 91%, 60%, 0.12) 0%, hsla(217, 91%, 60%, 0.04) 40%, transparent 70%)" }}
+              animate={{ scale: [1, 1.08, 1], opacity: [0.8, 1, 0.8] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </div>
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-2xl">
             <div className="flex items-center justify-center gap-2 mb-6">
               <div className="w-2 h-2 rounded-full bg-google-blue" />
