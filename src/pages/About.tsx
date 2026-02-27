@@ -244,7 +244,7 @@ const About = () => {
             <p className="text-white/60 mb-8 max-w-lg mx-auto">
               Join 500+ businesses that trust GB Optimizers for their Google Maps success.
             </p>
-            <Link to="/contact" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
+            <Link to="/pricing" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started Today
             </Link>
           </ScrollTextReveal>
