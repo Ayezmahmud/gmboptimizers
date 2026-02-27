@@ -3,6 +3,7 @@ import { ArrowUp, Phone, Globe, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ParallaxImage from "@/components/ParallaxImage";
 import { caseStudies } from "@/data/caseStudies";
 
 const CaseStudies = () => {
@@ -58,11 +59,11 @@ const CaseStudies = () => {
             >
               <div className={`grid md:grid-cols-2 gap-12 items-center`}>
                 <div className={i % 2 === 1 ? "md:order-2" : ""}>
-                  <img
+                  <ParallaxImage
                     src={c.image}
                     alt={c.imageAlt}
                     className="w-full shadow-lg border border-border"
-                    loading="lazy"
+                    intensity={30}
                   />
                 </div>
 
