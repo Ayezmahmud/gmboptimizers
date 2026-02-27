@@ -4,6 +4,7 @@ import { Check, CheckCircle2, Shield, Zap, Users } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
+import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import ParallaxImage from "@/components/ParallaxImage";
 
 const packages = [
@@ -110,15 +111,10 @@ const Pricing = () => {
       </section>
 
       {/* Growth Image + Intro */}
-      <section className="py-16 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-16 border-b border-border bg-secondary" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <ScrollTextReveal>
               <h2 className="text-3xl font-black uppercase text-foreground mb-4">Invest in Growth</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 Choose the package that fits your business goals. Every plan includes our proven Google Maps optimization methodology, dedicated support, and transparent reporting. No hidden fees, no surprises.
@@ -131,34 +127,24 @@ const Pricing = () => {
                   </div>
                 ))}
               </div>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <ParallaxImage
-                src="/images/pricing-growth.png"
-                alt="Business growth chart in Google brand colors"
-                intensity={80}
-              />
-            </motion.div>
+            </ScrollTextReveal>
+            <ScrollParallaxImage
+              src="/images/pricing-growth.png"
+              alt="Business growth chart in Google brand colors"
+              className="aspect-[4/3]"
+            />
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* Pricing Cards */}
-      <section className="py-24">
+      <ScrollRevealSection className="py-24">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {packages.map((pkg, i) => (
-              <motion.div
+              <ScrollStaggerItem
                 key={pkg.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                index={i}
                 className={`relative border flex flex-col ${
                   pkg.popular
                     ? "border-foreground bg-primary text-primary-foreground"
@@ -183,7 +169,7 @@ const Pricing = () => {
                   <ul className="space-y-3">
                     {pkg.features.map((f) => (
                       <li key={f} className="flex items-start gap-3 text-sm">
-                        <Check className={`w-4 h-4 mt-0.5 shrink-0 ${pkg.popular ? "text-google-green" : "text-google-green"}`} />
+                        <Check className={`w-4 h-4 mt-0.5 shrink-0 text-google-green`} />
                         <span className={pkg.popular ? "text-primary-foreground/80" : "text-muted-foreground"}>{f}</span>
                       </li>
                     ))}
@@ -201,33 +187,26 @@ const Pricing = () => {
                     Get Started
                   </Link>
                 </div>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* Guarantees */}
-      <section className="py-20 border-t border-border bg-secondary">
+      <ScrollRevealSection className="py-20 border-t border-border bg-secondary">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-6">
             {guarantees.map((g, i) => (
-              <motion.div
-                key={g.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background p-8 border border-border text-center"
-              >
+              <ScrollStaggerItem key={g.title} index={i} className="bg-background p-8 border border-border text-center">
                 <g.icon className={`w-8 h-8 ${g.color} mx-auto mb-4`} strokeWidth={1.5} />
                 <h3 className="text-sm font-bold uppercase text-foreground mb-2">{g.title}</h3>
                 <p className="text-sm text-muted-foreground">{g.desc}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       <Footer />
     </div>

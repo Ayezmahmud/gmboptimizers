@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ParallaxImage from "@/components/ParallaxImage";
+import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 
 const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
 
@@ -113,11 +113,9 @@ const Index = () => {
 
       {/* ═══ HERO ═══ */}
       <section className="relative overflow-hidden min-h-screen lg:min-h-[90vh] flex items-center bg-[#060918]">
-        {/* Subtle gradient background */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
 
         <div className="relative z-10 container mx-auto px-4 sm:px-6 pt-24 pb-8 md:py-32 flex flex-col lg:flex-row items-center gap-4 lg:gap-8">
-          {/* Text side */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -173,7 +171,6 @@ const Index = () => {
             </div>
           </motion.div>
 
-          {/* 3D Earth Globe */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -190,7 +187,6 @@ const Index = () => {
           </motion.div>
         </div>
 
-        {/* Decorative color bar */}
         <div className="absolute bottom-0 left-0 right-0 h-1 flex z-10">
           <div className="flex-1 bg-google-blue" />
           <div className="flex-1 bg-google-red" />
@@ -200,7 +196,7 @@ const Index = () => {
       </section>
 
       {/* ═══ TRUST BAR ═══ */}
-      <section className="py-8 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-8 border-b border-border bg-secondary">
         <div className="container mx-auto px-6">
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
             {trustLogos.map((name) => (
@@ -208,55 +204,35 @@ const Index = () => {
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ STATS ═══ */}
-      <section className="border-b border-border">
+      <ScrollRevealSection className="border-b border-border">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`py-12 text-center ${i < stats.length - 1 ? "md:border-r border-border" : ""}`}
-              >
+              <ScrollStaggerItem key={s.label} index={i} className={`py-12 text-center ${i < stats.length - 1 ? "md:border-r border-border" : ""}`}>
                 <div className={`w-2 h-2 ${s.color} rounded-full mx-auto mb-3`} />
                 <p className="text-3xl md:text-5xl font-black text-foreground">
                   <Counter target={s.value} suffix={s.suffix} />
                 </p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground mt-2">{s.label}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ ABOUT COMPANY ═══ */}
-      <section className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <ParallaxImage
-                src="/images/team.png"
-                alt="GB Optimizers team of digital marketing professionals"
-                className="shadow-lg border border-border"
-                intensity={50}
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <ScrollParallaxImage
+              src="/images/team.png"
+              alt="GB Optimizers team of digital marketing professionals"
+              className="shadow-lg border border-border aspect-[4/3]"
+            />
+            <ScrollTextReveal>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">About GB Optimizers</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">
                 The #1 Google Maps Agency
@@ -270,41 +246,34 @@ const Index = () => {
               <Link to="/about" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity">
                 Learn More About Us <ArrowRight className="w-4 h-4" />
               </Link>
-            </motion.div>
+            </ScrollTextReveal>
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ WHY US ═══ */}
-      <section className="py-24 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-24 border-b border-border bg-secondary">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+          <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">Why Choose Us</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Built for Results</h2>
-          </div>
+          </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyUs.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow duration-300"
-              >
+              <ScrollStaggerItem key={item.title} index={i} className="bg-background p-8 border border-border hover:shadow-lg transition-shadow duration-300">
                 <item.icon className={`w-8 h-8 ${item.color} mb-5`} strokeWidth={1.5} />
                 <h3 className="text-sm font-bold uppercase text-foreground mb-2">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ SERVICES ═══ */}
-      <section className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <ScrollTextReveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">What We Do</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Our Services</h2>
@@ -312,31 +281,24 @@ const Index = () => {
             <Link to="/services" className="text-xs font-bold uppercase tracking-wider text-google-blue underline underline-offset-4 hover:opacity-80 transition-opacity">
               View All Services →
             </Link>
-          </div>
+          </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((s, i) => (
-              <motion.div
-                key={s.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
-                className="bg-background p-8 border border-border group hover:shadow-lg transition-all duration-300"
-              >
+              <ScrollStaggerItem key={s.title} index={i} className="bg-background p-8 border border-border group hover:shadow-lg transition-all duration-300">
                 <s.icon className={`w-7 h-7 ${s.color} mb-5`} strokeWidth={1.5} />
                 <h3 className="text-sm font-bold uppercase text-foreground mb-3">{s.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ HOW IT WORKS ═══ */}
-      <section className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
+            <ScrollTextReveal>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-yellow mb-3">Our Process</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">How It Works</h2>
               <p className="text-muted-foreground leading-relaxed mb-10">
@@ -350,17 +312,10 @@ const Index = () => {
                   loading="lazy"
                 />
               </div>
-            </div>
+            </ScrollTextReveal>
             <div className="space-y-6">
               {process.map((p, i) => (
-                <motion.div
-                  key={p.step}
-                  initial={{ opacity: 0, x: 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="flex items-start gap-5 p-6 bg-secondary border border-border"
-                >
+                <ScrollStaggerItem key={p.step} index={i} className="flex items-start gap-5 p-6 bg-secondary border border-border">
                   <div className={`w-10 h-10 ${p.color} text-primary-foreground flex items-center justify-center text-xs font-black shrink-0`}>
                     {p.step}
                   </div>
@@ -368,17 +323,17 @@ const Index = () => {
                     <h3 className="text-sm font-bold uppercase text-foreground mb-1">{p.title}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
                   </div>
-                </motion.div>
+                </ScrollStaggerItem>
               ))}
             </div>
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ CASE STUDY HIGHLIGHTS ═══ */}
-      <section className="py-24 border-b border-border bg-primary text-primary-foreground">
+      <ScrollRevealSection className="py-24 border-b border-border bg-primary text-primary-foreground">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <ScrollTextReveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-foreground/60 mb-3">Proven Results</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase">Case Studies</h2>
@@ -386,17 +341,10 @@ const Index = () => {
             <Link to="/case-studies" className="text-xs font-bold uppercase tracking-wider text-primary-foreground/60 underline underline-offset-4 hover:text-primary-foreground transition-colors">
               View All Results →
             </Link>
-          </div>
+          </ScrollTextReveal>
           <div className="space-y-0">
             {caseHighlights.map((c, i) => (
-              <motion.div
-                key={c.business}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="border-b border-primary-foreground/10 py-10 grid md:grid-cols-5 gap-6 items-center"
-              >
+              <ScrollStaggerItem key={c.business} index={i} className="border-b border-primary-foreground/10 py-10 grid md:grid-cols-5 gap-6 items-center">
                 <div className="md:col-span-2">
                   <p className="text-xs font-bold uppercase tracking-wider text-primary-foreground/40 mb-1">{c.industry}</p>
                   <h3 className="text-xl font-black uppercase">{c.business}</h3>
@@ -416,29 +364,22 @@ const Index = () => {
                   <p className="text-xl font-black">{c.visits}</p>
                   <p className="text-xs text-primary-foreground/40 uppercase tracking-wider">Website Visits</p>
                 </div>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ TESTIMONIALS ═══ */}
-      <section className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+          <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Client Feedback</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">What Our Clients Say</h2>
-          </div>
+          </ScrollTextReveal>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
-              <motion.div
-                key={t.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow duration-300"
-              >
+              <ScrollStaggerItem key={t.name} index={i} className="bg-background p-8 border border-border hover:shadow-lg transition-shadow duration-300">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
                     <Star key={j} className="w-3.5 h-3.5 fill-google-yellow text-google-yellow" />
@@ -452,7 +393,7 @@ const Index = () => {
                     <p className="text-xs text-muted-foreground">{t.business}</p>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
           <div className="text-center mt-10">
@@ -461,16 +402,18 @@ const Index = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ PRICING PREVIEW ═══ */}
-      <section className="py-24 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-24 border-b border-border bg-secondary">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">Transparent Pricing</p>
-          <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">Packages Starting at $99.99 AUD</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            Choose from four tailored packages designed for businesses at every stage. No hidden fees, no long-term contracts — just results.
-          </p>
+          <ScrollTextReveal>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">Transparent Pricing</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">Packages Starting at $99.99 AUD</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+              Choose from four tailored packages designed for businesses at every stage. No hidden fees, no long-term contracts — just results.
+            </p>
+          </ScrollTextReveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-10">
             {[
               { name: "Basic", price: "$99.99", color: "border-google-green", dot: "bg-google-green" },
@@ -478,19 +421,12 @@ const Index = () => {
               { name: "Advance", price: "$199.99", color: "border-google-red", dot: "bg-google-red" },
               { name: "Enterprise", price: "$299.99", color: "border-google-yellow", dot: "bg-google-yellow" },
             ].map((pkg, i) => (
-              <motion.div
-                key={pkg.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className={`bg-background py-8 px-4 border-t-4 ${pkg.color} border border-border`}
-              >
+              <ScrollStaggerItem key={pkg.name} index={i} className={`bg-background py-8 px-4 border-t-4 ${pkg.color} border border-border`}>
                 <div className={`w-2 h-2 ${pkg.dot} rounded-full mx-auto mb-3`} />
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">{pkg.name}</p>
                 <p className="text-2xl font-black text-foreground">{pkg.price}</p>
                 <p className="text-xs text-muted-foreground mt-1">AUD / month</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
           <Link
@@ -500,13 +436,13 @@ const Index = () => {
             Compare All Packages
           </Link>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ FAQ ═══ */}
-      <section className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16">
-            <div>
+            <ScrollTextReveal>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">FAQ</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">
                 Common Questions
@@ -517,7 +453,7 @@ const Index = () => {
               <Link to="/contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity">
                 Contact Us <ArrowRight className="w-4 h-4" />
               </Link>
-            </div>
+            </ScrollTextReveal>
             <div className="border-t border-border">
               {faqs.map((faq) => (
                 <FAQItem key={faq.q} q={faq.q} a={faq.a} />
@@ -525,17 +461,12 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* ═══ CTA ═══ */}
-      <section className="bg-gradient-blue-green text-primary-foreground py-24">
+      <ScrollRevealSection className="bg-gradient-blue-green text-primary-foreground py-24">
         <div className="container mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <ScrollTextReveal>
             <h2 className="text-4xl md:text-5xl font-black uppercase mb-6">Ready to Rank #1?</h2>
             <p className="text-primary-foreground/70 mb-4 max-w-lg mx-auto">
               Join 500+ businesses that trust GB Optimizers to dominate their local market on Google Maps.
@@ -551,9 +482,9 @@ const Index = () => {
             >
               Start Today
             </Link>
-          </motion.div>
+          </ScrollTextReveal>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       <Footer />
     </div>

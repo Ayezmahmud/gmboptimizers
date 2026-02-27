@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
+import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import ParallaxImage from "@/components/ParallaxImage";
 
 const services = [
@@ -126,15 +127,10 @@ const Services = () => {
       </section>
 
       {/* Dashboard Image */}
-      <section className="py-16 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-16 border-b border-border bg-secondary" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <ScrollTextReveal>
               <h2 className="text-3xl font-black uppercase text-foreground mb-4">Data-Driven Optimization</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 Every service we offer is backed by real data and proven methodologies. We use advanced analytics tools to track your progress and continuously optimize your Google Maps presence for maximum visibility and conversions.
@@ -142,42 +138,27 @@ const Services = () => {
               <Link to="/contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity">
                 Get a Free Audit <ArrowRight className="w-4 h-4" />
               </Link>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <ParallaxImage
-                src="/images/services-dashboard.png"
-                alt="Local SEO analytics dashboard showing Google Maps growth metrics"
-                className="shadow-lg border border-border"
-                intensity={80}
-              />
-            </motion.div>
+            </ScrollTextReveal>
+            <ScrollParallaxImage
+              src="/images/services-dashboard.png"
+              alt="Local SEO analytics dashboard showing Google Maps growth metrics"
+              className="shadow-lg border border-border aspect-[4/3]"
+            />
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* Services Grid - Expanded */}
-      <section className="py-24">
+      <ScrollRevealSection className="py-24">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+          <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Full Service Suite</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-4">10 Services. One Goal.</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">Every service is designed to work together as a comprehensive Google Maps domination strategy.</p>
-          </div>
+          </ScrollTextReveal>
           <div className="space-y-6">
             {services.map((s, i) => (
-              <motion.div
-                key={s.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                className={`bg-background p-8 md:p-10 border border-border group hover:shadow-lg transition-all duration-300 ${s.bgColor}`}
-              >
+              <ScrollStaggerItem key={s.title} index={i} className={`bg-background p-8 md:p-10 border border-border group hover:shadow-lg transition-all duration-300 ${s.bgColor}`}>
                 <div className="grid md:grid-cols-[1fr_1fr] gap-8">
                   <div>
                     <div className="flex items-start gap-4 mb-4">
@@ -198,20 +179,16 @@ const Services = () => {
                     </ul>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* CTA */}
-      <section className="bg-gradient-blue-green text-primary-foreground py-20">
+      <ScrollRevealSection className="bg-gradient-blue-green text-primary-foreground py-20">
         <div className="container mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <ScrollTextReveal>
             <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Need a Custom Solution?</h2>
             <p className="text-primary-foreground/60 mb-8 max-w-lg mx-auto">
               Every business is unique. Contact us for a tailored optimization strategy that fits your goals and budget.
@@ -222,9 +199,9 @@ const Services = () => {
             >
               Contact Us
             </Link>
-          </motion.div>
+          </ScrollTextReveal>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       <Footer />
     </div>

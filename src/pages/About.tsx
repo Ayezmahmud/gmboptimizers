@@ -2,10 +2,10 @@ import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
-import ParallaxImage from "@/components/ParallaxImage";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { Target, Shield, Zap, Award, Users, Globe, Heart } from "lucide-react";
+import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 
 const stats = [
   { value: 500, suffix: "+", label: "Businesses Ranked", color: "bg-google-blue" },
@@ -57,9 +57,7 @@ const About = () => {
       {/* Hero */}
       <section className="relative overflow-hidden py-28 md:py-44 bg-[#060918]">
         <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
-        
         <HeroBackground />
-
         <div className="relative z-10 container mx-auto px-6 flex items-center justify-center text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-2xl">
             <div className="flex items-center justify-center gap-2 mb-6">
@@ -88,28 +86,15 @@ const About = () => {
       </section>
 
       {/* About Content with Image */}
-      <section className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <ParallaxImage
-                src="/images/about-office.png"
-                alt="GB Optimizers office with SEO analytics dashboards"
-                className="shadow-lg border border-border"
-                intensity={80}
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <ScrollParallaxImage
+              src="/images/about-office.png"
+              alt="GB Optimizers office with SEO analytics dashboards"
+              className="shadow-lg border border-border aspect-[4/3]"
+            />
+            <ScrollTextReveal>
               <h2 className="text-3xl font-black uppercase mb-6 text-foreground">High-Performance Google Business Optimization</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 We specialize in high-performance Google Business Profile optimization that increases visibility, traffic, and local revenue. Our data-driven approach ensures every business we work with sees measurable results.
@@ -117,18 +102,12 @@ const About = () => {
               <p className="text-muted-foreground leading-relaxed">
                 With a team of experienced local SEO specialists, we've helped businesses across 30+ industries and 12+ countries achieve top rankings on Google Maps.
               </p>
-            </motion.div>
+            </ScrollTextReveal>
           </div>
 
           {/* Mission with Strategy Image */}
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="stripe-accent pl-8"
-            >
+            <ScrollTextReveal className="stripe-accent pl-8">
               <h3 className="text-xl font-bold uppercase mb-4 text-foreground">Our Mission</h3>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 To make every local business discoverable. We believe that great businesses deserve great visibility, and we make that happen through strategic, ethical Google Maps optimization.
@@ -137,101 +116,72 @@ const About = () => {
               <p className="text-muted-foreground leading-relaxed">
                 To be the world's most trusted Google Maps optimization agency, empowering local businesses to compete and win in the digital landscape.
               </p>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-            >
-              <ParallaxImage
-                src="/images/about-strategy.png"
-                alt="Team planning local SEO strategy on whiteboard"
-                className="shadow-lg border border-border"
-                intensity={50}
-              />
-            </motion.div>
+            </ScrollTextReveal>
+            <ScrollParallaxImage
+              src="/images/about-strategy.png"
+              alt="Team planning local SEO strategy on whiteboard"
+              className="shadow-lg border border-border aspect-[4/3]"
+            />
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* Values */}
-      <section className="py-24 border-b border-border bg-secondary">
+      <ScrollRevealSection className="py-24 border-b border-border bg-secondary">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+          <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">What Drives Us</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Our Core Values</h2>
-          </div>
+          </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((v, i) => (
-              <motion.div
-                key={v.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background p-8 border border-border hover:shadow-lg transition-shadow"
-              >
+              <ScrollStaggerItem key={v.title} index={i} className="bg-background p-8 border border-border hover:shadow-lg transition-shadow">
                 <v.icon className={`w-8 h-8 ${v.color} mb-5`} strokeWidth={1.5} />
                 <h3 className="text-sm font-bold uppercase text-foreground mb-2">{v.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* Team */}
-      <section className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
+          <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">Our Team</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Meet the Experts</h2>
-          </div>
+          </ScrollTextReveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {team.map((t, i) => (
-              <motion.div
-                key={t.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="text-center"
-              >
+              <ScrollStaggerItem key={t.name} index={i} className="text-center">
                 <div className={`w-20 h-20 ${t.color} text-primary-foreground flex items-center justify-center text-lg font-black mx-auto mb-4`}>
                   {t.initials}
                 </div>
                 <h3 className="text-sm font-bold uppercase text-foreground">{t.name}</h3>
                 <p className="text-xs text-muted-foreground mt-1">{t.role}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* Stats */}
-      <section className="border-b border-border">
+      <ScrollRevealSection className="border-b border-border">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
             {stats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-background py-12 text-center"
-              >
+              <ScrollStaggerItem key={s.label} index={i} className="bg-background py-12 text-center">
                 <div className={`w-2 h-2 ${s.color} rounded-full mx-auto mb-3`} />
                 <p className="text-4xl md:text-5xl font-black text-foreground">
                   <Counter target={s.value} suffix={s.suffix} />
                 </p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground mt-3">{s.label}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       <Footer />
     </div>
