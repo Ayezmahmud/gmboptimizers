@@ -18,7 +18,14 @@ const ParallaxImage = ({ src, alt, className = "", intensity = 70 }: ParallaxIma
   const y = useTransform(scrollYProgress, [0, 1], [-intensity, intensity]);
 
   return (
-    <div ref={ref} className={`overflow-hidden ${className}`}>
+    <motion.div
+      ref={ref}
+      className={`overflow-hidden ${className}`}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+    >
       <motion.img
         src={src}
         alt={alt}
@@ -26,7 +33,7 @@ const ParallaxImage = ({ src, alt, className = "", intensity = 70 }: ParallaxIma
         style={{ y }}
         className="w-full h-[120%] object-cover transition-transform duration-500 hover:scale-105"
       />
-    </div>
+    </motion.div>
   );
 };
 
