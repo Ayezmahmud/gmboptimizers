@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { ChevronLeft, ChevronRight, Star, Quote, Filter, TrendingUp, Phone, MapPin, Users, Award, BarChart3, X } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ParallaxImage from "@/components/ParallaxImage";
 import { Link } from "react-router-dom";
 import { testimonials, Testimonial } from "@/data/testimonials";
 
@@ -94,14 +95,11 @@ const Testimonials = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="overflow-hidden shadow-lg border border-border">
-                <img
-                  src="/images/testimonials-hero.png"
-                  alt="Happy business owners showing 5-star Google Maps reviews on their phones"
-                  className="w-full transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
+              <ParallaxImage
+                src="/images/testimonials-hero.png"
+                alt="Happy business owners showing 5-star Google Maps reviews on their phones"
+                className="shadow-lg border border-border"
+              />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}

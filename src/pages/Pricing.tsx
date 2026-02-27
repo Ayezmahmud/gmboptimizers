@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Check, CheckCircle2, Shield, Zap, Users } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ParallaxImage from "@/components/ParallaxImage";
 
 const packages = [
   {
@@ -139,14 +140,10 @@ const Pricing = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="overflow-hidden">
-                <img
-                  src="/images/pricing-growth.png"
-                  alt="Business growth chart in Google brand colors"
-                  className="w-full transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
+              <ParallaxImage
+                src="/images/pricing-growth.png"
+                alt="Business growth chart in Google brand colors"
+              />
             </motion.div>
           </div>
         </div>

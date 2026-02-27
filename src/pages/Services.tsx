@@ -3,6 +3,7 @@ import { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, Arrow
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ParallaxImage from "@/components/ParallaxImage";
 
 const services = [
   {
@@ -150,14 +151,11 @@ const Services = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="overflow-hidden shadow-lg border border-border">
-                <img
-                  src="/images/services-dashboard.png"
-                  alt="Local SEO analytics dashboard showing Google Maps growth metrics"
-                  className="w-full transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
+              <ParallaxImage
+                src="/images/services-dashboard.png"
+                alt="Local SEO analytics dashboard showing Google Maps growth metrics"
+                className="shadow-lg border border-border"
+              />
             </motion.div>
           </div>
         </div>

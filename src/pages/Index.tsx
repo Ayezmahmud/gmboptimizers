@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ParallaxImage from "@/components/ParallaxImage";
 
 const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
 
@@ -243,14 +244,11 @@ const Index = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="overflow-hidden shadow-lg border border-border">
-                <img
-                  src="/images/team.png"
-                  alt="GB Optimizers team of digital marketing professionals"
-                  className="w-full transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
+              <ParallaxImage
+                src="/images/team.png"
+                alt="GB Optimizers team of digital marketing professionals"
+                className="shadow-lg border border-border"
+              />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
