@@ -225,10 +225,10 @@ const Earth = () => {
     }
   });
 
-  // Rotate group so Australia faces camera initially
+  // Rotate group so Asia/Australia region faces camera initially
   const initialRotation = useMemo(() => {
-    const yRot = -(140 + 180) * (Math.PI / 180);
-    return [0.3, yRot, 0] as [number, number, number];
+    const yRot = -(120 + 180) * (Math.PI / 180);
+    return [0.15, yRot, 0] as [number, number, number];
   }, []);
 
   return (
@@ -287,7 +287,7 @@ const EarthGlobe = () => {
   return (
     <div style={{ width: "100%", height: "100%", minHeight: "400px" }}>
       <Canvas
-        camera={{ position: [0, 0, 5.2], fov: 45 }}
+        camera={{ position: [0, 0, 7], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
