@@ -128,8 +128,24 @@ const Dashboard = () => {
       .from("profiles")
       .select("full_name, business_name, phone, avatar_url")
       .eq("user_id", user!.id)
-      .single();
-    if (data) setProfile(data);
+      .maybeSingle();
+    if (data) {
+      setProfile(data);
+    } else if (!data && !error) {
+      // No profile row exists (e.g. OAuth user) — create one
+      const meta = user!.user_metadata || {};
+      const newProfile = {
+        user_id: user!.id,
+        full_name: meta.full_name || meta.name || null,
+        avatar_url: meta.avatar_url || meta.picture || null,
+      };
+      const { data: created } = await supabase
+        .from("profiles")
+        .insert(newProfile)
+        .select("full_name, business_name, phone, avatar_url")
+        .maybeSingle();
+      if (created) setProfile(created);
+    }
     setLoading(false);
   };
 
