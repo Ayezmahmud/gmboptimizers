@@ -15,7 +15,7 @@ import Testimonials from "./pages/Testimonials";
 import Contact from "./pages/Contact";
 import CaseStudyDetail from "./pages/CaseStudyDetail";
 import NotFound from "./pages/NotFound";
-import CustomCursor from "./components/CustomCursor";
+
 
 const queryClient = new QueryClient();
 
@@ -45,7 +45,7 @@ const AnimatedRoutes = () => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <CustomCursor />
+      
       <Toaster />
       <Sonner />
       <BrowserRouter>

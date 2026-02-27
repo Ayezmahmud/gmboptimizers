@@ -67,12 +67,6 @@
     font-family: 'Inter', sans-serif;
   }
 
-  /* Hide default cursor on non-touch devices */
-  @media (pointer: fine) {
-    *, *::before, *::after {
-      cursor: none !important;
-    }
-  }
 }
 
 @layer utilities {
