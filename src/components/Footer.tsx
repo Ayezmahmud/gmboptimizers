@@ -6,7 +6,20 @@ const Footer = () => {
       <div className="container mx-auto px-6 py-16">
         <div className="grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <h3 className="text-lg font-black uppercase tracking-tight mb-4 text-gradient-google">GB Optimizers</h3>
+            <h3 className="text-lg font-black uppercase tracking-tight mb-4">
+              <span className="text-google-blue">G</span>
+              <span className="text-google-red">B</span>
+              <span className="text-google-blue"> O</span>
+              <span className="text-google-yellow">p</span>
+              <span className="text-google-green">t</span>
+              <span className="text-google-red">i</span>
+              <span className="text-google-blue">m</span>
+              <span className="text-google-yellow">i</span>
+              <span className="text-google-green">z</span>
+              <span className="text-google-red">e</span>
+              <span className="text-google-blue">r</span>
+              <span className="text-google-green">s</span>
+            </h3>
             <p className="text-primary-foreground/60 text-sm leading-relaxed">
               Dominating Google Maps for businesses worldwide.
             </p>
