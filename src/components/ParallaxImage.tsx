@@ -21,10 +21,10 @@ const ParallaxImage = ({ src, alt, className = "", intensity = 70 }: ParallaxIma
     <motion.div
       ref={ref}
       className={`overflow-hidden ${className}`}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
     >
       <motion.img
         src={src}
