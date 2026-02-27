@@ -1,18 +1,22 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check, Shield, Zap, Users, RefreshCw } from "lucide-react";
+import { Check, Shield, Zap, Users, RefreshCw, ShoppingCart, Plus, X } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 const packages = [
   {
     name: "Basic",
-    price: "$99.99",
+    price: 99.99,
     popular: false,
     color: "border-t-google-green",
     dotColor: "bg-google-green",
@@ -30,7 +34,7 @@ const packages = [
   },
   {
     name: "Premium",
-    price: "$149.99",
+    price: 149.99,
     popular: false,
     color: "border-t-google-blue",
     dotColor: "bg-google-blue",
@@ -48,7 +52,7 @@ const packages = [
   },
   {
     name: "Advance",
-    price: "$199.99",
+    price: 199.99,
     popular: true,
     color: "",
     dotColor: "",
@@ -66,7 +70,7 @@ const packages = [
   },
   {
     name: "Enterprise",
-    price: "$299.99",
+    price: 299.99,
     popular: false,
     color: "border-t-google-yellow",
     dotColor: "bg-google-yellow",
@@ -91,10 +95,63 @@ const guarantees = [
   { icon: Users, title: "Dedicated Support", desc: "Your own account manager for personalized service.", color: "text-google-green", border: "border-google-green/20", glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.2)]" },
 ];
 
+const CUSTOM_SERVICE_PRICE = 59.99;
+
 const Pricing = () => {
+  const { addItem, itemCount } = useCart();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [customServices, setCustomServices] = useState<string[]>([""]);
+
+  const handleBuyNow = (pkg: typeof packages[0]) => {
+    addItem({ name: `${pkg.name} Package`, price: pkg.price, type: "package" });
+    navigate("/checkout");
+  };
+
+  const handleAddToCart = (pkg: typeof packages[0]) => {
+    addItem({ name: `${pkg.name} Package`, price: pkg.price, type: "package" });
+    toast({ title: `${pkg.name} added to cart!`, description: `$${pkg.price.toFixed(2)} AUD` });
+  };
+
+  const handleAddCustomService = (serviceName: string) => {
+    if (!serviceName.trim()) return;
+    addItem({ name: serviceName.trim(), price: CUSTOM_SERVICE_PRICE, type: "custom" });
+    toast({ title: "Service added to cart!", description: `${serviceName.trim()} — $${CUSTOM_SERVICE_PRICE} AUD` });
+  };
+
+  const addCustomField = () => setCustomServices((prev) => [...prev, ""]);
+  const removeCustomField = (index: number) => setCustomServices((prev) => prev.filter((_, i) => i !== index));
+  const updateCustomField = (index: number, value: string) => {
+    setCustomServices((prev) => prev.map((s, i) => (i === index ? value : s)));
+  };
+
+  const handleAddAllCustom = () => {
+    const valid = customServices.filter((s) => s.trim());
+    if (valid.length === 0) {
+      toast({ title: "Enter at least one service", variant: "destructive" });
+      return;
+    }
+    valid.forEach((s) => addItem({ name: s.trim(), price: CUSTOM_SERVICE_PRICE, type: "custom" }));
+    toast({ title: `${valid.length} service(s) added to cart!` });
+    setCustomServices([""]);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
+
+      {/* Cart floating button */}
+      {itemCount > 0 && (
+        <motion.button
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          onClick={() => navigate("/checkout")}
+          className="fixed bottom-6 right-6 z-50 bg-google-blue text-white p-4 rounded-full shadow-2xl hover:opacity-90 transition-opacity flex items-center gap-2"
+        >
+          <ShoppingCart className="w-5 h-5" />
+          <span className="text-sm font-bold">{itemCount}</span>
+        </motion.button>
+      )}
 
       {/* Hero */}
       <section className="relative overflow-hidden py-28 md:py-44 bg-[#060918]">
@@ -199,7 +256,7 @@ const Pricing = () => {
                     )}
                     <h3 className="text-sm font-bold uppercase tracking-wider mb-2">{pkg.name}</h3>
                     <div className="mb-8">
-                      <span className="text-4xl font-black">{pkg.price}</span>
+                      <span className="text-4xl font-black">${pkg.price.toFixed(2)}</span>
                       <span className={`text-sm ml-1 ${pkg.popular ? "text-primary-foreground/60" : "text-muted-foreground"}`}>AUD/mo</span>
                     </div>
                     <ul className="space-y-3">
@@ -218,21 +275,81 @@ const Pricing = () => {
                       ))}
                     </ul>
                   </div>
-                  <div className="relative p-8 pt-0">
-                    <Link
-                      to="/contact"
-                      className={`block text-center py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                  <div className="relative p-8 pt-0 space-y-2">
+                    <button
+                      onClick={() => handleBuyNow(pkg)}
+                      className={`block w-full text-center py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
                         pkg.popular
                           ? "bg-background text-foreground hover:bg-background/90 hover:shadow-lg"
-                          : "bg-google-blue text-primary-foreground hover:opacity-90 hover:shadow-lg"
+                          : "bg-google-blue text-white hover:opacity-90 hover:shadow-lg"
                       }`}
                     >
-                      Get Started
-                    </Link>
+                      Buy Now
+                    </button>
+                    <button
+                      onClick={() => handleAddToCart(pkg)}
+                      className={`block w-full text-center py-3 text-xs font-bold uppercase tracking-wider border transition-all duration-300 ${
+                        pkg.popular
+                          ? "border-background/30 text-primary-foreground/70 hover:bg-background/10"
+                          : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30"
+                      }`}
+                    >
+                      <ShoppingCart className="w-3.5 h-3.5 inline mr-2" />
+                      Add to Cart
+                    </button>
                   </div>
                 </ScrollStaggerItem>
               </MagneticCard>
             ))}
+          </div>
+        </div>
+      </ScrollRevealSection>
+
+      {/* Custom Services Builder */}
+      <ScrollRevealSection className="py-24 border-t border-border bg-secondary">
+        <div className="container mx-auto px-6 max-w-2xl">
+          <ScrollTextReveal className="text-center mb-12">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">Customize</p>
+            <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-4">Build Your Own <span className="text-gradient-google">Bundle</span></h2>
+            <p className="text-muted-foreground">Add individual services at <span className="text-google-blue font-bold">${CUSTOM_SERVICE_PRICE} AUD</span> each. Describe what you need and we'll make it happen.</p>
+          </ScrollTextReveal>
+
+          <div className="bg-card border border-border p-8 shadow-lg">
+            <div className="space-y-3 mb-6">
+              {customServices.map((service, i) => (
+                <div key={i} className="flex gap-2">
+                  <input
+                    type="text"
+                    value={service}
+                    onChange={(e) => updateCustomField(i, e.target.value)}
+                    placeholder={`Service ${i + 1} — e.g. "Google Ads integration"`}
+                    maxLength={200}
+                    className="flex-1 px-4 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => handleAddCustomService(service)}
+                    className="px-3 py-3 bg-google-green text-white hover:opacity-90 transition-opacity"
+                    title="Add to cart"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                  </button>
+                  {customServices.length > 1 && (
+                    <button type="button" onClick={() => removeCustomField(i)} className="px-3 py-3 border border-border text-muted-foreground hover:text-google-red transition-colors">
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-3">
+              <button type="button" onClick={addCustomField} className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground transition-colors">
+                <Plus className="w-3.5 h-3.5" /> Add Another
+              </button>
+              <button type="button" onClick={handleAddAllCustom} className="inline-flex items-center gap-2 px-6 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity">
+                <ShoppingCart className="w-3.5 h-3.5" /> Add All to Cart
+              </button>
+            </div>
           </div>
         </div>
       </ScrollRevealSection>

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AuthProvider } from "./hooks/useAuth";
+import { CartProvider } from "./contexts/CartContext";
 import PageTransition from "./components/PageTransition";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
@@ -23,6 +24,8 @@ import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
+import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +52,8 @@ const AnimatedRoutes = () => {
         <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
         <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
         <Route path="/dashboard" element={<PageTransition><Dashboard /></PageTransition>} />
+        <Route path="/checkout" element={<PageTransition><Checkout /></PageTransition>} />
+        <Route path="/order-confirmation" element={<PageTransition><OrderConfirmation /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
       </AnimatePresence>
@@ -63,7 +68,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <AnimatedRoutes />
+          <CartProvider>
+            <AnimatedRoutes />
+          </CartProvider>
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
