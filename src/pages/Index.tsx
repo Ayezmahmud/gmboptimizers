@@ -124,10 +124,15 @@ const Index = () => {
             className="max-w-xl"
           >
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-2 h-2 rounded-full bg-google-blue" />
-              <div className="w-2 h-2 rounded-full bg-google-red" />
-              <div className="w-2 h-2 rounded-full bg-google-yellow" />
-              <div className="w-2 h-2 rounded-full bg-google-green" />
+              {["bg-google-blue", "bg-google-red", "bg-google-yellow", "bg-google-green"].map((color, i) => (
+                <div
+                  key={color}
+                  className={`w-2 h-2 rounded-full ${color}`}
+                  style={{
+                    animation: `pulse 1.5s ease-in-out ${i * 0.2}s infinite`,
+                  }}
+                />
+              ))}
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/50 ml-2">
                 Google Maps Optimization
               </p>

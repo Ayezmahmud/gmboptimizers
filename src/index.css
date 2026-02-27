@@ -113,6 +113,11 @@
     background: linear-gradient(180deg, hsl(var(--google-blue)), hsl(var(--google-red)), hsl(var(--google-yellow)), hsl(var(--google-green)));
   }
 
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.6); opacity: 0.6; }
+  }
+
   @keyframes float {
     0%, 100% { transform: translateY(0) rotate3d(0, 1, 0, 0deg); }
     25% { transform: translateY(-18px) rotate3d(0, 1, 0.1, 6deg); }
