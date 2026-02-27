@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const links = [
   { label: "About", path: "/about" },
@@ -15,6 +16,7 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -47,12 +49,35 @@ const Header = () => {
           ))}
         </nav>
 
-        <Link
-          to="/contact"
-          className="hidden md:inline-flex px-6 py-2.5 text-xs font-bold uppercase tracking-wider bg-primary text-primary-foreground hover:bg-foreground/90 transition-colors duration-200"
-        >
-          Get Started
-        </Link>
+        <div className="hidden md:flex items-center gap-3">
+          {user ? (
+            <>
+              <span className="text-xs text-muted-foreground truncate max-w-[140px]">{user.email}</span>
+              <button
+                onClick={signOut}
+                className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors duration-200"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/sign-in"
+                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-foreground/5 transition-colors duration-200"
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/sign-up"
+                className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity"
+              >
+                Sign Up
+              </Link>
+            </>
+          )}
+        </div>
 
         {/* Mobile toggle */}
         <button
@@ -77,13 +102,31 @@ const Header = () => {
                 {l.label}
               </Link>
             ))}
-            <Link
-              to="/contact"
-              onClick={() => setOpen(false)}
-              className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider bg-primary text-primary-foreground"
-            >
-              Get Started
-            </Link>
+            {user ? (
+              <button
+                onClick={() => { signOut(); setOpen(false); }}
+                className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-border text-foreground"
+              >
+                Sign Out
+              </button>
+            ) : (
+              <div className="flex flex-col gap-2 mt-2">
+                <Link
+                  to="/sign-in"
+                  onClick={() => setOpen(false)}
+                  className="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-border text-foreground"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/sign-up"
+                  onClick={() => setOpen(false)}
+                  className="px-6 py-3 text-center text-xs font-bold uppercase tracking-wider bg-google-blue text-white"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
       )}

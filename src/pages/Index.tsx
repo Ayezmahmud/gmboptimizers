@@ -149,10 +149,10 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 mb-6 md:mb-8">
               <Link
-                to="/contact"
-                className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider bg-google-blue text-primary-foreground hover:opacity-90 transition-opacity"
+                to="/sign-up"
+                className="inline-flex items-center justify-center px-8 py-4 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity"
               >
-                Get Free Consultation
+                Sign Up Free
               </Link>
               <Link
                 to="/pricing"
