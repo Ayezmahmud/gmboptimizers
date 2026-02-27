@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { testimonials, Testimonial } from "@/data/testimonials";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
+import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 const industries = ["All", ...Array.from(new Set(testimonials.map(t => t.industry)))];
 
@@ -299,6 +300,7 @@ const Testimonials = () => {
         </div>
       </ScrollRevealSection>
 
+      <CertificationsMarquee className="border-t border-border bg-secondary" />
       <Footer />
 
       {/* Testimonial Modal */}

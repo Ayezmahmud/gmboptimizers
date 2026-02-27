@@ -8,6 +8,7 @@ import HeroBackground from "@/components/HeroBackground";
 import { caseStudies } from "@/data/caseStudies";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
+import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 const CaseStudies = () => {
   return (
@@ -149,6 +150,7 @@ const CaseStudies = () => {
         </div>
       </ScrollRevealSection>
 
+      <CertificationsMarquee className="border-t border-border bg-secondary" />
       <Footer />
     </div>
   );

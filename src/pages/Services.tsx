@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
+import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 const services = [
   {
@@ -373,6 +374,7 @@ const Services = () => {
         </div>
       </ScrollRevealSection>
 
+      <CertificationsMarquee className="border-t border-border bg-secondary" />
       <Footer />
     </div>
   );
