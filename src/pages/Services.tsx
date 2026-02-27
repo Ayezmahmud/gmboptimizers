@@ -150,12 +150,14 @@ const Services = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img
-                src="/images/services-dashboard.png"
-                alt="Local SEO analytics dashboard showing Google Maps growth metrics"
-                className="w-full shadow-lg border border-border"
-                loading="lazy"
-              />
+              <div className="overflow-hidden shadow-lg border border-border">
+                <img
+                  src="/images/services-dashboard.png"
+                  alt="Local SEO analytics dashboard showing Google Maps growth metrics"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </motion.div>
           </div>
         </div>

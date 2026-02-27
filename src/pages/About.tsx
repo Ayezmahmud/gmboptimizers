@@ -96,12 +96,14 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img
-                src="/images/about-office.png"
-                alt="GB Optimizers office with SEO analytics dashboards"
-                className="w-full shadow-lg border border-border"
-                loading="lazy"
-              />
+              <div className="overflow-hidden shadow-lg border border-border">
+                <img
+                  src="/images/about-office.png"
+                  alt="GB Optimizers office with SEO analytics dashboards"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -143,12 +145,14 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
             >
-              <img
-                src="/images/about-strategy.png"
-                alt="Team planning local SEO strategy on whiteboard"
-                className="w-full shadow-lg border border-border"
-                loading="lazy"
-              />
+              <div className="overflow-hidden shadow-lg border border-border">
+                <img
+                  src="/images/about-strategy.png"
+                  alt="Team planning local SEO strategy on whiteboard"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </motion.div>
           </div>
         </div>
