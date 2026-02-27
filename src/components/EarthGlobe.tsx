@@ -144,8 +144,10 @@ const CONNECTION_PAIRS = [
 
 const ArcLine = ({ from, to, color, delay }: { from: { lat: number; lng: number }; to: { lat: number; lng: number }; color: string; delay: number }) => {
   const lineRef = useRef<THREE.Line>(null);
+  const dotRef = useRef<THREE.Mesh>(null);
+  const trailRef = useRef<THREE.Mesh>(null);
   
-  const geometry = useMemo(() => {
+  const curve = useMemo(() => {
     const start = new THREE.Vector3(...latLngToPos(from.lat, from.lng, 2.44));
     const end = new THREE.Vector3(...latLngToPos(to.lat, to.lng, 2.44));
     
@@ -153,24 +155,53 @@ const ArcLine = ({ from, to, color, delay }: { from: { lat: number; lng: number 
     const dist = start.distanceTo(end);
     mid.normalize().multiplyScalar(2.44 + dist * 0.18);
     
-    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-    const points = curve.getPoints(40);
-    return new THREE.BufferGeometry().setFromPoints(points);
+    return new THREE.QuadraticBezierCurve3(start, mid, end);
   }, [from, to]);
 
+  const geometry = useMemo(() => {
+    const points = curve.getPoints(40);
+    return new THREE.BufferGeometry().setFromPoints(points);
+  }, [curve]);
+
   useFrame(({ clock }) => {
+    const t = clock.getElapsedTime() + delay;
     if (lineRef.current) {
-      const t = clock.getElapsedTime() + delay;
       const opacity = 0.15 + 0.1 * Math.sin(t * 1.5);
       (lineRef.current.material as THREE.LineBasicMaterial).opacity = opacity;
+    }
+    // Traveling dot
+    if (dotRef.current) {
+      const progress = ((t * 0.25) % 1); // loops 0→1
+      const pos = curve.getPoint(progress);
+      dotRef.current.position.copy(pos);
+      (dotRef.current.material as THREE.MeshBasicMaterial).opacity = 0.9;
+    }
+    // Trail dot (slightly behind)
+    if (trailRef.current) {
+      const progress = (((t * 0.25) - 0.04) % 1 + 1) % 1;
+      const pos = curve.getPoint(progress);
+      trailRef.current.position.copy(pos);
+      (trailRef.current.material as THREE.MeshBasicMaterial).opacity = 0.4;
     }
   });
 
   return (
-    // @ts-ignore - line primitive works fine
-    <line ref={lineRef} geometry={geometry}>
-      <lineBasicMaterial color={color} transparent opacity={0.2} depthWrite={false} />
-    </line>
+    <group>
+      {/* @ts-ignore - line primitive works fine */}
+      <line ref={lineRef} geometry={geometry}>
+        <lineBasicMaterial color={color} transparent opacity={0.2} depthWrite={false} />
+      </line>
+      {/* Traveling dot */}
+      <mesh ref={dotRef}>
+        <sphereGeometry args={[0.025, 8, 8]} />
+        <meshBasicMaterial color={color} transparent opacity={0.9} depthWrite={false} />
+      </mesh>
+      {/* Trail dot */}
+      <mesh ref={trailRef}>
+        <sphereGeometry args={[0.016, 8, 8]} />
+        <meshBasicMaterial color={color} transparent opacity={0.4} depthWrite={false} />
+      </mesh>
+    </group>
   );
 };
 
