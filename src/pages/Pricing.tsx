@@ -139,12 +139,14 @@ const Pricing = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img
-                src="/images/pricing-growth.png"
-                alt="Business growth chart in Google brand colors"
-                className="w-full"
-                loading="lazy"
-              />
+              <div className="overflow-hidden">
+                <img
+                  src="/images/pricing-growth.png"
+                  alt="Business growth chart in Google brand colors"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </motion.div>
           </div>
         </div>

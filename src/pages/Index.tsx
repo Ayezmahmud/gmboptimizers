@@ -243,12 +243,14 @@ const Index = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img
-                src="/images/team.png"
-                alt="GB Optimizers team of digital marketing professionals"
-                className="w-full shadow-lg border border-border"
-                loading="lazy"
-              />
+              <div className="overflow-hidden shadow-lg border border-border">
+                <img
+                  src="/images/team.png"
+                  alt="GB Optimizers team of digital marketing professionals"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -341,12 +343,14 @@ const Index = () => {
               <p className="text-muted-foreground leading-relaxed mb-10">
                 Our proven 4-step process ensures consistent, measurable results for every client. From initial audit to ongoing optimization, we handle everything.
               </p>
-              <img
-                src="/images/phone-maps.png"
-                alt="Google Maps business ranking on mobile phone"
-                className="w-64 mx-auto md:mx-0 shadow-lg border border-border"
-                loading="lazy"
-              />
+              <div className="overflow-hidden w-64 mx-auto md:mx-0 shadow-lg border border-border">
+                <img
+                  src="/images/phone-maps.png"
+                  alt="Google Maps business ranking on mobile phone"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </div>
             <div className="space-y-6">
               {process.map((p, i) => (

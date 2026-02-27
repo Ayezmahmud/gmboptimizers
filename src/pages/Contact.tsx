@@ -65,12 +65,14 @@ const Contact = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <img
-                src="/images/contact-hero.png"
-                alt="Business partnership handshake"
-                className="w-full shadow-lg border border-border mb-10"
-                loading="lazy"
-              />
+              <div className="overflow-hidden shadow-lg border border-border mb-10">
+                <img
+                  src="/images/contact-hero.png"
+                  alt="Business partnership handshake"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
               <h2 className="text-2xl font-black uppercase text-foreground mb-6">Let's Talk Growth</h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Ready to dominate Google Maps in your area? Fill out the form and our team will get back to you within 24 hours with a custom strategy proposal.

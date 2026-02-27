@@ -94,12 +94,14 @@ const Testimonials = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img
-                src="/images/testimonials-hero.png"
-                alt="Happy business owners showing 5-star Google Maps reviews on their phones"
-                className="w-full shadow-lg border border-border"
-                loading="lazy"
-              />
+              <div className="overflow-hidden shadow-lg border border-border">
+                <img
+                  src="/images/testimonials-hero.png"
+                  alt="Happy business owners showing 5-star Google Maps reviews on their phones"
+                  className="w-full transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                />
+              </div>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
