@@ -25,9 +25,9 @@ const Header = () => {
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
       scrolled
-        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg shadow-black/5"
-        : "bg-transparent border-b border-transparent"
-    }`}>
+        ? "backdrop-blur-xl border-b border-border shadow-lg shadow-black/5"
+        : "border-b border-transparent"
+    }`} style={{ background: scrolled ? 'linear-gradient(90deg, hsl(217 90% 61% / 0.15), hsl(9 81% 56% / 0.15), hsl(43 96% 50% / 0.15), hsl(142 53% 43% / 0.15))' : 'linear-gradient(90deg, hsl(217 90% 61% / 0.08), hsl(9 81% 56% / 0.08), hsl(43 96% 50% / 0.08), hsl(142 53% 43% / 0.08))' }}>
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         <Link to="/" className="text-xl font-black uppercase tracking-tight text-foreground">
           GB Optimizers
