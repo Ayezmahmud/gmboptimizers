@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, ShoppingCart } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/contexts/CartContext";
 
 const links = [
   { label: "About", path: "/about" },
@@ -17,6 +18,7 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { user, signOut } = useAuth();
+  const { itemCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -50,6 +52,17 @@ const Header = () => {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
+          <Link
+            to="/checkout"
+            className="relative inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground transition-colors duration-200"
+          >
+            <ShoppingCart className="w-4 h-4" />
+            {itemCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-google-red text-white text-[10px] font-bold leading-none px-1">
+                {itemCount}
+              </span>
+            )}
+          </Link>
           {user ? (
             <>
               <Link
@@ -84,13 +97,20 @@ const Header = () => {
           )}
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setOpen(!open)}
-          className="lg:hidden text-foreground"
-        >
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Mobile cart + toggle */}
+        <div className="flex items-center gap-2 lg:hidden">
+          <Link to="/checkout" className="relative inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground">
+            <ShoppingCart className="w-5 h-5" />
+            {itemCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-google-red text-white text-[10px] font-bold leading-none px-1">
+                {itemCount}
+              </span>
+            )}
+          </Link>
+          <button onClick={() => setOpen(!open)} className="text-foreground">
+            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
