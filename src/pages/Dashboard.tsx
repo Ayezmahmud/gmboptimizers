@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection from "@/components/ScrollRevealSection";
 import { useToast } from "@/hooks/use-toast";
-import { User, Building2, Phone, Mail, Save, LogOut, Shield, Clock } from "lucide-react";
+import { User, Building2, Phone, Mail, Save, LogOut, Shield, Clock, Lock, Eye, EyeOff } from "lucide-react";
 
 interface Profile {
   full_name: string | null;
@@ -15,6 +15,93 @@ interface Profile {
   phone: string | null;
   avatar_url: string | null;
 }
+
+const ChangePasswordSection = () => {
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNew, setShowNew] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const { toast } = useToast();
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPassword.length < 6) {
+      toast({ title: "Password too short", description: "Minimum 6 characters required.", variant: "destructive" });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast({ title: "Passwords don't match", variant: "destructive" });
+      return;
+    }
+    setSaving(true);
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    setSaving(false);
+    if (error) {
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } else {
+      toast({ title: "Password updated successfully!" });
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    }
+  };
+
+  const inputClass = "w-full pl-10 pr-10 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors";
+
+  return (
+    <div className="bg-card border border-border p-8 shadow-lg mt-8">
+      <h2 className="text-xl font-bold text-foreground mb-1">Change Password</h2>
+      <p className="text-muted-foreground text-sm mb-8">Update your account password</p>
+
+      <form onSubmit={handleChangePassword} className="space-y-6">
+        <div>
+          <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">New Password</label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type={showNew ? "text" : "password"}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              required
+              minLength={6}
+              className={inputClass}
+              placeholder="Min. 6 characters"
+            />
+            <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+              {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-1.5 block">Confirm New Password</label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              minLength={6}
+              className={inputClass}
+              placeholder="Confirm new password"
+            />
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={saving}
+          className="inline-flex items-center gap-2 px-8 py-3 text-xs font-bold uppercase tracking-wider bg-google-red text-white hover:opacity-90 transition-opacity disabled:opacity-50"
+        >
+          <Shield className="w-4 h-4" />
+          {saving ? "Updating..." : "Update Password"}
+        </button>
+      </form>
+    </div>
+  );
+};
 
 const Dashboard = () => {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -225,6 +312,9 @@ const Dashboard = () => {
                     </button>
                   </form>
                 </div>
+
+                {/* Change Password */}
+                <ChangePasswordSection />
               </div>
             </div>
           </ScrollRevealSection>
