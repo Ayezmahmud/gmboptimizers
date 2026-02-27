@@ -70,6 +70,7 @@ const Contact = () => {
                 src="/images/contact-hero.png"
                 alt="Business partnership handshake"
                 className="shadow-lg border border-border mb-10"
+                intensity={50}
               />
               <h2 className="text-2xl font-black uppercase text-foreground mb-6">Let's Talk Growth</h2>
               <p className="text-muted-foreground leading-relaxed mb-8">

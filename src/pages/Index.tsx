@@ -248,6 +248,7 @@ const Index = () => {
                 src="/images/team.png"
                 alt="GB Optimizers team of digital marketing professionals"
                 className="shadow-lg border border-border"
+                intensity={50}
               />
             </motion.div>
             <motion.div

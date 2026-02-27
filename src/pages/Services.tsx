@@ -155,6 +155,7 @@ const Services = () => {
                 src="/images/services-dashboard.png"
                 alt="Local SEO analytics dashboard showing Google Maps growth metrics"
                 className="shadow-lg border border-border"
+                intensity={80}
               />
             </motion.div>
           </div>

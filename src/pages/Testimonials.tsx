@@ -99,6 +99,7 @@ const Testimonials = () => {
                 src="/images/testimonials-hero.png"
                 alt="Happy business owners showing 5-star Google Maps reviews on their phones"
                 className="shadow-lg border border-border"
+                intensity={80}
               />
             </motion.div>
             <motion.div

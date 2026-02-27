@@ -101,6 +101,7 @@ const About = () => {
                 src="/images/about-office.png"
                 alt="GB Optimizers office with SEO analytics dashboards"
                 className="shadow-lg border border-border"
+                intensity={80}
               />
             </motion.div>
             <motion.div
@@ -147,6 +148,7 @@ const About = () => {
                 src="/images/about-strategy.png"
                 alt="Team planning local SEO strategy on whiteboard"
                 className="shadow-lg border border-border"
+                intensity={50}
               />
             </motion.div>
           </div>
