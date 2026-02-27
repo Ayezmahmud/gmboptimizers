@@ -262,4 +262,13 @@
     border-color: hsl(var(--google-blue) / 0.4);
     box-shadow: 0 0 20px hsl(var(--google-blue) / 0.08);
   }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-marquee {
+    animation: marquee 25s linear infinite;
+  }
 }
