@@ -118,6 +118,62 @@ const PulsingPin = ({ lat, lng, color, delay, label }: { lat: number; lng: numbe
   );
 };
 
+// Curved arc connection line between two points on the globe
+const CONNECTION_PAIRS = [
+  [0, 6],   // Sydney → Tokyo
+  [0, 7],   // Sydney → Singapore
+  [1, 8],   // Melbourne → Hong Kong
+  [2, 10],  // Brisbane → Bangkok
+  [3, 11],  // Perth → Dubai
+  [5, 9],   // Wellington → Seoul
+  [6, 13],  // Tokyo → London
+  [7, 12],  // Singapore → Mumbai
+  [8, 14],  // Hong Kong → Paris
+  [11, 22], // Dubai → Cairo
+  [13, 17], // London → New York
+  [14, 15], // Paris → Berlin
+  [17, 18], // New York → Los Angeles
+  [17, 19], // New York → Toronto
+  [18, 21], // Los Angeles → Mexico City
+  [20, 17], // São Paulo → New York
+  [12, 11], // Mumbai → Dubai
+  [9, 6],   // Seoul → Tokyo
+  [15, 16], // Berlin → Rome
+  [22, 11], // Cairo → Dubai
+];
+
+const ArcLine = ({ from, to, color, delay }: { from: { lat: number; lng: number }; to: { lat: number; lng: number }; color: string; delay: number }) => {
+  const lineRef = useRef<THREE.Line>(null);
+  
+  const geometry = useMemo(() => {
+    const start = new THREE.Vector3(...latLngToPos(from.lat, from.lng, 2.44));
+    const end = new THREE.Vector3(...latLngToPos(to.lat, to.lng, 2.44));
+    
+    const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+    const dist = start.distanceTo(end);
+    mid.normalize().multiplyScalar(2.44 + dist * 0.18);
+    
+    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+    const points = curve.getPoints(40);
+    return new THREE.BufferGeometry().setFromPoints(points);
+  }, [from, to]);
+
+  useFrame(({ clock }) => {
+    if (lineRef.current) {
+      const t = clock.getElapsedTime() + delay;
+      const opacity = 0.15 + 0.1 * Math.sin(t * 1.5);
+      (lineRef.current.material as THREE.LineBasicMaterial).opacity = opacity;
+    }
+  });
+
+  return (
+    // @ts-ignore - line primitive works fine
+    <line ref={lineRef} geometry={geometry}>
+      <lineBasicMaterial color={color} transparent opacity={0.2} depthWrite={false} />
+    </line>
+  );
+};
+
 const Earth = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
@@ -169,6 +225,17 @@ const Earth = () => {
         <sphereGeometry args={[1, 64, 64]} />
         <meshStandardMaterial transparent opacity={0.12} color="#ffffff" depthWrite={false} />
       </mesh>
+
+      {/* Connection arc lines */}
+      {CONNECTION_PAIRS.map(([fromIdx, toIdx], i) => (
+        <ArcLine
+          key={`arc-${fromIdx}-${toIdx}`}
+          from={PIN_LOCATIONS[fromIdx]}
+          to={PIN_LOCATIONS[toIdx]}
+          color={GOOGLE_COLORS[i % 4]}
+          delay={i * 0.3}
+        />
+      ))}
 
       {/* Pulsing Google Maps pins */}
       {PIN_LOCATIONS.map((loc, i) => (
