@@ -84,6 +84,16 @@ const About = () => {
             style={{ top: "50%", right: "35%" }}
           />
           {/* Floating grid dots */}
+          {/* Giant subtle Google Maps pin silhouette */}
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            animate={{ y: [0, -15, 0], opacity: [0.04, 0.07, 0.04] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <svg width="400" height="520" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12zm0 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="white" />
+            </svg>
+          </motion.div>
           {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
