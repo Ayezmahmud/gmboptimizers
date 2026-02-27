@@ -29,11 +29,16 @@ const Header = () => {
         <Link to="/" className="text-xl font-black uppercase tracking-tight">
           <span className="text-google-blue">G</span>
           <span className="text-google-red">B</span>
-          <span className="text-foreground"> O</span>
+          <span className="text-google-blue"> O</span>
           <span className="text-google-yellow">p</span>
           <span className="text-google-green">t</span>
-          <span className="text-foreground">imizer</span>
-          <span className="text-google-blue">s</span>
+          <span className="text-google-red">i</span>
+          <span className="text-google-blue">m</span>
+          <span className="text-google-yellow">i</span>
+          <span className="text-google-green">z</span>
+          <span className="text-google-red">e</span>
+          <span className="text-google-blue">r</span>
+          <span className="text-google-green">s</span>
         </Link>
 
         {/* Desktop nav */}
