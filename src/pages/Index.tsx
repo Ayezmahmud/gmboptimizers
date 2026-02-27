@@ -53,8 +53,10 @@ const services = [
   { icon: BarChart3, title: "Performance Reporting", desc: "Detailed monthly reports tracking rankings, traffic, conversions, and ROI.", color: "text-google-green" },
 ];
 
-const trustLogos = [
-  "Google Partner", "Clutch Top Agency", "SEMrush Certified", "BrightLocal Partner", "Yext Partner"
+const certifications = [
+  "Google Certified", "Meta Certified", "Trusted by PayPal", "Trusted by Stripe",
+  "SEMrush Certified", "HubSpot Partner", "Bing Ads Accredited", "Shopify Partner",
+  "Clutch Top Agency", "BrightLocal Partner", "Yext Partner", "AWS Certified",
 ];
 
 const process = [
@@ -205,16 +207,17 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ TRUST BAR ═══ */}
-      <ScrollRevealSection className="py-8 border-b border-border bg-secondary">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-wrap items-center justify-center gap-8 md:gap-16">
-            {trustLogos.map((name) => (
-              <span key={name} className="text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground">{name}</span>
-            ))}
-          </div>
+      {/* ═══ MARQUEE CERTIFICATIONS ═══ */}
+      <div className="py-5 border-b border-border bg-secondary overflow-hidden">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...certifications, ...certifications].map((name, i) => (
+            <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground">
+              <span className="w-1.5 h-1.5 rounded-full bg-google-green inline-block" />
+              {name}
+            </span>
+          ))}
         </div>
-      </ScrollRevealSection>
+      </div>
 
       {/* ═══ STATS ═══ */}
       <ScrollRevealSection className="border-b border-border">
