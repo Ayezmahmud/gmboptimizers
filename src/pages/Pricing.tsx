@@ -143,6 +143,7 @@ const Pricing = () => {
               <ParallaxImage
                 src="/images/pricing-growth.png"
                 alt="Business growth chart in Google brand colors"
+                intensity={80}
               />
             </motion.div>
           </div>
