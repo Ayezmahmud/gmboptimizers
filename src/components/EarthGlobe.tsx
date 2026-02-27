@@ -178,7 +178,7 @@ const Earth = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
-  const texture = useLoader(THREE.TextureLoader, "/images/earth-texture.jpg");
+  const texture = useLoader(THREE.TextureLoader, "/images/earth-texture-hq.jpg");
 
   // Make texture brighter
   useMemo(() => {
