@@ -90,22 +90,9 @@ const About = () => {
             animate={{ y: [0, -20, 0], opacity: [0.12, 0.2, 0.12] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="relative">
-              {/* Glow effect */}
-              <div className="absolute inset-0 blur-3xl rounded-full" style={{ background: "radial-gradient(circle, hsla(217, 91%, 60%, 0.25) 0%, transparent 70%)", transform: "scale(1.5)" }} />
-              <svg width="600" height="780" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <filter id="pinGlow">
-                    <feGaussianBlur stdDeviation="0.8" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                </defs>
-                <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12zm0 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="white" filter="url(#pinGlow)" />
-              </svg>
-            </div>
+            <svg width="400" height="520" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12zm0 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="white" />
+            </svg>
           </motion.div>
           {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
