@@ -54,9 +54,18 @@ const services = [
 ];
 
 const certifications = [
-  "Google Certified", "Meta Certified", "Trusted by PayPal", "Trusted by Stripe",
-  "SEMrush Certified", "HubSpot Partner", "Bing Ads Accredited", "Shopify Partner",
-  "Clutch Top Agency", "BrightLocal Partner", "Yext Partner", "AWS Certified",
+  { name: "Google Certified", color: "#4285F4", icon: "G" },
+  { name: "Meta Certified", color: "#0081FB", icon: "M" },
+  { name: "Trusted by PayPal", color: "#003087", icon: "P" },
+  { name: "Trusted by Stripe", color: "#635BFF", icon: "S" },
+  { name: "SEMrush Certified", color: "#FF622D", icon: "S" },
+  { name: "HubSpot Partner", color: "#FF7A59", icon: "H" },
+  { name: "Bing Ads Accredited", color: "#008373", icon: "B" },
+  { name: "Shopify Partner", color: "#96BF48", icon: "S" },
+  { name: "Clutch Top Agency", color: "#EF4335", icon: "C" },
+  { name: "BrightLocal Partner", color: "#1B98F5", icon: "B" },
+  { name: "Yext Partner", color: "#0F70F0", icon: "Y" },
+  { name: "AWS Certified", color: "#FF9900", icon: "A" },
 ];
 
 const process = [
@@ -208,12 +217,17 @@ const Index = () => {
       </section>
 
       {/* ═══ MARQUEE CERTIFICATIONS ═══ */}
-      <div className="py-5 border-b border-border bg-secondary overflow-hidden">
+      <div className="py-4 border-b border-border bg-secondary overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap">
-          {[...certifications, ...certifications].map((name, i) => (
-            <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground">
-              <span className="w-1.5 h-1.5 rounded-full bg-google-green inline-block" />
-              {name}
+          {[...certifications, ...certifications].map((cert, i) => (
+            <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
+              <span
+                className="w-6 h-6 rounded-full inline-flex items-center justify-center text-[10px] font-black text-white shrink-0"
+                style={{ backgroundColor: cert.color }}
+              >
+                {cert.icon}
+              </span>
+              <span style={{ color: cert.color }}>{cert.name}</span>
             </span>
           ))}
         </div>
