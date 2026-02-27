@@ -19,11 +19,16 @@ const SignUp = () => {
   const { toast } = useToast();
 
   const handleOAuth = async (provider: "google" | "apple") => {
-    const { error } = await lovable.auth.signInWithOAuth(provider, {
-      redirect_uri: window.location.origin + "/dashboard",
-    });
-    if (error) {
-      toast({ title: "Sign up failed", description: error.message, variant: "destructive" });
+    try {
+      const result = await lovable.auth.signInWithOAuth(provider, {
+        redirect_uri: window.location.origin + "/dashboard",
+      });
+      if (result?.error) {
+        toast({ title: "Sign up failed", description: result.error.message || String(result.error), variant: "destructive" });
+      }
+    } catch (err: any) {
+      console.error("OAuth error:", err);
+      toast({ title: "Sign up failed", description: err?.message || "An unexpected error occurred", variant: "destructive" });
     }
   };
 
@@ -141,6 +146,7 @@ const SignUp = () => {
 
             <div className="flex gap-3">
               <button
+                type="button"
                 onClick={() => handleOAuth("google")}
                 className="flex-1 flex items-center justify-center gap-2 py-3 border border-border text-sm font-semibold hover:bg-foreground/5 transition-colors"
               >
@@ -148,6 +154,7 @@ const SignUp = () => {
                 Google
               </button>
               <button
+                type="button"
                 onClick={() => handleOAuth("apple")}
                 className="flex-1 flex items-center justify-center gap-2 py-3 border border-border text-sm font-semibold hover:bg-foreground/5 transition-colors"
               >
