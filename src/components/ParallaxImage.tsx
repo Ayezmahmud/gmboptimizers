@@ -8,7 +8,7 @@ interface ParallaxImageProps {
   intensity?: number;
 }
 
-const ParallaxImage = ({ src, alt, className = "", intensity = 40 }: ParallaxImageProps) => {
+const ParallaxImage = ({ src, alt, className = "", intensity = 70 }: ParallaxImageProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
