@@ -139,4 +139,121 @@
   .snap-section {
     @apply snap-start snap-always;
   }
+
+  /* Premium hover-reveal card */
+  .hover-reveal-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-reveal-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, hsl(var(--google-blue) / 0.06), hsl(var(--google-green) / 0.06));
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 0;
+  }
+
+  .hover-reveal-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, hsl(var(--google-blue)), hsl(var(--google-red)), hsl(var(--google-yellow)), hsl(var(--google-green)));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-reveal-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -15px hsl(var(--foreground) / 0.1);
+  }
+
+  .hover-reveal-card:hover::before {
+    opacity: 1;
+  }
+
+  .hover-reveal-card:hover::after {
+    transform: scaleX(1);
+  }
+
+  .hover-reveal-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hover reveal content - hidden by default, slides up on hover */
+  .hover-reveal-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  }
+
+  .hover-reveal-card:hover .hover-reveal-content {
+    max-height: 200px;
+    opacity: 1;
+  }
+
+  /* Icon lift on hover */
+  .hover-reveal-card .hover-icon {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-reveal-card:hover .hover-icon {
+    transform: translateY(-4px) scale(1.15);
+  }
+
+  /* Shine sweep effect */
+  .hover-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hover-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, hsl(var(--background) / 0.15), transparent);
+    transition: none;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .hover-shine:hover::before {
+    left: 150%;
+    transition: left 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Image zoom reveal */
+  .hover-zoom-img {
+    overflow: hidden;
+  }
+
+  .hover-zoom-img img {
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+  }
+
+  .hover-zoom-img:hover img {
+    transform: scale(1.08);
+  }
+
+  /* Border glow on hover */
+  .hover-glow {
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .hover-glow:hover {
+    border-color: hsl(var(--google-blue) / 0.4);
+    box-shadow: 0 0 20px hsl(var(--google-blue) / 0.08);
+  }
 }

@@ -227,11 +227,13 @@ const Index = () => {
       <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <ScrollParallaxImage
-              src="/images/team.png"
-              alt="GB Optimizers team of digital marketing professionals"
-              className="shadow-lg border border-border aspect-[4/3]"
-            />
+            <div className="hover-zoom-img shadow-lg border border-border aspect-[4/3]">
+              <ScrollParallaxImage
+                src="/images/team.png"
+                alt="GB Optimizers team of digital marketing professionals"
+                className="w-full h-full"
+              />
+            </div>
             <ScrollTextReveal>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">About GB Optimizers</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">
@@ -260,10 +262,15 @@ const Index = () => {
           </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyUs.map((item, i) => (
-              <ScrollStaggerItem key={item.title} index={i} className="bg-background p-8 border border-border hover:shadow-lg transition-shadow duration-300">
-                <item.icon className={`w-8 h-8 ${item.color} mb-5`} strokeWidth={1.5} />
+              <ScrollStaggerItem key={item.title} index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border">
+                <item.icon className={`w-8 h-8 ${item.color} mb-5 hover-icon`} strokeWidth={1.5} />
                 <h3 className="text-sm font-bold uppercase text-foreground mb-2">{item.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                <div className="hover-reveal-content">
+                  <Link to="/about" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
+                    Learn More <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </ScrollStaggerItem>
             ))}
           </div>
@@ -284,10 +291,15 @@ const Index = () => {
           </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((s, i) => (
-              <ScrollStaggerItem key={s.title} index={i} className="bg-background p-8 border border-border group hover:shadow-lg transition-all duration-300">
-                <s.icon className={`w-7 h-7 ${s.color} mb-5`} strokeWidth={1.5} />
+              <ScrollStaggerItem key={s.title} index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border">
+                <s.icon className={`w-7 h-7 ${s.color} mb-5 hover-icon`} strokeWidth={1.5} />
                 <h3 className="text-sm font-bold uppercase text-foreground mb-3">{s.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                <div className="hover-reveal-content">
+                  <Link to="/services" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
+                    Explore <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </ScrollStaggerItem>
             ))}
           </div>
@@ -379,7 +391,7 @@ const Index = () => {
           </ScrollTextReveal>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
-              <ScrollStaggerItem key={t.name} index={i} className="bg-background p-8 border border-border hover:shadow-lg transition-shadow duration-300">
+              <ScrollStaggerItem key={t.name} index={i} className="hover-reveal-card hover-glow bg-background p-8 border border-border">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
                     <Star key={j} className="w-3.5 h-3.5 fill-google-yellow text-google-yellow" />
@@ -421,7 +433,7 @@ const Index = () => {
               { name: "Advance", price: "$199.99", color: "border-google-red", dot: "bg-google-red" },
               { name: "Enterprise", price: "$299.99", color: "border-google-yellow", dot: "bg-google-yellow" },
             ].map((pkg, i) => (
-              <ScrollStaggerItem key={pkg.name} index={i} className={`bg-background py-8 px-4 border-t-4 ${pkg.color} border border-border`}>
+              <ScrollStaggerItem key={pkg.name} index={i} className={`hover-reveal-card hover-shine bg-background py-8 px-4 border-t-4 ${pkg.color} border border-border`}>
                 <div className={`w-2 h-2 ${pkg.dot} rounded-full mx-auto mb-3`} />
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">{pkg.name}</p>
                 <p className="text-2xl font-black text-foreground">{pkg.price}</p>
