@@ -86,8 +86,8 @@ const About = () => {
           {/* Floating grid dots */}
           {/* Giant subtle Google Maps pin silhouette */}
           <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            animate={{ y: [0, -15, 0], opacity: [0.04, 0.07, 0.04] }}
+            className="absolute top-[35%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+            animate={{ y: [0, -20, 0], opacity: [0.12, 0.2, 0.12] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
             <svg width="400" height="520" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
