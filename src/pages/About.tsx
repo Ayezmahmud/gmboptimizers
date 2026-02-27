@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { Target, Shield, Zap, Award, Users, Globe, Heart } from "lucide-react";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
+import MagneticCard from "@/components/MagneticCard";
 
 const stats = [
   { value: 500, suffix: "+", label: "Businesses Ranked", color: "bg-google-blue" },
@@ -135,11 +136,13 @@ const About = () => {
           </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((v, i) => (
-              <ScrollStaggerItem key={v.title} index={i} className="bg-background p-8 border border-border hover:shadow-lg transition-shadow">
-                <v.icon className={`w-8 h-8 ${v.color} mb-5`} strokeWidth={1.5} />
-                <h3 className="text-sm font-bold uppercase text-foreground mb-2">{v.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
-              </ScrollStaggerItem>
+              <MagneticCard key={v.title}>
+                <ScrollStaggerItem index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border h-full">
+                  <v.icon className={`w-8 h-8 ${v.color} mb-5 hover-icon`} strokeWidth={1.5} />
+                  <h3 className="text-sm font-bold uppercase text-foreground mb-2">{v.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
+                </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
         </div>
@@ -154,13 +157,15 @@ const About = () => {
           </ScrollTextReveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {team.map((t, i) => (
-              <ScrollStaggerItem key={t.name} index={i} className="text-center">
-                <div className={`w-20 h-20 ${t.color} text-primary-foreground flex items-center justify-center text-lg font-black mx-auto mb-4`}>
-                  {t.initials}
-                </div>
-                <h3 className="text-sm font-bold uppercase text-foreground">{t.name}</h3>
-                <p className="text-xs text-muted-foreground mt-1">{t.role}</p>
-              </ScrollStaggerItem>
+              <MagneticCard key={t.name} intensity={6}>
+                <ScrollStaggerItem index={i} className="text-center hover-reveal-card hover-glow p-6 border border-transparent">
+                  <div className={`w-20 h-20 ${t.color} text-primary-foreground flex items-center justify-center text-lg font-black mx-auto mb-4 hover-icon`}>
+                    {t.initials}
+                  </div>
+                  <h3 className="text-sm font-bold uppercase text-foreground">{t.name}</h3>
+                  <p className="text-xs text-muted-foreground mt-1">{t.role}</p>
+                </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
         </div>

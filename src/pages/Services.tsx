@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
+import MagneticCard from "@/components/MagneticCard";
 import ParallaxImage from "@/components/ParallaxImage";
 
 const services = [
@@ -158,28 +159,30 @@ const Services = () => {
           </ScrollTextReveal>
           <div className="space-y-6">
             {services.map((s, i) => (
-              <ScrollStaggerItem key={s.title} index={i} className={`bg-background p-8 md:p-10 border border-border group hover:shadow-lg transition-all duration-300 ${s.bgColor}`}>
-                <div className="grid md:grid-cols-[1fr_1fr] gap-8">
-                  <div>
-                    <div className="flex items-start gap-4 mb-4">
-                      <s.icon className={`w-8 h-8 ${s.color} shrink-0 mt-1`} strokeWidth={1.5} />
-                      <h3 className="text-lg font-bold uppercase text-foreground">{s.title}</h3>
+              <MagneticCard key={s.title} intensity={5}>
+                <ScrollStaggerItem index={i} className={`hover-reveal-card hover-shine bg-background p-8 md:p-10 border border-border ${s.bgColor}`}>
+                  <div className="grid md:grid-cols-[1fr_1fr] gap-8">
+                    <div>
+                      <div className="flex items-start gap-4 mb-4">
+                        <s.icon className={`w-8 h-8 ${s.color} shrink-0 mt-1 hover-icon`} strokeWidth={1.5} />
+                        <h3 className="text-lg font-bold uppercase text-foreground">{s.title}</h3>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                     </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">What's Included:</p>
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {s.details.map((d) => (
+                          <li key={d} className="flex items-center gap-2 text-sm text-muted-foreground">
+                            <div className={`w-1.5 h-1.5 rounded-full ${s.color.replace('text-', 'bg-')}`} />
+                            {d}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-foreground mb-4">What's Included:</p>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {s.details.map((d) => (
-                        <li key={d} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <div className={`w-1.5 h-1.5 rounded-full ${s.color.replace('text-', 'bg-')}`} />
-                          {d}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </ScrollStaggerItem>
+                </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
         </div>
