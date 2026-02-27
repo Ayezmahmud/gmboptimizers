@@ -135,4 +135,8 @@
   .animate-float-shadow {
     animation: float-shadow 5s ease-in-out infinite;
   }
+
+  .snap-section {
+    @apply snap-start snap-always;
+  }
 }
