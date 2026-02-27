@@ -90,9 +90,26 @@ const About = () => {
             animate={{ y: [0, -20, 0], opacity: [0.18, 0.3, 0.18] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <svg width="400" height="520" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12z" fill="#EA4335" />
-              <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="#B31412" opacity="0.6" />
+            <svg width="400" height="520" viewBox="0 0 48 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* Main pin shape split into 4 color quadrants */}
+              <clipPath id="pinClip">
+                <path d="M24 0C10.745 0 0 10.745 0 24c0 18 24 48 24 48s24-30 24-48C48 10.745 37.255 0 24 0z" />
+              </clipPath>
+              <g clipPath="url(#pinClip)">
+                {/* Top-left: Blue */}
+                <path d="M0 0h24v36H0z" fill="#4285F4" />
+                {/* Top-right: Red */}
+                <path d="M24 0h24v36H24z" fill="#EA4335" />
+                {/* Bottom-left: Green */}
+                <path d="M0 36h24v36H0z" fill="#34A853" />
+                {/* Bottom-right: Yellow */}
+                <path d="M24 36h24v36H24z" fill="#FBBC05" />
+              </g>
+              {/* Pin outline */}
+              <path d="M24 0C10.745 0 0 10.745 0 24c0 18 24 48 24 48s24-30 24-48C48 10.745 37.255 0 24 0z" fill="none" stroke="white" strokeWidth="0.5" opacity="0.15" />
+              {/* Inner circle */}
+              <circle cx="24" cy="24" r="10" fill="#1a1a2e" opacity="0.7" />
+              <circle cx="24" cy="24" r="10" fill="none" stroke="white" strokeWidth="0.5" opacity="0.2" />
             </svg>
           </motion.div>
           {Array.from({ length: 20 }).map((_, i) => (
