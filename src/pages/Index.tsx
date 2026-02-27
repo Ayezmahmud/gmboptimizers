@@ -217,9 +217,22 @@ const Index = () => {
       </section>
 
       {/* ═══ MARQUEE CERTIFICATIONS ═══ */}
-      <div className="py-4 border-b border-border bg-secondary overflow-hidden">
+      <div className="py-4 border-b border-border bg-secondary overflow-hidden space-y-3">
         <div className="flex animate-marquee whitespace-nowrap">
           {[...certifications, ...certifications].map((cert, i) => (
+            <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
+              <span
+                className="w-6 h-6 rounded-full inline-flex items-center justify-center text-[10px] font-black text-white shrink-0"
+                style={{ backgroundColor: cert.color }}
+              >
+                {cert.icon}
+              </span>
+              <span style={{ color: cert.color }}>{cert.name}</span>
+            </span>
+          ))}
+        </div>
+        <div className="flex animate-marquee-reverse whitespace-nowrap">
+          {[...certifications.slice().reverse(), ...certifications.slice().reverse()].map((cert, i) => (
             <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
               <span
                 className="w-6 h-6 rounded-full inline-flex items-center justify-center text-[10px] font-black text-white shrink-0"
