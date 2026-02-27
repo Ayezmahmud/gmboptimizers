@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ParallaxImage from "@/components/ParallaxImage";
 import { useEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 import { Target, Shield, Zap, Award, Users, Globe, Heart } from "lucide-react";
@@ -96,14 +97,11 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="overflow-hidden shadow-lg border border-border">
-                <img
-                  src="/images/about-office.png"
-                  alt="GB Optimizers office with SEO analytics dashboards"
-                  className="w-full transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
+              <ParallaxImage
+                src="/images/about-office.png"
+                alt="GB Optimizers office with SEO analytics dashboards"
+                className="shadow-lg border border-border"
+              />
             </motion.div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -145,14 +143,11 @@ const About = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.15 }}
             >
-              <div className="overflow-hidden shadow-lg border border-border">
-                <img
-                  src="/images/about-strategy.png"
-                  alt="Team planning local SEO strategy on whiteboard"
-                  className="w-full transition-transform duration-500 hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
+              <ParallaxImage
+                src="/images/about-strategy.png"
+                alt="Team planning local SEO strategy on whiteboard"
+                className="shadow-lg border border-border"
+              />
             </motion.div>
           </div>
         </div>
