@@ -174,6 +174,10 @@ const Index = () => {
                 <CheckCircle2 className="w-4 h-4 text-google-green" />
                 <span>98% Retention</span>
               </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-google-yellow" />
+                <span>30-Day Money-Back Guarantee</span>
+              </div>
             </div>
           </motion.div>
 
@@ -499,6 +503,7 @@ const Index = () => {
               <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> No Contracts</span>
               <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> Results in 4-8 Weeks</span>
               <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> 98% Retention</span>
+              <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-google-yellow" /> 30-Day Money-Back Guarantee</span>
             </div>
             <Link
               to="/contact"
