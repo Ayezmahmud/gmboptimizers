@@ -63,7 +63,7 @@ const CustomCursor = () => {
   return (
     <motion.div
       className="fixed top-0 left-0 pointer-events-none z-[9999]"
-      style={{ x, y, translateX: "-50%", translateY: "-100%" }}
+      style={{ x, y, translateX: "-50%", translateY: "-50%" }}
     >
       <motion.svg
         width="22"
