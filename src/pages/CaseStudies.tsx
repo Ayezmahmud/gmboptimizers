@@ -7,6 +7,7 @@ import HeroBackground from "@/components/HeroBackground";
 import ParallaxImage from "@/components/ParallaxImage";
 import { caseStudies } from "@/data/caseStudies";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
+import MagneticCard from "@/components/MagneticCard";
 
 const CaseStudies = () => {
   return (
@@ -50,7 +51,7 @@ const CaseStudies = () => {
           {caseStudies.map((c, i) => (
             <ScrollStaggerItem key={c.slug} index={0} className="mb-20 last:mb-0">
               <div className={`grid md:grid-cols-2 gap-12 items-center`}>
-                <div className={i % 2 === 1 ? "md:order-2" : ""}>
+                <div className={`${i % 2 === 1 ? "md:order-2" : ""} hover-zoom-img`}>
                   <ScrollParallaxImage
                     src={c.image}
                     alt={c.imageAlt}
@@ -69,10 +70,12 @@ const CaseStudies = () => {
 
                   <div className="grid grid-cols-3 gap-4 mb-8">
                     {c.stats.slice(0, 3).map((s) => (
-                      <div key={s.label} className="bg-secondary p-4 border border-border">
-                        <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
-                        <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
-                      </div>
+                      <MagneticCard key={s.label} intensity={4}>
+                        <div className="hover-reveal-card hover-glow bg-secondary p-4 border border-border h-full">
+                          <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
+                          <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
+                        </div>
+                      </MagneticCard>
                     ))}
                   </div>
 

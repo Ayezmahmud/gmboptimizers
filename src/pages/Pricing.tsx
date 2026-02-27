@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
+import MagneticCard from "@/components/MagneticCard";
 import ParallaxImage from "@/components/ParallaxImage";
 
 const packages = [
@@ -142,52 +143,53 @@ const Pricing = () => {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {packages.map((pkg, i) => (
-              <ScrollStaggerItem
-                key={pkg.name}
-                index={i}
-                className={`relative border flex flex-col ${
-                  pkg.popular
-                    ? "border-foreground bg-primary text-primary-foreground"
-                    : `border-border bg-background text-foreground border-t-4 ${pkg.color}`
-                } hover:shadow-lg transition-shadow duration-300`}
-              >
-                {pkg.popular && (
-                  <div className="absolute -top-px left-0 right-0 h-1 bg-gradient-to-r from-google-blue via-google-red to-google-green" />
-                )}
-                <div className="p-8 flex-1">
+              <MagneticCard key={pkg.name} intensity={6}>
+                <ScrollStaggerItem
+                  index={i}
+                  className={`relative border flex flex-col hover-reveal-card hover-shine h-full ${
+                    pkg.popular
+                      ? "border-foreground bg-primary text-primary-foreground"
+                      : `border-border bg-background text-foreground border-t-4 ${pkg.color}`
+                  }`}
+                >
                   {pkg.popular && (
-                    <p className="text-xs font-bold uppercase tracking-wider mb-4 text-google-yellow">Most Popular</p>
+                    <div className="absolute -top-px left-0 right-0 h-1 bg-gradient-to-r from-google-blue via-google-red to-google-green" />
                   )}
-                  {!pkg.popular && (
-                    <div className={`w-2 h-2 ${pkg.dotColor} rounded-full mb-4`} />
-                  )}
-                  <h3 className="text-sm font-bold uppercase tracking-wider mb-2">{pkg.name}</h3>
-                  <div className="mb-8">
-                    <span className="text-4xl font-black">{pkg.price}</span>
-                    <span className={`text-sm ml-1 ${pkg.popular ? "text-primary-foreground/60" : "text-muted-foreground"}`}>AUD/mo</span>
+                  <div className="p-8 flex-1">
+                    {pkg.popular && (
+                      <p className="text-xs font-bold uppercase tracking-wider mb-4 text-google-yellow">Most Popular</p>
+                    )}
+                    {!pkg.popular && (
+                      <div className={`w-2 h-2 ${pkg.dotColor} rounded-full mb-4`} />
+                    )}
+                    <h3 className="text-sm font-bold uppercase tracking-wider mb-2">{pkg.name}</h3>
+                    <div className="mb-8">
+                      <span className="text-4xl font-black">{pkg.price}</span>
+                      <span className={`text-sm ml-1 ${pkg.popular ? "text-primary-foreground/60" : "text-muted-foreground"}`}>AUD/mo</span>
+                    </div>
+                    <ul className="space-y-3">
+                      {pkg.features.map((f) => (
+                        <li key={f} className="flex items-start gap-3 text-sm">
+                          <Check className={`w-4 h-4 mt-0.5 shrink-0 text-google-green`} />
+                          <span className={pkg.popular ? "text-primary-foreground/80" : "text-muted-foreground"}>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-3">
-                    {pkg.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3 text-sm">
-                        <Check className={`w-4 h-4 mt-0.5 shrink-0 text-google-green`} />
-                        <span className={pkg.popular ? "text-primary-foreground/80" : "text-muted-foreground"}>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="p-8 pt-0">
-                  <Link
-                    to="/contact"
-                    className={`block text-center py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
-                      pkg.popular
-                        ? "bg-background text-foreground hover:bg-background/90"
-                        : "bg-google-blue text-primary-foreground hover:opacity-90"
-                    }`}
-                  >
-                    Get Started
-                  </Link>
-                </div>
-              </ScrollStaggerItem>
+                  <div className="p-8 pt-0">
+                    <Link
+                      to="/contact"
+                      className={`block text-center py-3 text-xs font-bold uppercase tracking-wider transition-colors ${
+                        pkg.popular
+                          ? "bg-background text-foreground hover:bg-background/90"
+                          : "bg-google-blue text-primary-foreground hover:opacity-90"
+                      }`}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
         </div>
@@ -198,11 +200,13 @@ const Pricing = () => {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-6">
             {guarantees.map((g, i) => (
-              <ScrollStaggerItem key={g.title} index={i} className="bg-background p-8 border border-border text-center">
-                <g.icon className={`w-8 h-8 ${g.color} mx-auto mb-4`} strokeWidth={1.5} />
-                <h3 className="text-sm font-bold uppercase text-foreground mb-2">{g.title}</h3>
-                <p className="text-sm text-muted-foreground">{g.desc}</p>
-              </ScrollStaggerItem>
+              <MagneticCard key={g.title}>
+                <ScrollStaggerItem index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border text-center h-full">
+                  <g.icon className={`w-8 h-8 ${g.color} mx-auto mb-4 hover-icon`} strokeWidth={1.5} />
+                  <h3 className="text-sm font-bold uppercase text-foreground mb-2">{g.title}</h3>
+                  <p className="text-sm text-muted-foreground">{g.desc}</p>
+                </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
         </div>
