@@ -14,7 +14,7 @@ const services = [
     desc: "Complete setup and verification of your Google Business Profile for maximum local visibility. We optimize every field — from categories, attributes, and service areas to business descriptions, hours, and special features.",
     details: ["Profile creation & verification", "Category & attribute optimization", "Service area configuration", "Business description SEO", "Photo & logo upload strategy", "Q&A section management"],
     color: "google-blue",
-    image: "/images/hero-gmap.png",
+    image: "/images/service-gbp-setup.jpg",
   },
   {
     icon: TrendingUp,
@@ -22,7 +22,7 @@ const services = [
     desc: "Strategic optimization to push your business to the top of Google Maps results. Our proven methodology targets the three core ranking factors: relevance, distance, and prominence.",
     details: ["Local keyword research & targeting", "Geo-grid ranking analysis", "Proximity optimization strategy", "Behavioral signal improvement", "Google Maps algorithm alignment", "Ranking position tracking"],
     color: "google-green",
-    image: "/images/hero-maps.png",
+    image: "/images/service-maps-ranking.jpg",
   },
   {
     icon: Search,
@@ -30,7 +30,7 @@ const services = [
     desc: "Comprehensive local SEO strategies tailored to dominate your market area. We analyze your competition, identify keyword gaps, and build a complete roadmap to outrank them.",
     details: ["Competitor gap analysis", "Local keyword mapping", "On-page SEO optimization", "Local link building campaigns", "Content strategy for local relevance", "Technical SEO audit & fixes"],
     color: "google-red",
-    image: "/images/services-dashboard.png",
+    image: "/images/service-local-seo.jpg",
   },
   {
     icon: Star,
@@ -38,7 +38,7 @@ const services = [
     desc: "Build and manage your online reputation with strategic review generation campaigns. We help you earn more 5-star reviews through automated follow-up systems.",
     details: ["Review generation campaigns", "Automated follow-up systems", "Professional review responses", "Negative review recovery", "Multi-platform monitoring", "Review analytics & insights"],
     color: "google-yellow",
-    image: "/images/testimonials-hero.png",
+    image: "/images/service-reviews.jpg",
   },
   {
     icon: Building2,
@@ -46,7 +46,7 @@ const services = [
     desc: "High-authority citation building across 100+ top directories for powerful trust signals. We ensure your Name, Address, and Phone (NAP) data is perfectly consistent across every platform.",
     details: ["100+ directory submissions", "NAP consistency audit", "Duplicate listing cleanup", "Industry-specific directories", "Data aggregator submissions", "Ongoing citation monitoring"],
     color: "google-blue",
-    image: "/images/about-office.png",
+    image: "/images/service-citations.jpg",
   },
   {
     icon: BarChart3,
@@ -54,7 +54,7 @@ const services = [
     desc: "Deep competitor analysis to identify gaps and build your winning strategy. We reverse-engineer top-ranking competitors in your area to understand exactly what's working.",
     details: ["Top competitor identification", "Ranking factor comparison", "Review profile analysis", "Citation network mapping", "Content gap identification", "Strategic action plan"],
     color: "google-red",
-    image: "/images/about-strategy.png",
+    image: "/images/service-competitor.jpg",
   },
   {
     icon: FileText,
@@ -62,7 +62,7 @@ const services = [
     desc: "Detailed monthly reports tracking rankings, traffic, and conversion metrics. Clear, actionable insights so you always know your ROI.",
     details: ["Ranking position tracking", "Search impression analytics", "Customer action reports", "Review metric summaries", "ROI calculation", "Monthly strategy recommendations"],
     color: "google-green",
-    image: "/images/pricing-growth.png",
+    image: "/images/service-reporting.jpg",
   },
   {
     icon: Camera,
@@ -70,7 +70,7 @@ const services = [
     desc: "Professional photo optimization strategy to make your Google Business Profile visually compelling. Businesses with quality photos receive 42% more requests for directions.",
     details: ["Photo audit & optimization", "Geo-tagged image uploads", "Cover & logo optimization", "360° virtual tour integration", "Photo category management", "Visual engagement tracking"],
     color: "google-yellow",
-    image: "/images/hero-pin.png",
+    image: "/images/service-photos.jpg",
   },
   {
     icon: MessageSquare,
@@ -78,7 +78,7 @@ const services = [
     desc: "Regular Google Post creation to keep your profile active and engaging. Consistent posting has been shown to improve local pack rankings by up to 15%.",
     details: ["Weekly post creation", "Offer & event promotion", "Product showcase posts", "Call-to-action optimization", "Post performance analytics", "Content calendar management"],
     color: "google-blue",
-    image: "/images/phone-maps.png",
+    image: "/images/service-posts.jpg",
   },
   {
     icon: Smartphone,
@@ -86,7 +86,7 @@ const services = [
     desc: "Optimized local landing pages that convert Google Maps visitors into paying customers. We build location-specific pages with proper schema markup and conversion-focused design.",
     details: ["Location page creation", "Local schema markup", "Embedded map integration", "Conversion rate optimization", "Mobile-first design", "A/B testing & refinement"],
     color: "google-green",
-    image: "/images/hero-mockup.png",
+    image: "/images/service-landing.jpg",
   },
 ];
 
