@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ParallaxImage from "@/components/ParallaxImage";
 import { caseStudies } from "@/data/caseStudies";
+import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 
 const CaseStudies = () => {
   return (
@@ -44,28 +45,20 @@ const CaseStudies = () => {
       </section>
 
       {/* Case Studies */}
-      <section className="py-24">
+      <ScrollRevealSection className="py-24">
         <div className="container mx-auto px-6">
           {caseStudies.map((c, i) => (
-            <motion.div
-              key={c.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.2 }}
-              className="mb-20 last:mb-0"
-            >
+            <ScrollStaggerItem key={c.slug} index={0} className="mb-20 last:mb-0">
               <div className={`grid md:grid-cols-2 gap-12 items-center`}>
                 <div className={i % 2 === 1 ? "md:order-2" : ""}>
-                  <ParallaxImage
+                  <ScrollParallaxImage
                     src={c.image}
                     alt={c.imageAlt}
-                    className="w-full shadow-lg border border-border"
-                    intensity={30}
+                    className="w-full shadow-lg border border-border aspect-[4/3]"
                   />
                 </div>
 
-                <div className={i % 2 === 1 ? "md:order-1" : ""}>
+                <ScrollTextReveal className={i % 2 === 1 ? "md:order-1" : ""}>
                   <div className="flex items-center gap-3 mb-2">
                     <p className="text-xs font-bold uppercase tracking-wider text-google-blue">{c.industry}</p>
                     <span className="text-muted-foreground/30">•</span>
@@ -97,23 +90,19 @@ const CaseStudies = () => {
                   >
                     Read Full Case Study <ArrowRight className="w-4 h-4" />
                   </Link>
-                </div>
+                </ScrollTextReveal>
               </div>
 
               {i < caseStudies.length - 1 && <div className="border-b border-border mt-20" />}
-            </motion.div>
+            </ScrollStaggerItem>
           ))}
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* CTA */}
-      <section className="bg-primary text-primary-foreground py-20">
+      <ScrollRevealSection className="bg-primary text-primary-foreground py-20">
         <div className="container mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <ScrollTextReveal>
             <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Want Results Like These?</h2>
             <p className="text-primary-foreground/60 mb-8 max-w-lg mx-auto">
               Join 500+ businesses that have achieved #1 rankings with GB Optimizers.
@@ -124,9 +113,9 @@ const CaseStudies = () => {
             >
               Get Started Today
             </Link>
-          </motion.div>
+          </ScrollTextReveal>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       <Footer />
     </div>

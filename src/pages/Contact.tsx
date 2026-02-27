@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
+import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal } from "@/components/ScrollRevealSection";
 import ParallaxImage from "@/components/ParallaxImage";
 
 const contactInfo = [
@@ -55,20 +56,15 @@ const Contact = () => {
         </div>
       </section>
 
-      <section className="py-24">
+      <ScrollRevealSection className="py-24" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16">
             {/* Left: Image + Contact Info */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <ParallaxImage
+            <ScrollTextReveal>
+              <ScrollParallaxImage
                 src="/images/contact-hero.png"
                 alt="Business partnership handshake"
-                className="shadow-lg border border-border mb-10"
-                intensity={50}
+                className="shadow-lg border border-border mb-10 aspect-[4/3]"
               />
               <h2 className="text-2xl font-black uppercase text-foreground mb-6">Let's Talk Growth</h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
@@ -83,14 +79,10 @@ const Contact = () => {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </ScrollTextReveal>
 
             {/* Right: Form */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-            >
+            <ScrollTextReveal>
               {submitted ? (
                 <div className="stripe-accent pl-8 py-8">
                   <h2 className="text-3xl font-black uppercase mb-3 text-foreground">Thank You</h2>
@@ -162,10 +154,10 @@ const Contact = () => {
                   </button>
                 </form>
               )}
-            </motion.div>
+            </ScrollTextReveal>
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       <Footer />
     </div>

@@ -7,6 +7,7 @@ import HeroBackground from "@/components/HeroBackground";
 import ParallaxImage from "@/components/ParallaxImage";
 import { Link } from "react-router-dom";
 import { testimonials, Testimonial } from "@/data/testimonials";
+import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 
 const industries = ["All", ...Array.from(new Set(testimonials.map(t => t.industry)))];
 
@@ -84,28 +85,15 @@ const Testimonials = () => {
       </section>
 
       {/* Hero Image */}
-      <section className="border-b border-border">
+      <ScrollRevealSection className="border-b border-border" clipReveal>
         <div className="container mx-auto px-6 py-16">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <ParallaxImage
-                src="/images/testimonials-hero.png"
-                alt="Happy business owners showing 5-star Google Maps reviews on their phones"
-                className="shadow-lg border border-border"
-                intensity={80}
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
+            <ScrollParallaxImage
+              src="/images/testimonials-hero.png"
+              alt="Happy business owners showing 5-star Google Maps reviews on their phones"
+              className="shadow-lg border border-border aspect-[4/3]"
+            />
+            <ScrollTextReveal>
               <h2 className="text-3xl font-black uppercase text-foreground mb-4">Trusted by 500+ Businesses</h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 Our clients consistently achieve top rankings on Google Maps across 30+ industries. These aren't just reviews — they're detailed success stories from real business owners who share their complete journey with GB Optimizers.
@@ -116,26 +104,23 @@ const Testimonials = () => {
                 ))}
               </div>
               <p className="text-sm text-muted-foreground">Average client rating: <span className="font-bold text-foreground">4.9/5</span> across {testimonials.length} reviews</p>
-            </motion.div>
+            </ScrollTextReveal>
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       {/* Results at a Glance */}
-      <section className="border-b border-border">
+      <ScrollRevealSection className="border-b border-border">
         <div className="container mx-auto px-6">
-          <div className="py-6 mb-2 text-center">
+          <ScrollTextReveal className="py-6 mb-2 text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-2">Results at a Glance</p>
             <h2 className="text-3xl md:text-4xl font-black uppercase text-foreground">Aggregate Client Metrics</h2>
-          </div>
+          </ScrollTextReveal>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {aggregateStats.map((s, i) => (
-              <motion.div
+              <ScrollStaggerItem
                 key={s.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
+                index={i}
                 className={`py-10 text-center ${i < aggregateStats.length - 1 ? "lg:border-r border-border" : ""} ${i < 4 ? "border-b lg:border-b-0 border-border" : ""}`}
               >
                 <s.icon className={`w-6 h-6 ${s.color} mx-auto mb-3`} strokeWidth={1.5} />
@@ -143,11 +128,11 @@ const Testimonials = () => {
                   <Counter target={s.value} suffix={s.suffix} />
                 </p>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground mt-2 px-2">{s.label}</p>
-              </motion.div>
+              </ScrollStaggerItem>
             ))}
           </div>
         </div>
-      </section>
+      </ScrollRevealSection>
 
 
       <section className="py-24 border-b border-border">
@@ -280,9 +265,9 @@ const Testimonials = () => {
       </section>
 
       {/* CTA */}
-      <section className="bg-gradient-blue-green text-primary-foreground py-20">
+      <ScrollRevealSection className="bg-gradient-blue-green text-primary-foreground py-20">
         <div className="container mx-auto px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <ScrollTextReveal>
             <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Ready to Be Our Next Success Story?</h2>
             <p className="text-primary-foreground/60 mb-8 max-w-lg mx-auto">
               Join {testimonials.length * 16}+ businesses that trust GB Optimizers for their Google Maps rankings.
@@ -290,9 +275,9 @@ const Testimonials = () => {
             <Link to="/contact" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started
             </Link>
-          </motion.div>
+          </ScrollTextReveal>
         </div>
-      </section>
+      </ScrollRevealSection>
 
       <Footer />
 
