@@ -90,34 +90,42 @@ const services = [
   },
 ];
 
-const colorMap: Record<string, { text: string; bg: string; border: string; glow: string; gradient: string }> = {
+const colorMap: Record<string, { text: string; bg: string; border: string; glow: string; glowHover: string; gradient: string; shadow: string }> = {
   "google-blue": {
     text: "text-google-blue",
     bg: "bg-google-blue/10",
-    border: "border-google-blue/30",
-    glow: "shadow-[0_0_30px_rgba(66,133,244,0.15)]",
+    border: "border-google-blue/20",
+    glow: "shadow-[0_0_20px_rgba(66,133,244,0.08)]",
+    glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.25),0_0_80px_rgba(66,133,244,0.1)]",
     gradient: "from-google-blue/20 to-transparent",
+    shadow: "rgba(66,133,244,0.3)",
   },
   "google-red": {
     text: "text-google-red",
     bg: "bg-google-red/10",
-    border: "border-google-red/30",
-    glow: "shadow-[0_0_30px_rgba(234,67,53,0.15)]",
+    border: "border-google-red/20",
+    glow: "shadow-[0_0_20px_rgba(234,67,53,0.08)]",
+    glowHover: "hover:shadow-[0_0_40px_rgba(234,67,53,0.25),0_0_80px_rgba(234,67,53,0.1)]",
     gradient: "from-google-red/20 to-transparent",
+    shadow: "rgba(234,67,53,0.3)",
   },
   "google-yellow": {
     text: "text-google-yellow",
     bg: "bg-google-yellow/10",
-    border: "border-google-yellow/30",
-    glow: "shadow-[0_0_30px_rgba(251,188,4,0.15)]",
+    border: "border-google-yellow/20",
+    glow: "shadow-[0_0_20px_rgba(251,188,4,0.08)]",
+    glowHover: "hover:shadow-[0_0_40px_rgba(251,188,4,0.25),0_0_80px_rgba(251,188,4,0.1)]",
     gradient: "from-google-yellow/20 to-transparent",
+    shadow: "rgba(251,188,4,0.3)",
   },
   "google-green": {
     text: "text-google-green",
     bg: "bg-google-green/10",
-    border: "border-google-green/30",
-    glow: "shadow-[0_0_30px_rgba(52,168,83,0.15)]",
+    border: "border-google-green/20",
+    glow: "shadow-[0_0_20px_rgba(52,168,83,0.08)]",
+    glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.25),0_0_80px_rgba(52,168,83,0.1)]",
     gradient: "from-google-green/20 to-transparent",
+    shadow: "rgba(52,168,83,0.3)",
   },
 };
 
@@ -238,15 +246,18 @@ const Services = () => {
               <ScrollRevealSection key={s.title}>
                 <ScrollStaggerItem index={0}>
                   <motion.div
-                    className={`relative overflow-hidden border ${colors.border} ${colors.glow} bg-background hover:${colors.bg} transition-all duration-500 group`}
-                    whileHover={{ y: -4 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className={`relative overflow-hidden border ${colors.border} ${colors.glow} ${colors.glowHover} bg-background transition-all duration-700 ease-out group`}
+                    whileHover={{ y: -6, scale: 1.005 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
                   >
-                    {/* Color accent bar */}
-                    <div className={`absolute top-0 left-0 right-0 h-1 bg-${s.color}`} />
+                    {/* Color accent bar with hover expand */}
+                    <div className={`absolute top-0 left-0 right-0 h-1 bg-${s.color} transition-all duration-500 group-hover:h-1.5`} />
 
-                    {/* Background gradient */}
-                    <div className={`absolute inset-0 bg-gradient-to-${isEven ? 'r' : 'l'} ${colors.gradient} opacity-50`} />
+                    {/* Animated background gradient - intensifies on hover */}
+                    <div className={`absolute inset-0 bg-gradient-to-${isEven ? 'r' : 'l'} ${colors.gradient} opacity-30 transition-opacity duration-700 group-hover:opacity-70`} />
+                    
+                    {/* Radial glow overlay on hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: `radial-gradient(ellipse at ${isEven ? '30%' : '70%'} 50%, ${colors.shadow}, transparent 70%)` }} />
 
                     <div className={`relative grid md:grid-cols-2 gap-0 ${isEven ? '' : 'md:[direction:rtl]'}`}>
                       {/* Image */}
@@ -255,7 +266,7 @@ const Services = () => {
                           src={s.image}
                           alt={s.title}
                           loading="lazy"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                         />
                         <div className={`absolute inset-0 bg-gradient-to-${isEven ? 'r' : 'l'} from-transparent to-background/80`} />
                         
