@@ -15,14 +15,35 @@ const latLngToPos = (lat: number, lng: number, radius: number): [number, number,
 };
 
 const PIN_LOCATIONS = [
-  { lat: 40.7128, lng: -74.006, label: "New York" },
-  { lat: 51.5074, lng: -0.1278, label: "London" },
-  { lat: 35.6762, lng: 139.6503, label: "Tokyo" },
+  // Australia & Oceania
   { lat: -33.8688, lng: 151.2093, label: "Sydney" },
-  { lat: 25.2048, lng: 55.2708, label: "Dubai" },
-  { lat: 48.8566, lng: 2.3522, label: "Paris" },
+  { lat: -37.8136, lng: 144.9631, label: "Melbourne" },
+  { lat: -27.4698, lng: 153.0251, label: "Brisbane" },
+  { lat: -31.9505, lng: 115.8605, label: "Perth" },
+  { lat: -34.9285, lng: 138.6007, label: "Adelaide" },
+  { lat: -41.2865, lng: 174.7762, label: "Wellington" },
+  // Asia
+  { lat: 35.6762, lng: 139.6503, label: "Tokyo" },
   { lat: 1.3521, lng: 103.8198, label: "Singapore" },
+  { lat: 22.3193, lng: 114.1694, label: "Hong Kong" },
+  { lat: 37.5665, lng: 126.978, label: "Seoul" },
+  { lat: 13.7563, lng: 100.5018, label: "Bangkok" },
+  { lat: 25.2048, lng: 55.2708, label: "Dubai" },
+  { lat: 19.076, lng: 72.8777, label: "Mumbai" },
+  // Europe
+  { lat: 51.5074, lng: -0.1278, label: "London" },
+  { lat: 48.8566, lng: 2.3522, label: "Paris" },
+  { lat: 52.52, lng: 13.405, label: "Berlin" },
+  { lat: 41.9028, lng: 12.4964, label: "Rome" },
+  // Americas
+  { lat: 40.7128, lng: -74.006, label: "New York" },
+  { lat: 34.0522, lng: -118.2437, label: "Los Angeles" },
+  { lat: 43.6532, lng: -79.3832, label: "Toronto" },
   { lat: -23.5505, lng: -46.6333, label: "São Paulo" },
+  { lat: 19.4326, lng: -99.1332, label: "Mexico City" },
+  // Africa
+  { lat: -33.9249, lng: 18.4241, label: "Cape Town" },
+  { lat: 30.0444, lng: 31.2357, label: "Cairo" },
 ];
 
 const GOOGLE_COLORS = ["#4285F4", "#EA4335", "#FBBC04", "#34A853"];
@@ -31,7 +52,7 @@ const PulsingPin = ({ lat, lng, color, delay, label }: { lat: number; lng: numbe
   const pinRef = useRef<THREE.Group>(null);
   const pulseRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
-  const pos = useMemo(() => latLngToPos(lat, lng, 2.03), [lat, lng]);
+  const pos = useMemo(() => latLngToPos(lat, lng, 2.43), [lat, lng]);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime() + delay;
@@ -100,7 +121,15 @@ const PulsingPin = ({ lat, lng, color, delay, label }: { lat: number; lng: numbe
 const Earth = () => {
   const meshRef = useRef<THREE.Mesh>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const texture = useLoader(THREE.TextureLoader, "/images/earth-texture.jpg");
+
+  // Make texture brighter
+  useMemo(() => {
+    if (texture) {
+      texture.colorSpace = THREE.SRGBColorSpace;
+    }
+  }, [texture]);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -109,34 +138,46 @@ const Earth = () => {
     }
   });
 
+  // Rotate group so Australia faces camera initially
+  const initialRotation = useMemo(() => {
+    const yRot = -(140 + 180) * (Math.PI / 180);
+    return [0.3, yRot, 0] as [number, number, number];
+  }, []);
+
   return (
-    <group>
+    <group ref={groupRef} rotation={initialRotation}>
       {/* Atmosphere glow */}
-      <mesh scale={[2.15, 2.15, 2.15]}>
+      <mesh scale={[2.55, 2.55, 2.55]}>
         <sphereGeometry args={[1, 64, 64]} />
-        <meshBasicMaterial color="#4285F4" transparent opacity={0.08} side={THREE.BackSide} />
+        <meshBasicMaterial color="#4285F4" transparent opacity={0.06} side={THREE.BackSide} />
+      </mesh>
+
+      {/* Outer atmosphere */}
+      <mesh scale={[2.7, 2.7, 2.7]}>
+        <sphereGeometry args={[1, 64, 64]} />
+        <meshBasicMaterial color="#88bbff" transparent opacity={0.03} side={THREE.BackSide} />
       </mesh>
 
       {/* Earth */}
-      <mesh ref={meshRef} scale={[2, 2, 2]}>
+      <mesh ref={meshRef} scale={[2.4, 2.4, 2.4]}>
         <sphereGeometry args={[1, 64, 64]} />
-        <meshStandardMaterial map={texture} metalness={0.1} roughness={0.7} />
+        <meshStandardMaterial map={texture} metalness={0.05} roughness={0.5} emissive="#223355" emissiveIntensity={0.15} />
       </mesh>
 
       {/* Cloud layer */}
-      <mesh ref={cloudsRef} scale={[2.02, 2.02, 2.02]}>
+      <mesh ref={cloudsRef} scale={[2.43, 2.43, 2.43]}>
         <sphereGeometry args={[1, 64, 64]} />
-        <meshStandardMaterial transparent opacity={0.15} color="#ffffff" depthWrite={false} />
+        <meshStandardMaterial transparent opacity={0.12} color="#ffffff" depthWrite={false} />
       </mesh>
 
-      {/* Pulsing Google Maps pins at real city locations */}
+      {/* Pulsing Google Maps pins */}
       {PIN_LOCATIONS.map((loc, i) => (
         <PulsingPin
           key={loc.label}
           lat={loc.lat}
           lng={loc.lng}
           color={GOOGLE_COLORS[i % 4]}
-          delay={i * 0.8}
+          delay={i * 0.5}
           label={loc.label}
         />
       ))}
@@ -146,24 +187,25 @@ const Earth = () => {
 
 const EarthGlobe = () => {
   return (
-    <div style={{ width: "100%", height: "100%", minHeight: "300px" }}>
+    <div style={{ width: "100%", height: "100%", minHeight: "400px" }}>
       <Canvas
-        camera={{ position: [0, 0, 5.5], fov: 45 }}
+        camera={{ position: [0, 0, 5.2], fov: 45 }}
         gl={{ antialias: true, alpha: true }}
         style={{ background: "transparent" }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 3, 5]} intensity={1.5} color="#ffffff" />
-        <directionalLight position={[-5, -2, -3]} intensity={0.3} color="#4285F4" />
+        <ambientLight intensity={1.2} />
+        <directionalLight position={[5, 3, 5]} intensity={2.5} color="#ffffff" />
+        <directionalLight position={[-3, -1, -3]} intensity={0.8} color="#6699ff" />
+        <pointLight position={[0, 5, 3]} intensity={1} color="#ffffff" />
         <Suspense fallback={null}>
           <Earth />
-          <Stars radius={100} depth={50} count={2000} factor={4} fade speed={1} />
+          <Stars radius={100} depth={50} count={1500} factor={3} fade speed={1} />
         </Suspense>
         <OrbitControls
           enableZoom={false}
           enablePan={false}
           autoRotate
-          autoRotateSpeed={0.5}
+          autoRotateSpeed={0.4}
           enableRotate
           rotateSpeed={0.5}
           enableDamping
