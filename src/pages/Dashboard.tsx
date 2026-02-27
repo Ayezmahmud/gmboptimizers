@@ -216,8 +216,12 @@ const Dashboard = () => {
               <div className="space-y-6">
                 {/* Account Card */}
                 <div className="bg-card border border-border p-6 shadow-lg">
-                  <div className="w-16 h-16 rounded-full bg-google-blue/10 border-2 border-google-blue/30 flex items-center justify-center mb-4 mx-auto">
-                    <User className="w-8 h-8 text-google-blue" />
+                  <div className="w-16 h-16 rounded-full bg-google-blue/10 border-2 border-google-blue/30 flex items-center justify-center mb-4 mx-auto overflow-hidden">
+                    {profile.avatar_url ? (
+                      <img src={profile.avatar_url} alt="Avatar" className="w-full h-full object-cover" />
+                    ) : (
+                      <User className="w-8 h-8 text-google-blue" />
+                    )}
                   </div>
                   <h3 className="text-center font-bold text-foreground">{profile.full_name || "Your Name"}</h3>
                   <p className="text-center text-xs text-muted-foreground mt-1 truncate">{user.email}</p>
