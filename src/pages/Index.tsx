@@ -10,6 +10,7 @@ import {
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
+import MagneticCard from "@/components/MagneticCard";
 
 const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
 
@@ -262,16 +263,18 @@ const Index = () => {
           </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {whyUs.map((item, i) => (
-              <ScrollStaggerItem key={item.title} index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border">
-                <item.icon className={`w-8 h-8 ${item.color} mb-5 hover-icon`} strokeWidth={1.5} />
-                <h3 className="text-sm font-bold uppercase text-foreground mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                <div className="hover-reveal-content">
-                  <Link to="/about" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
-                    Learn More <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </ScrollStaggerItem>
+              <MagneticCard key={item.title}>
+                <ScrollStaggerItem index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border h-full">
+                  <item.icon className={`w-8 h-8 ${item.color} mb-5 hover-icon`} strokeWidth={1.5} />
+                  <h3 className="text-sm font-bold uppercase text-foreground mb-2">{item.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                  <div className="hover-reveal-content">
+                    <Link to="/about" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
+                      Learn More <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
         </div>
@@ -291,16 +294,18 @@ const Index = () => {
           </ScrollTextReveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((s, i) => (
-              <ScrollStaggerItem key={s.title} index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border">
-                <s.icon className={`w-7 h-7 ${s.color} mb-5 hover-icon`} strokeWidth={1.5} />
-                <h3 className="text-sm font-bold uppercase text-foreground mb-3">{s.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
-                <div className="hover-reveal-content">
-                  <Link to="/services" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
-                    Explore <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </ScrollStaggerItem>
+              <MagneticCard key={s.title}>
+                <ScrollStaggerItem index={i} className="hover-reveal-card hover-shine bg-background p-8 border border-border h-full">
+                  <s.icon className={`w-7 h-7 ${s.color} mb-5 hover-icon`} strokeWidth={1.5} />
+                  <h3 className="text-sm font-bold uppercase text-foreground mb-3">{s.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+                  <div className="hover-reveal-content">
+                    <Link to="/services" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
+                      Explore <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
         </div>
@@ -391,7 +396,8 @@ const Index = () => {
           </ScrollTextReveal>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
-              <ScrollStaggerItem key={t.name} index={i} className="hover-reveal-card hover-glow bg-background p-8 border border-border">
+              <MagneticCard key={t.name}>
+              <ScrollStaggerItem index={i} className="hover-reveal-card hover-glow bg-background p-8 border border-border h-full">
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
                     <Star key={j} className="w-3.5 h-3.5 fill-google-yellow text-google-yellow" />
@@ -406,6 +412,7 @@ const Index = () => {
                   </div>
                 </div>
               </ScrollStaggerItem>
+              </MagneticCard>
             ))}
           </div>
           <div className="text-center mt-10">
