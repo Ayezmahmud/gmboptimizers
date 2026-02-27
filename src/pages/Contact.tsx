@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
+import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "hello@gboptimizers.com", color: "text-google-blue", border: "border-google-blue/20", glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.2)]", bgHover: "bg-google-blue/5" },
@@ -155,6 +156,7 @@ const Contact = () => {
         </div>
       </ScrollRevealSection>
 
+      <CertificationsMarquee className="border-t border-border bg-secondary" />
       <Footer />
     </div>
   );

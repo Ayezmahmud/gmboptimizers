@@ -11,6 +11,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
+import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
 
@@ -53,20 +54,6 @@ const services = [
   { icon: BarChart3, title: "Performance Reporting", desc: "Detailed monthly reports tracking rankings, traffic, conversions, and ROI.", color: "text-google-green" },
 ];
 
-const certifications = [
-  { name: "Google Certified", color: "#4285F4", logo: "https://cdn.simpleicons.org/google/4285F4" },
-  { name: "Meta Certified", color: "#0081FB", logo: "https://cdn.simpleicons.org/meta/0081FB" },
-  { name: "Trusted by PayPal", color: "#003087", logo: "https://cdn.simpleicons.org/paypal/003087" },
-  { name: "Trusted by Stripe", color: "#635BFF", logo: "https://cdn.simpleicons.org/stripe/635BFF" },
-  { name: "SEMrush Certified", color: "#FF622D", logo: "https://cdn.simpleicons.org/semrush/FF622D" },
-  { name: "HubSpot Partner", color: "#FF7A59", logo: "https://cdn.simpleicons.org/hubspot/FF7A59" },
-  { name: "Bing Ads Accredited", color: "#008373", logo: "https://cdn.simpleicons.org/microsoftbing/008373" },
-  { name: "Shopify Partner", color: "#96BF48", logo: "https://cdn.simpleicons.org/shopify/96BF48" },
-  { name: "Clutch Top Agency", color: "#EF4335", logo: "https://cdn.simpleicons.org/clutch/EF4335" },
-  { name: "BrightLocal Partner", color: "#1B98F5", logo: "https://cdn.simpleicons.org/google/1B98F5" },
-  { name: "Yext Partner", color: "#0F70F0", logo: "https://cdn.simpleicons.org/y/0F70F0" },
-  { name: "AWS Certified", color: "#FF9900", logo: "https://cdn.simpleicons.org/amazonaws/FF9900" },
-];
 
 const process = [
   { step: "01", title: "Discovery & Audit", desc: "We analyze your current Google presence, competitors, and market opportunity.", color: "bg-google-blue" },
@@ -217,24 +204,7 @@ const Index = () => {
       </section>
 
       {/* ═══ MARQUEE CERTIFICATIONS ═══ */}
-      <div className="py-4 border-b border-border bg-secondary overflow-hidden space-y-3">
-        <div className="flex animate-marquee whitespace-nowrap">
-          {[...certifications, ...certifications].map((cert, i) => (
-            <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
-              <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
-              <span style={{ color: cert.color }}>{cert.name}</span>
-            </span>
-          ))}
-        </div>
-        <div className="flex animate-marquee-reverse whitespace-nowrap">
-          {[...certifications.slice().reverse(), ...certifications.slice().reverse()].map((cert, i) => (
-            <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
-              <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
-              <span style={{ color: cert.color }}>{cert.name}</span>
-            </span>
-          ))}
-        </div>
-      </div>
+      <CertificationsMarquee className="border-b border-border bg-secondary" />
 
       {/* ═══ STATS ═══ */}
       <ScrollRevealSection className="border-b border-border">
@@ -486,24 +456,7 @@ const Index = () => {
         </div>
 
         {/* Certifications Marquee */}
-        <div className="mt-16 overflow-hidden space-y-3">
-          <div className="flex animate-marquee whitespace-nowrap">
-            {[...certifications, ...certifications].map((cert, i) => (
-              <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
-                <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
-                <span style={{ color: cert.color }}>{cert.name}</span>
-              </span>
-            ))}
-          </div>
-          <div className="flex animate-marquee-reverse whitespace-nowrap">
-            {[...certifications.slice().reverse(), ...certifications.slice().reverse()].map((cert, i) => (
-              <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
-                <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
-                <span style={{ color: cert.color }}>{cert.name}</span>
-              </span>
-            ))}
-          </div>
-        </div>
+        <CertificationsMarquee className="mt-16" />
       </ScrollRevealSection>
 
       {/* ═══ FAQ ═══ */}
