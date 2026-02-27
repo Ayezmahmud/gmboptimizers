@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
+import MagneticCard from "@/components/MagneticCard";
 
 const services = [
   {
@@ -245,10 +246,9 @@ const Services = () => {
             return (
               <ScrollRevealSection key={s.title}>
                 <ScrollStaggerItem index={0}>
-                  <motion.div
+                  <MagneticCard intensity={5} className="will-change-transform">
+                  <div
                     className={`relative overflow-hidden border ${colors.border} ${colors.glow} ${colors.glowHover} bg-background transition-all duration-700 ease-out group`}
-                    whileHover={{ y: -6, scale: 1.005 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
                   >
                     {/* Color accent bar with hover expand */}
                     <div className={`absolute top-0 left-0 right-0 h-1 bg-${s.color} transition-all duration-500 group-hover:h-1.5`} />
@@ -324,7 +324,8 @@ const Services = () => {
                         </motion.div>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
+                  </MagneticCard>
                 </ScrollStaggerItem>
               </ScrollRevealSection>
             );
