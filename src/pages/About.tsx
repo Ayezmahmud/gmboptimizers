@@ -86,23 +86,13 @@ const About = () => {
           {/* Floating grid dots */}
           {/* Giant subtle Google Maps pin silhouette */}
           <motion.div
-            className="absolute top-[10%] left-1/2 -translate-x-1/2"
-            animate={{ y: [0, -15, 0], opacity: [0.25, 0.45, 0.25] }}
+            className="absolute top-[15%] left-1/2 -translate-x-1/2 -translate-y-1/2"
+            animate={{ y: [0, -20, 0], opacity: [0.18, 0.3, 0.18] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <svg width="280" height="370" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <clipPath id="pinClip">
-                  <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12z" />
-                </clipPath>
-              </defs>
-              <g clipPath="url(#pinClip)">
-                <rect x="0" y="0" width="6" height="36" fill="#4285F4" />
-                <rect x="6" y="0" width="6" height="36" fill="#EA4335" />
-                <rect x="12" y="0" width="6" height="36" fill="#FBBC04" />
-                <rect x="18" y="0" width="6" height="36" fill="#34A853" />
-              </g>
-              <circle cx="12" cy="12" r="5" fill="white" opacity="0.25" />
+            <svg width="400" height="520" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12z" fill="#EA4335" />
+              <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="#B31412" opacity="0.6" />
             </svg>
           </motion.div>
           {Array.from({ length: 20 }).map((_, i) => (
