@@ -94,28 +94,6 @@ const About = () => {
               <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12zm0 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="white" />
             </svg>
           </motion.div>
-          {/* Smaller offset pin for depth */}
-          <motion.div
-            className="absolute"
-            style={{ top: "25%", right: "12%" }}
-            animate={{ y: [0, -10, 0], opacity: [0.03, 0.055, 0.03], rotate: [8, 12, 8] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-          >
-            <svg width="180" height="234" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12zm0 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="white" />
-            </svg>
-          </motion.div>
-          {/* Tiny pin bottom-left for triangular composition */}
-          <motion.div
-            className="absolute"
-            style={{ bottom: "18%", left: "10%" }}
-            animate={{ y: [0, -8, 0], opacity: [0.025, 0.05, 0.025], rotate: [-6, -10, -6] }}
-            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-          >
-            <svg width="100" height="130" viewBox="0 0 24 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 0C5.372 0 0 5.372 0 12c0 9 12 24 12 24s12-15 12-24c0-6.628-5.372-12-12-12zm0 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12z" fill="white" />
-            </svg>
-          </motion.div>
           {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
