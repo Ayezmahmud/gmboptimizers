@@ -9,7 +9,8 @@ import AdminStats from "@/components/admin/AdminStats";
 import AdminOrderCard from "@/components/admin/AdminOrderCard";
 import { OrderItem } from "@/components/admin/AdminItemRow";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Package, Search, RefreshCw, Filter } from "lucide-react";
+import { Shield, Package, Search, RefreshCw, Filter, Download } from "lucide-react";
+import { exportOrdersToCSV } from "@/utils/exportOrdersCSV";
 
 interface Order {
   id: string;
@@ -219,6 +220,15 @@ const AdminPanel = () => {
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
                 Refresh
+              </button>
+
+              <button
+                onClick={() => exportOrdersToCSV(filteredOrders)}
+                disabled={filteredOrders.length === 0}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider bg-google-green text-white hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Export CSV
               </button>
             </div>
 
