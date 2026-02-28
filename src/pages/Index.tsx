@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useCountry } from "@/contexts/CountryContext";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState, Suspense, lazy } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useInView } from "framer-motion";
 import {
   MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText,
@@ -109,6 +110,7 @@ const FAQItem = ({ q, a }: { q: string; a: string }) => {
 /* ── Page ── */
 const Index = () => {
   const { localePath } = useCountry();
+  const isMobile = useIsMobile();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <SEOHead />
@@ -189,13 +191,23 @@ const Index = () => {
             transition={{ duration: 0.6, delay: 0 }}
             className="w-full lg:w-1/2 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px]"
           >
-            <Suspense fallback={
+            {isMobile ? (
               <div className="w-full h-full flex items-center justify-center">
-                <div className="w-16 h-16 border-2 border-google-blue/30 border-t-google-blue rounded-full animate-spin" />
+                <img
+                  src="/images/earth-texture-hq.jpg"
+                  alt="Global coverage"
+                  className="w-64 h-64 rounded-full object-cover shadow-[0_0_60px_rgba(66,133,244,0.3)]"
+                />
               </div>
-            }>
-              <EarthGlobe />
-            </Suspense>
+            ) : (
+              <Suspense fallback={
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-16 h-16 border-2 border-google-blue/30 border-t-google-blue rounded-full animate-spin" />
+                </div>
+              }>
+                <EarthGlobe />
+              </Suspense>
+            )}
           </motion.div>
         </div>
 
