@@ -132,11 +132,41 @@ const Pricing = () => {
   const [confettiParticles, setConfettiParticles] = useState<{ id: number; x: number; y: number; color: string; rotation: number; scale: number }[]>([]);
   const { dbProducts } = usePublicProducts();
 
-  // Merge: if DB has products, show them alongside hardcoded defaults
+  // Merge: DB products override matching hardcoded ones by name, new DB products are appended
   const allPackages = useMemo(() => {
-    const dbMapped = dbProducts.map((p) => {
+    const dbByName = new Map(dbProducts.map((p) => [p.name.toLowerCase(), p]));
+
+    // Map hardcoded packages, overriding with DB data if a matching name exists
+    const merged = packages.map((pkg) => {
+      const dbMatch = dbByName.get(pkg.name.toLowerCase());
+      if (dbMatch) {
+        dbByName.delete(pkg.name.toLowerCase());
+        const colors = COLOR_MAP[dbMatch.color_theme] || COLOR_MAP["google-blue"];
+        return {
+          name: dbMatch.name,
+          price: dbMatch.price,
+          popular: dbMatch.popular,
+          is_limited_offer: dbMatch.is_limited_offer,
+          is_new_deal: dbMatch.is_new_deal,
+          is_upcoming: dbMatch.is_upcoming,
+          color: dbMatch.popular ? "" : colors.color,
+          dotColor: dbMatch.popular ? "" : colors.dotColor,
+          borderColor: dbMatch.popular ? "" : colors.borderColor,
+          glowHover: dbMatch.popular
+            ? "hover:shadow-[0_0_50px_rgba(66,133,244,0.3),0_0_50px_rgba(234,67,53,0.15)]"
+            : colors.glowHover,
+          bgHover: dbMatch.popular ? "" : colors.bgHover,
+          features: dbMatch.features,
+          fromDb: true,
+        };
+      }
+      return { ...pkg, is_limited_offer: false, is_new_deal: false, is_upcoming: false, fromDb: false };
+    });
+
+    // Append any extra DB products not matching hardcoded names
+    for (const [, p] of dbByName) {
       const colors = COLOR_MAP[p.color_theme] || COLOR_MAP["google-blue"];
-      return {
+      merged.push({
         name: p.name,
         price: p.price,
         popular: p.popular,
@@ -152,12 +182,10 @@ const Pricing = () => {
         bgHover: p.popular ? "" : colors.bgHover,
         features: p.features,
         fromDb: true,
-      };
-    });
+      });
+    }
 
-    // If DB has products, use only DB products; otherwise fallback to hardcoded
-    if (dbMapped.length > 0) return dbMapped;
-    return packages.map((p) => ({ ...p, is_limited_offer: false, is_new_deal: false, is_upcoming: false, fromDb: false }));
+    return merged;
   }, [dbProducts]);
 
   const triggerConfetti = () => {
