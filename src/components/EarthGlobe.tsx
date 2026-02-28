@@ -1,7 +1,10 @@
-import { useRef, Suspense, useMemo, useState } from "react";
+import { useRef, Suspense, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { OrbitControls, Stars, Html } from "@react-three/drei";
+import { OrbitControls, Stars, Html, useTexture } from "@react-three/drei";
 import * as THREE from "three";
+
+// Preload the texture so it starts downloading immediately
+useTexture.preload("/images/earth-texture-hq.jpg");
 
 // Convert lat/lng to 3D position on sphere
 const latLngToPos = (lat: number, lng: number, radius: number): [number, number, number] => {
@@ -225,10 +228,11 @@ const Earth = () => {
     }
   });
 
-  // Rotate group so Asia/Australia region faces camera initially
+  // Rotate group so Australia faces camera initially
   const initialRotation = useMemo(() => {
-    const yRot = -(120 + 180) * (Math.PI / 180);
-    return [0.15, yRot, 0] as [number, number, number];
+    // Center on ~140°E longitude (Australia)
+    const yRot = -(140 + 180) * (Math.PI / 180);
+    return [0.2, yRot, 0] as [number, number, number];
   }, []);
 
   return (
