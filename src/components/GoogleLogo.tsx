@@ -17,7 +17,11 @@ const COLORS = [
 const LETTERS = "GB Optimizers";
 
 const GoogleLogo = ({ className = "" }: { className?: string }) => (
-  <span className={`font-black uppercase tracking-tight ${className}`} aria-label="GB Optimizers">
+  <span
+    className={`tracking-normal ${className}`}
+    style={{ fontFamily: "'Product Sans', 'Google Sans', sans-serif", fontWeight: 500 }}
+    aria-label="GB Optimizers"
+  >
     {LETTERS.split("").map((char, i) =>
       char === " " ? (
         <span key={i}>&nbsp;</span>
