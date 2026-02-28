@@ -7,9 +7,11 @@ interface OrderPDFData {
   customerEmail: string;
   items: CartItem[];
   total: number;
+  currencySymbol?: string;
+  currencyCode?: string;
 }
 
-export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items, total }: OrderPDFData) => {
+export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items, total, currencySymbol = "$", currencyCode = "AUD" }: OrderPDFData) => {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
 
@@ -32,7 +34,7 @@ export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   doc.text(`Order Code: ${orderCode}`, 20, 70);
-  doc.text(`Date: ${new Date().toLocaleDateString("en-AU")}`, 20, 78);
+  doc.text(`Date: ${new Date().toLocaleDateString()}`, 20, 78);
   doc.text(`Customer: ${customerName}`, 20, 86);
   if (customerEmail) doc.text(`Email: ${customerEmail}`, 20, 94);
 
@@ -44,7 +46,7 @@ export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items
   doc.setFontSize(9);
   doc.text("SERVICE", 22, y);
   doc.text("TYPE", 120, y);
-  doc.text("PRICE (AUD)", 155, y);
+  doc.text(`PRICE (${currencyCode})`, 155, y);
   y += 10;
 
   // Items
@@ -52,7 +54,7 @@ export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items
   items.forEach((item) => {
     doc.text(item.name.substring(0, 40), 22, y);
     doc.text(item.type, 120, y);
-    doc.text(`$${item.price.toFixed(2)}`, 155, y);
+    doc.text(`${currencySymbol}${item.price.toFixed(2)}`, 155, y);
     y += 8;
   });
 
@@ -65,7 +67,7 @@ export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items
   doc.setFontSize(12);
   doc.text("Total:", 120, y);
   doc.setTextColor(66, 133, 244);
-  doc.text(`$${total.toFixed(2)} AUD`, 155, y);
+  doc.text(`${currencySymbol}${total.toFixed(2)} ${currencyCode}`, 155, y);
 
   // Footer
   doc.setTextColor(150, 150, 150);
