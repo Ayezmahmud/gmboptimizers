@@ -379,25 +379,47 @@ const Pricing = () => {
             </div>
 
             {/* Summary Preview */}
-            {selectedServices.some((s) => s) && (
+            <motion.div
+              initial={false}
+              animate={selectedServices.some((s) => s) ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              className="overflow-hidden"
+            >
               <div className="mb-6 border border-border bg-background p-5">
                 <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Bundle Summary</p>
                 <ul className="space-y-2 mb-4">
                   {selectedServices.filter((s) => s).map((s, i) => (
-                    <li key={i} className="flex items-center justify-between text-sm">
+                    <motion.li
+                      key={s}
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 12 }}
+                      transition={{ duration: 0.3, delay: i * 0.05 }}
+                      className="flex items-center justify-between text-sm"
+                    >
                       <span className="text-foreground">{s}</span>
                       <span className="text-muted-foreground font-medium">{country.currencySymbol}{localCustomPrice.toFixed(2)}</span>
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
-                <div className="flex items-center justify-between pt-3 border-t border-border">
+                <motion.div
+                  layout
+                  transition={{ duration: 0.3 }}
+                  className="flex items-center justify-between pt-3 border-t border-border"
+                >
                   <span className="text-sm font-bold uppercase tracking-wider text-foreground">Total</span>
-                  <span className="text-lg font-black text-google-blue">
+                  <motion.span
+                    key={selectedServices.filter((s) => s).length}
+                    initial={{ scale: 1.15, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="text-lg font-black text-google-blue"
+                  >
                     {country.currencySymbol}{(selectedServices.filter((s) => s).length * localCustomPrice).toFixed(2)} {country.currency}
-                  </span>
-                </div>
+                  </motion.span>
+                </motion.div>
               </div>
-            )}
+            </motion.div>
 
             <div className="flex gap-3">
               <button
