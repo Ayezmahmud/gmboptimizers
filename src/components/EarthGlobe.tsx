@@ -228,11 +228,11 @@ const Earth = () => {
     }
   });
 
-  // Rotate group so Australia faces camera initially
+  // Rotate group so Australia faces camera initially (matching reference screenshot)
   const initialRotation = useMemo(() => {
-    // Center on ~140°E longitude (Australia)
-    const yRot = -(140 + 180) * (Math.PI / 180);
-    return [0.2, yRot, 0] as [number, number, number];
+    // Center on ~150°E longitude (eastern Australia) with slight downward tilt
+    const yRot = -(150 + 180) * (Math.PI / 180);
+    return [0.35, yRot, 0.05] as [number, number, number];
   }, []);
 
   return (
