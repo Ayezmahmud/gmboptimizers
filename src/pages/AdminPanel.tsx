@@ -5,17 +5,11 @@ import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
+import AdminStats from "@/components/admin/AdminStats";
+import AdminOrderCard from "@/components/admin/AdminOrderCard";
+import { OrderItem } from "@/components/admin/AdminItemRow";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Package, Search, ChevronDown, ChevronUp, Save, DollarSign, Users, FileText } from "lucide-react";
-
-interface OrderItem {
-  id: string;
-  service_name: string;
-  price: number;
-  progress_percentage: number;
-  progress_notes: string | null;
-  status: string;
-}
+import { Shield, Package, Search, RefreshCw, Filter } from "lucide-react";
 
 interface Order {
   id: string;
@@ -31,9 +25,19 @@ interface Order {
   items: OrderItem[];
 }
 
-const PAYMENT_STATUSES = ["not_received", "received"];
-const PROGRESS_STATUSES = ["pending", "in_progress", "completed", "cancelled"];
+const STATUS_FILTERS = [
+  { value: "all", label: "All Orders" },
+  { value: "pending", label: "Pending" },
+  { value: "in_progress", label: "In Progress" },
+  { value: "completed", label: "Completed" },
+  { value: "cancelled", label: "Cancelled" },
+];
 
+const PAYMENT_FILTERS = [
+  { value: "all", label: "All" },
+  { value: "not_received", label: "Unpaid" },
+  { value: "received", label: "Paid" },
+];
 
 const AdminPanel = () => {
   const { user, loading: authLoading } = useAuth();
@@ -44,20 +48,19 @@ const AdminPanel = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [paymentFilter, setPaymentFilter] = useState("all");
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [savingItems, setSavingItems] = useState<Record<string, boolean>>({});
   const [savingOrders, setSavingOrders] = useState<Record<string, boolean>>({});
 
-  // Check admin role
   useEffect(() => {
     if (!authLoading && !user) {
       setChecking(false);
       navigate("/sign-in");
       return;
     }
-    if (user) {
-      checkAdmin();
-    }
+    if (user) checkAdmin();
   }, [user, authLoading, navigate]);
 
   const checkAdmin = async () => {
@@ -65,13 +68,11 @@ const AdminPanel = () => {
       _user_id: user!.id,
       _role: "admin",
     });
-
     if (error || !data) {
       setChecking(false);
       navigate("/unauthorized", { replace: true });
       return;
     }
-
     setIsAdmin(true);
     setChecking(false);
   };
@@ -103,6 +104,17 @@ const AdminPanel = () => {
     if (isAdmin) fetchOrders();
   }, [isAdmin, fetchOrders]);
 
+  // Realtime
+  useEffect(() => {
+    if (!isAdmin) return;
+    const channel = supabase
+      .channel('admin-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => fetchOrders())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'order_items' }, () => fetchOrders())
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [isAdmin, fetchOrders]);
+
   const updateOrderField = async (orderId: string, field: string, value: string) => {
     setSavingOrders((p) => ({ ...p, [orderId]: true }));
     const { error } = await supabase.from("orders").update({ [field]: value } as any).eq("id", orderId);
@@ -126,276 +138,131 @@ const AdminPanel = () => {
     toast({ title: "Service updated" });
   };
 
-  const filteredOrders = orders.filter((o) =>
-    search === "" ||
-    o.order_code.toLowerCase().includes(search.toLowerCase()) ||
-    o.customer_name.toLowerCase().includes(search.toLowerCase()) ||
-    o.customer_email.toLowerCase().includes(search.toLowerCase())
-  );
-
-  const totalRevenue = orders.reduce((s, o) => s + Number(o.total_amount), 0);
-  const totalCustomers = new Set(orders.map((o) => o.customer_email)).size;
-  const totalServices = orders.reduce((s, o) => s + o.items.length, 0);
+  const filteredOrders = orders.filter((o) => {
+    const matchesSearch = search === "" ||
+      o.order_code.toLowerCase().includes(search.toLowerCase()) ||
+      o.customer_name.toLowerCase().includes(search.toLowerCase()) ||
+      o.customer_email.toLowerCase().includes(search.toLowerCase());
+    const matchesStatus = statusFilter === "all" || o.status === statusFilter;
+    const matchesPayment = paymentFilter === "all" || o.payment_status === paymentFilter;
+    return matchesSearch && matchesStatus && matchesPayment;
+  });
 
   if (authLoading || checking) {
     return <div className="min-h-screen bg-background flex items-center justify-center"><div className="text-muted-foreground animate-pulse">Checking access...</div></div>;
   }
-
   if (!isAdmin) return null;
-
-  const inputClass = "w-full px-4 py-2.5 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors";
-  const selectClass = "px-3 py-2 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors";
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      <section className="relative min-h-[25vh] flex items-center justify-center overflow-hidden">
+      {/* Hero */}
+      <section className="relative min-h-[22vh] flex items-center justify-center overflow-hidden">
         <HeroBackground />
-        <div className="relative z-10 text-center px-6 py-16">
+        <div className="relative z-10 text-center px-6 py-14">
           <Shield className="w-10 h-10 text-google-red mx-auto mb-3" />
           <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-gradient-google mb-2">Admin Panel</h1>
-          <p className="text-muted-foreground text-lg">Manage orders, progress & customers</p>
+          <p className="text-muted-foreground text-base">Manage orders, track progress & monitor revenue</p>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="border-b border-border bg-secondary">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <div className="grid grid-cols-3 gap-4 py-8">
-            <div className="bg-card border border-border p-5 text-center">
-              <DollarSign className="w-6 h-6 text-google-green mx-auto mb-2" />
-              <p className="text-2xl font-black text-foreground">${totalRevenue.toFixed(2)}</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Revenue</p>
-            </div>
-            <div className="bg-card border border-border p-5 text-center">
-              <Users className="w-6 h-6 text-google-blue mx-auto mb-2" />
-              <p className="text-2xl font-black text-foreground">{totalCustomers}</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Customers</p>
-            </div>
-            <div className="bg-card border border-border p-5 text-center">
-              <FileText className="w-6 h-6 text-google-yellow mx-auto mb-2" />
-              <p className="text-2xl font-black text-foreground">{totalServices}</p>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Services</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AdminStats orders={orders} />
 
-      {/* Orders */}
-      <section className="py-12 bg-background">
-        <div className="container mx-auto px-6 max-w-6xl">
-          {/* Search */}
-          <div className="flex items-center gap-4 mb-8">
-            <div className="relative flex-1 max-w-md">
+      {/* Orders Section */}
+      <section className="py-10 bg-background">
+        <div className="container mx-auto px-6 max-w-7xl">
+          {/* Toolbar */}
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6">
+            {/* Search */}
+            <div className="relative flex-1 max-w-md w-full">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by order code, name, or email..."
-                className="w-full pl-10 pr-4 py-3 bg-card border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
+                className="w-full pl-10 pr-4 py-2.5 bg-card border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
                 maxLength={100}
               />
             </div>
-            <p className="text-sm text-muted-foreground">{filteredOrders.length} order(s)</p>
+
+            {/* Filters */}
+            <div className="flex items-center gap-3 flex-wrap">
+              <div className="flex items-center gap-1.5">
+                <Filter className="w-3.5 h-3.5 text-muted-foreground" />
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="px-3 py-2 bg-card border border-border text-foreground text-xs font-medium focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors cursor-pointer"
+                >
+                  {STATUS_FILTERS.map((f) => (
+                    <option key={f.value} value={f.value}>{f.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <select
+                value={paymentFilter}
+                onChange={(e) => setPaymentFilter(e.target.value)}
+                className="px-3 py-2 bg-card border border-border text-foreground text-xs font-medium focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors cursor-pointer"
+              >
+                {PAYMENT_FILTERS.map((f) => (
+                  <option key={f.value} value={f.value}>{f.label}</option>
+                ))}
+              </select>
+
+              <button
+                onClick={() => fetchOrders()}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
+                Refresh
+              </button>
+            </div>
+
+            <p className="text-xs text-muted-foreground ml-auto">
+              {filteredOrders.length} of {orders.length} order(s)
+            </p>
           </div>
 
+          {/* Order list */}
           {loading ? (
             <div className="text-center py-16 text-muted-foreground animate-pulse">Loading orders...</div>
           ) : filteredOrders.length === 0 ? (
             <div className="text-center py-16">
               <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No orders found.</p>
+              <p className="text-muted-foreground">No orders match your filters.</p>
+              {(statusFilter !== "all" || paymentFilter !== "all" || search) && (
+                <button
+                  onClick={() => { setSearch(""); setStatusFilter("all"); setPaymentFilter("all"); }}
+                  className="mt-3 text-xs text-google-blue hover:underline"
+                >
+                  Clear all filters
+                </button>
+              )}
             </div>
           ) : (
             <div className="space-y-4">
-              {filteredOrders.map((order) => {
-                const isExpanded = expandedOrder === order.id;
-                return (
-                  <div key={order.id} className="bg-card border border-border shadow-lg overflow-hidden">
-                    {/* Order header */}
-                    <button
-                      onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
-                      className="w-full flex flex-wrap items-center justify-between gap-4 p-6 text-left hover:bg-secondary/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div>
-                          <p className="text-lg font-black text-google-blue tracking-wider">{order.order_code}</p>
-                          <p className="text-sm text-foreground font-medium">{order.customer_name}</p>
-                          <p className="text-xs text-muted-foreground">{order.customer_email}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-6">
-                        <div className="text-right">
-                          <p className="text-sm font-bold text-foreground">${Number(order.total_amount).toFixed(2)} AUD</p>
-                          <p className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleDateString("en-AU")}</p>
-                        </div>
-                        <PaymentBadge status={order.payment_status} />
-                        <StatusBadge status={order.status} />
-                        {isExpanded ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
-                      </div>
-                    </button>
-
-                    {/* Expanded details */}
-                    {isExpanded && (
-                      <div className="border-t border-border p-6 bg-secondary/30 space-y-6">
-                        {/* Customer info */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
-                          <div><p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Phone</p><p className="text-foreground">{order.customer_phone || "—"}</p></div>
-                          <div><p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Address</p><p className="text-foreground">{order.customer_address || "—"}</p></div>
-                          <div><p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Items</p><p className="text-foreground">{order.items.length} service(s)</p></div>
-                        </div>
-
-                        {/* Two status controls */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="bg-card border border-border p-4">
-                            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2 font-bold">💳 Payment Status</p>
-                            <select
-                              value={order.payment_status}
-                              onChange={(e) => updateOrderField(order.id, "payment_status", e.target.value)}
-                              className={selectClass}
-                              disabled={savingOrders[order.id]}
-                            >
-                              {PAYMENT_STATUSES.map((s) => (
-                                <option key={s} value={s}>{s.replace("_", " ")}</option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="bg-card border border-border p-4">
-                            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2 font-bold">📋 Progress Status</p>
-                            <select
-                              value={order.status}
-                              onChange={(e) => updateOrderField(order.id, "status", e.target.value)}
-                              className={selectClass}
-                              disabled={savingOrders[order.id]}
-                            >
-                              {PROGRESS_STATUSES.map((s) => (
-                                <option key={s} value={s}>{s.replace("_", " ")}</option>
-                              ))}
-                            </select>
-                          </div>
-                        </div>
-
-                        {/* Service items */}
-                        <div>
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Services</h4>
-                          <div className="space-y-3">
-                            {order.items.map((item) => (
-                              <AdminItemRow
-                                key={item.id}
-                                item={item}
-                                saving={!!savingItems[item.id]}
-                                onSave={(updates) => updateItem(item.id, updates)}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+              {filteredOrders.map((order) => (
+                <AdminOrderCard
+                  key={order.id}
+                  order={order}
+                  isExpanded={expandedOrder === order.id}
+                  onToggle={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
+                  onUpdateOrderField={updateOrderField}
+                  onUpdateItem={updateItem}
+                  savingOrder={!!savingOrders[order.id]}
+                  savingItems={savingItems}
+                />
+              ))}
             </div>
           )}
         </div>
       </section>
 
       <Footer />
-    </div>
-  );
-};
-
-const PaymentBadge = ({ status }: { status: string }) => {
-  const isReceived = status === "received";
-  return (
-    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded ${isReceived ? "text-google-green bg-google-green/10" : "text-google-red bg-google-red/10"}`}>
-      {isReceived ? "paid" : "unpaid"}
-    </span>
-  );
-};
-
-const StatusBadge = ({ status }: { status: string }) => {
-  const colors: Record<string, string> = {
-    pending: "text-google-yellow bg-google-yellow/10",
-    in_progress: "text-google-blue bg-google-blue/10",
-    completed: "text-google-green bg-google-green/10",
-    cancelled: "text-google-red bg-google-red/10",
-  };
-  return (
-    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded ${colors[status] || colors.pending}`}>
-      {status.replace("_", " ")}
-    </span>
-  );
-};
-
-const AdminItemRow = ({
-  item,
-  saving,
-  onSave,
-}: {
-  item: OrderItem;
-  saving: boolean;
-  onSave: (updates: Partial<OrderItem>) => void;
-}) => {
-  const [progress, setProgress] = useState(item.progress_percentage);
-  const [notes, setNotes] = useState(item.progress_notes || "");
-
-  const isDirty = progress !== item.progress_percentage || notes !== (item.progress_notes || "");
-
-  return (
-    <div className="border border-border bg-card p-4">
-      <div className="mb-3">
-        <p className="text-sm font-bold text-foreground">{item.service_name}</p>
-        <p className="text-xs text-muted-foreground">${Number(item.price).toFixed(2)} AUD</p>
-      </div>
-
-      <div className="mb-3">
-        <div className="flex items-center justify-between mb-1">
-          <label className="text-xs text-muted-foreground">Progress</label>
-          <input
-            type="number"
-            min={0}
-            max={100}
-            value={progress}
-            onChange={(e) => setProgress(Math.min(100, Math.max(0, Number(e.target.value))))}
-            className="w-16 px-2 py-1 bg-background border border-border text-foreground text-xs font-bold text-right focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
-          />
-        </div>
-        <input
-          type="range"
-          min={0}
-          max={100}
-          step={5}
-          value={progress}
-          onChange={(e) => setProgress(Number(e.target.value))}
-          className="w-full h-2 bg-secondary rounded-full appearance-none cursor-pointer accent-[hsl(var(--google-blue))]"
-        />
-      </div>
-
-      {/* Notes */}
-      <div className="mb-3">
-        <label className="text-xs text-muted-foreground block mb-1">Progress Notes</label>
-        <textarea
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          rows={2}
-          maxLength={1000}
-          placeholder="e.g. Completed keyword research, starting optimization..."
-          className="w-full px-3 py-2 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors resize-none"
-        />
-      </div>
-
-      {isDirty && (
-        <button
-          onClick={() => onSave({ progress_percentage: progress, progress_notes: notes || null })}
-          disabled={saving}
-          className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity disabled:opacity-50"
-        >
-          <Save className="w-3.5 h-3.5" />
-          {saving ? "Saving..." : "Save Changes"}
-        </button>
-      )}
     </div>
   );
 };
