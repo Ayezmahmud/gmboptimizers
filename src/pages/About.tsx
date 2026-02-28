@@ -105,8 +105,8 @@ const About = () => {
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
             <ScrollParallaxImage
-              src="/images/about-office.png"
-              alt="GB Optimizers office with SEO analytics dashboards"
+              src="/images/google-maps-pin.jpg"
+              alt="Google Maps pin on city map"
               className="shadow-lg border border-border aspect-[4/3]"
             />
             <ScrollTextReveal>
