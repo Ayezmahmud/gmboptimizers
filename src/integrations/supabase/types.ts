@@ -67,6 +67,7 @@ export type Database = {
           customer_phone: string | null
           id: string
           order_code: string
+          payment_status: string
           status: string
           total_amount: number
           updated_at: string
@@ -80,6 +81,7 @@ export type Database = {
           customer_phone?: string | null
           id?: string
           order_code: string
+          payment_status?: string
           status?: string
           total_amount: number
           updated_at?: string
@@ -93,6 +95,7 @@ export type Database = {
           customer_phone?: string | null
           id?: string
           order_code?: string
+          payment_status?: string
           status?: string
           total_amount?: number
           updated_at?: string
