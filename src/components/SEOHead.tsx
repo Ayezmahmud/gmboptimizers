@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useCountry } from "@/contexts/CountryContext";
-import { countries } from "@/data/countries";
+import { countries, stripCountryPrefix } from "@/data/countries";
 
 interface SEOHeadProps {
   /** Override the page-specific part of the title, e.g. "Pricing" */
@@ -35,7 +35,7 @@ const SEOHead = ({ pageTitle, pageDescription }: SEOHeadProps) => {
     document.querySelectorAll('link[hreflang]').forEach((el) => el.remove());
 
     // Add hreflang tags for all countries
-    const pathWithoutCountry = location.pathname.replace(/^\/[a-z]{2}/, "") || "/";
+    const pathWithoutCountry = stripCountryPrefix(location.pathname);
     const baseUrl = window.location.origin;
 
     countries.forEach((c) => {
