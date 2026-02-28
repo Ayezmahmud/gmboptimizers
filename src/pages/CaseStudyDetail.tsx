@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Clock, MapPin, TrendingUp } from "
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { getCaseStudyBySlug, caseStudies } from "@/data/caseStudies";
+import { getCaseStudyBySlug, getCaseStudiesForCountry } from "@/data/caseStudies";
 
 const parseRank = (rank: string): number => parseInt(rank.replace("#", ""), 10);
 
@@ -38,7 +38,7 @@ const generateTrafficData = (timeline: { week: string }[]) => {
 };
 
 const CaseStudyDetail = () => {
-  const { localePath } = useCountry();
+  const { localePath, countryCode, country } = useCountry();
   const { slug } = useParams<{ slug: string }>();
   const study = getCaseStudyBySlug(slug || "");
 
@@ -57,9 +57,10 @@ const CaseStudyDetail = () => {
     );
   }
 
-  const currentIndex = caseStudies.findIndex(c => c.slug === slug);
-  const prevStudy = currentIndex > 0 ? caseStudies[currentIndex - 1] : null;
-  const nextStudy = currentIndex < caseStudies.length - 1 ? caseStudies[currentIndex + 1] : null;
+  const countryCaseStudies = getCaseStudiesForCountry(countryCode);
+  const currentIndex = countryCaseStudies.findIndex(c => c.slug === slug);
+  const prevStudy = currentIndex > 0 ? countryCaseStudies[currentIndex - 1] : null;
+  const nextStudy = currentIndex < countryCaseStudies.length - 1 ? countryCaseStudies[currentIndex + 1] : null;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -473,9 +474,9 @@ const CaseStudyDetail = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Want Results Like These?</h2>
+            <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">Want Results Like These in {country.name}?</h2>
             <p className="text-primary-foreground/60 mb-8 max-w-lg mx-auto">
-              Get a free consultation and see how we can transform your Google Maps presence.
+              Get a free consultation and see how we can transform your Google Maps presence in {country.name}.
             </p>
             <Link
               to={localePath("/pricing")}
