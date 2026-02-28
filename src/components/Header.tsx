@@ -137,19 +137,19 @@ const Header = () => {
           )}
         </div>
 
-        {/* Mobile cart + toggle */}
-        <div className="flex items-center gap-2 lg:hidden">
+        {/* Mobile toggle */}
+        <div className="flex items-center gap-1 lg:hidden">
           <CountrySelector />
-          <Link to={localePath("/checkout")} className="relative inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground">
-            <ShoppingCart className="w-5 h-5" />
+          <Link to={localePath("/checkout")} className="relative inline-flex items-center justify-center w-9 h-9 text-muted-foreground hover:text-foreground">
+            <ShoppingCart className="w-4 h-4" />
             {itemCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-google-red text-white text-[10px] font-bold leading-none px-1">
+              <span className="absolute top-0.5 right-0.5 min-w-[16px] h-[16px] flex items-center justify-center rounded-full bg-google-red text-white text-[9px] font-bold leading-none px-0.5">
                 {itemCount}
               </span>
             )}
           </Link>
-          <button onClick={() => setOpen(!open)} className="text-foreground">
-            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          <button onClick={() => setOpen(!open)} className="inline-flex items-center justify-center w-9 h-9 text-foreground">
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
