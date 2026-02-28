@@ -66,8 +66,7 @@ const AdminPanel = () => {
 
     if (error || !data) {
       setChecking(false);
-      navigate("/dashboard");
-      toast({ title: "Access denied", description: "Admin privileges required.", variant: "destructive" });
+      navigate("/unauthorized", { replace: true });
       return;
     }
 
