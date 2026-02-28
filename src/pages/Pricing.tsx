@@ -377,6 +377,28 @@ const Pricing = () => {
                 </div>
               ))}
             </div>
+
+            {/* Summary Preview */}
+            {selectedServices.some((s) => s) && (
+              <div className="mb-6 border border-border bg-background p-5">
+                <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">Bundle Summary</p>
+                <ul className="space-y-2 mb-4">
+                  {selectedServices.filter((s) => s).map((s, i) => (
+                    <li key={i} className="flex items-center justify-between text-sm">
+                      <span className="text-foreground">{s}</span>
+                      <span className="text-muted-foreground font-medium">{country.currencySymbol}{localCustomPrice.toFixed(2)}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex items-center justify-between pt-3 border-t border-border">
+                  <span className="text-sm font-bold uppercase tracking-wider text-foreground">Total</span>
+                  <span className="text-lg font-black text-google-blue">
+                    {country.currencySymbol}{(selectedServices.filter((s) => s).length * localCustomPrice).toFixed(2)} {country.currency}
+                  </span>
+                </div>
+              </div>
+            )}
+
             <div className="flex gap-3">
               <button
                 type="button"
