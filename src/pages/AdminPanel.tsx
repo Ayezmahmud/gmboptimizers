@@ -49,26 +49,28 @@ const AdminPanel = () => {
   // Check admin role
   useEffect(() => {
     if (!authLoading && !user) {
+      setChecking(false);
       navigate("/sign-in");
       return;
     }
     if (user) {
       checkAdmin();
     }
-  }, [user, authLoading]);
+  }, [user, authLoading, navigate]);
 
   const checkAdmin = async () => {
-    const { data } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", user!.id)
-      .eq("role", "admin")
-      .maybeSingle();
-    if (!data) {
+    const { data, error } = await supabase.rpc("has_role", {
+      _user_id: user!.id,
+      _role: "admin",
+    });
+
+    if (error || !data) {
+      setChecking(false);
       navigate("/dashboard");
       toast({ title: "Access denied", description: "Admin privileges required.", variant: "destructive" });
       return;
     }
+
     setIsAdmin(true);
     setChecking(false);
   };

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, LayoutDashboard, ShoppingCart } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, ShoppingCart, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/contexts/CartContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const links = [
   { label: "About", path: "/about" },
@@ -19,12 +20,33 @@ const Header = () => {
   const location = useLocation();
   const { user, signOut } = useAuth();
   const { itemCount } = useCart();
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadAdminRole = async () => {
+      if (!user) {
+        if (mounted) setIsAdmin(false);
+        return;
+      }
+
+      const { data } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+      if (mounted) setIsAdmin(Boolean(data));
+    };
+
+    loadAdminRole();
+
+    return () => {
+      mounted = false;
+    };
+  }, [user]);
 
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 border-b border-border shadow-lg shadow-black/5 backdrop-blur-xl`} style={{ background: 'linear-gradient(90deg, hsl(217 90% 61% / 0.3), hsl(9 81% 56% / 0.25), hsl(43 96% 50% / 0.25), hsl(142 53% 43% / 0.3)), hsl(0 0% 100% / 0.6)' }}>
@@ -65,6 +87,15 @@ const Header = () => {
           </Link>
           {user ? (
             <>
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-foreground/5 transition-colors duration-200"
+                >
+                  <Shield className="w-3.5 h-3.5" />
+                  Admin
+                </Link>
+              )}
               <Link
                 to="/dashboard"
                 className="inline-flex items-center gap-1.5 px-5 py-2.5 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-foreground/5 transition-colors duration-200"
@@ -129,6 +160,16 @@ const Header = () => {
             ))}
             {user ? (
               <>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setOpen(false)}
+                    className="text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-2"
+                  >
+                    <Shield className="w-4 h-4" />
+                    Admin Panel
+                  </Link>
+                )}
                 <Link
                   to="/dashboard"
                   onClick={() => setOpen(false)}
