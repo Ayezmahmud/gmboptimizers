@@ -26,11 +26,13 @@ interface Order {
   customer_address: string | null;
   total_amount: number;
   status: string;
+  payment_status: string;
   created_at: string;
   items: OrderItem[];
 }
 
-const ORDER_STATUSES = ["pending", "in_progress", "completed", "cancelled"];
+const PAYMENT_STATUSES = ["not_received", "received"];
+const PROGRESS_STATUSES = ["pending", "in_progress", "completed", "cancelled"];
 const ITEM_STATUSES = ["pending", "in_progress", "completed"];
 
 const AdminPanel = () => {
@@ -101,13 +103,13 @@ const AdminPanel = () => {
     if (isAdmin) fetchOrders();
   }, [isAdmin, fetchOrders]);
 
-  const updateOrderStatus = async (orderId: string, status: string) => {
+  const updateOrderField = async (orderId: string, field: string, value: string) => {
     setSavingOrders((p) => ({ ...p, [orderId]: true }));
-    const { error } = await supabase.from("orders").update({ status }).eq("id", orderId);
+    const { error } = await supabase.from("orders").update({ [field]: value } as any).eq("id", orderId);
     setSavingOrders((p) => ({ ...p, [orderId]: false }));
     if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-    setOrders((prev) => prev.map((o) => o.id === orderId ? { ...o, status } : o));
-    toast({ title: "Order status updated" });
+    setOrders((prev) => prev.map((o) => o.id === orderId ? { ...o, [field]: value } : o));
+    toast({ title: "Order updated" });
   };
 
   const updateItem = async (itemId: string, updates: Partial<OrderItem>) => {
@@ -229,6 +231,7 @@ const AdminPanel = () => {
                           <p className="text-sm font-bold text-foreground">${Number(order.total_amount).toFixed(2)} AUD</p>
                           <p className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleDateString("en-AU")}</p>
                         </div>
+                        <PaymentBadge status={order.payment_status} />
                         <StatusBadge status={order.status} />
                         {isExpanded ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
                       </div>
@@ -238,24 +241,39 @@ const AdminPanel = () => {
                     {isExpanded && (
                       <div className="border-t border-border p-6 bg-secondary/30 space-y-6">
                         {/* Customer info */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                           <div><p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Phone</p><p className="text-foreground">{order.customer_phone || "—"}</p></div>
                           <div><p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Address</p><p className="text-foreground">{order.customer_address || "—"}</p></div>
                           <div><p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Items</p><p className="text-foreground">{order.items.length} service(s)</p></div>
-                          <div>
-                            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Order Status</p>
-                            <div className="flex items-center gap-2">
-                              <select
-                                value={order.status}
-                                onChange={(e) => updateOrderStatus(order.id, e.target.value)}
-                                className={selectClass}
-                                disabled={savingOrders[order.id]}
-                              >
-                                {ORDER_STATUSES.map((s) => (
-                                  <option key={s} value={s}>{s.replace("_", " ")}</option>
-                                ))}
-                              </select>
-                            </div>
+                        </div>
+
+                        {/* Two status controls */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="bg-card border border-border p-4">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2 font-bold">💳 Payment Status</p>
+                            <select
+                              value={order.payment_status}
+                              onChange={(e) => updateOrderField(order.id, "payment_status", e.target.value)}
+                              className={selectClass}
+                              disabled={savingOrders[order.id]}
+                            >
+                              {PAYMENT_STATUSES.map((s) => (
+                                <option key={s} value={s}>{s.replace("_", " ")}</option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="bg-card border border-border p-4">
+                            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2 font-bold">📋 Progress Status</p>
+                            <select
+                              value={order.status}
+                              onChange={(e) => updateOrderField(order.id, "status", e.target.value)}
+                              className={selectClass}
+                              disabled={savingOrders[order.id]}
+                            >
+                              {PROGRESS_STATUSES.map((s) => (
+                                <option key={s} value={s}>{s.replace("_", " ")}</option>
+                              ))}
+                            </select>
                           </div>
                         </div>
 
@@ -285,6 +303,15 @@ const AdminPanel = () => {
 
       <Footer />
     </div>
+  );
+};
+
+const PaymentBadge = ({ status }: { status: string }) => {
+  const isReceived = status === "received";
+  return (
+    <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded ${isReceived ? "text-google-green bg-google-green/10" : "text-google-red bg-google-red/10"}`}>
+      {isReceived ? "paid" : "unpaid"}
+    </span>
   );
 };
 
