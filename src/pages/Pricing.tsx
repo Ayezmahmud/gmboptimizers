@@ -4,6 +4,7 @@ import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Check, Shield, Zap, Users, RefreshCw, ShoppingCart, Plus, X } from "lucide-react";
+import { AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
@@ -120,6 +121,21 @@ const Pricing = () => {
   const { toLocalPrice, formatLocalPrice, currencyLabel, country, localePath } = useCountry();
   const localCustomPrice = toLocalPrice(CUSTOM_SERVICE_PRICE);
   const [selectedServices, setSelectedServices] = useState<string[]>([""]);
+  const [confettiParticles, setConfettiParticles] = useState<{ id: number; x: number; y: number; color: string; rotation: number; scale: number }[]>([]);
+
+  const triggerConfetti = () => {
+    const colors = ["#4285F4", "#EA4335", "#FBBC04", "#34A853"];
+    const particles = Array.from({ length: 24 }, (_, i) => ({
+      id: Date.now() + i,
+      x: (Math.random() - 0.5) * 300,
+      y: -(Math.random() * 200 + 80),
+      color: colors[i % colors.length],
+      rotation: Math.random() * 720 - 360,
+      scale: Math.random() * 0.6 + 0.4,
+    }));
+    setConfettiParticles(particles);
+    setTimeout(() => setConfettiParticles([]), 1200);
+  };
 
   const handleBuyNow = (pkg: typeof packages[0]) => {
     const localPrice = toLocalPrice(pkg.price);
@@ -145,7 +161,6 @@ const Pricing = () => {
     setSelectedServices((prev) => prev.map((s, i) => (i === index ? value : s)));
   };
 
-  // Get services already selected in other slots to prevent duplicates
   const getAvailableServices = (currentIndex: number) => {
     const otherSelected = selectedServices.filter((_, i) => i !== currentIndex);
     return AVAILABLE_SERVICES.filter((s) => !otherSelected.includes(s.name));
@@ -159,6 +174,7 @@ const Pricing = () => {
     }
     valid.forEach((s) => addItem({ name: s, price: localCustomPrice, type: "custom" }));
     toast({ title: `${valid.length} service(s) added to cart!` });
+    triggerConfetti();
     setSelectedServices([""]);
   };
 
@@ -430,14 +446,28 @@ const Pricing = () => {
               >
                 <Plus className="w-3.5 h-3.5" /> Add Another
               </button>
-              <button type="button" onClick={handleAddAllCustom} className="inline-flex items-center gap-2 px-6 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity">
-                <ShoppingCart className="w-3.5 h-3.5" /> Add All to Cart
-              </button>
+              <div className="relative">
+                <button type="button" onClick={handleAddAllCustom} className="inline-flex items-center gap-2 px-6 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity">
+                  <ShoppingCart className="w-3.5 h-3.5" /> Add All to Cart
+                </button>
+                <AnimatePresence>
+                  {confettiParticles.map((p) => (
+                    <motion.div
+                      key={p.id}
+                      initial={{ opacity: 1, x: 0, y: 0, scale: 0, rotate: 0 }}
+                      animate={{ opacity: 0, x: p.x, y: p.y, scale: p.scale, rotate: p.rotation }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                      className="absolute top-1/2 left-1/2 w-2 h-2 rounded-sm pointer-events-none"
+                      style={{ backgroundColor: p.color }}
+                    />
+                  ))}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>
       </ScrollRevealSection>
-
       {/* Guarantees */}
       <ScrollRevealSection className="py-20 border-t border-border bg-secondary">
         <div className="container mx-auto px-6">
