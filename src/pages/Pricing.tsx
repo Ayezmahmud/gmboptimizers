@@ -222,31 +222,41 @@ const Pricing = () => {
 
       {/* Cart floating button */}
       {itemCount > 0 && (
-        <motion.button
-          key="cart-fab"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          onClick={() => navigate(localePath("/checkout"))}
-          className="fixed bottom-6 right-6 z-50 bg-google-blue text-white p-4 rounded-full shadow-2xl hover:opacity-90 transition-opacity flex items-center gap-2"
-        >
+        <div className="fixed bottom-6 right-6 z-50">
+          {/* Pulse ring */}
           <motion.div
-            key={itemCount}
-            initial={{ rotate: 0 }}
-            animate={{ rotate: [0, -15, 12, -8, 5, 0], y: [0, -4, 2, -1, 0] }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            key={`ring-${itemCount}`}
+            initial={{ scale: 1, opacity: 0.6 }}
+            animate={{ scale: 2.2, opacity: 0 }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="absolute inset-0 rounded-full border-2 border-google-blue pointer-events-none"
+          />
+          <motion.button
+            key="cart-fab"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            onClick={() => navigate(localePath("/checkout"))}
+            className="relative bg-google-blue text-white p-4 rounded-full shadow-2xl hover:opacity-90 transition-opacity flex items-center gap-2"
           >
-            <ShoppingCart className="w-5 h-5" />
-          </motion.div>
-          <motion.span
-            key={`count-${itemCount}`}
-            initial={{ scale: 1.4, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 400, damping: 15 }}
-            className="text-sm font-bold"
-          >
-            {itemCount}
-          </motion.span>
-        </motion.button>
+            <motion.div
+              key={itemCount}
+              initial={{ rotate: 0 }}
+              animate={{ rotate: [0, -15, 12, -8, 5, 0], y: [0, -4, 2, -1, 0] }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <ShoppingCart className="w-5 h-5" />
+            </motion.div>
+            <motion.span
+              key={`count-${itemCount}`}
+              initial={{ scale: 1.4, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 15 }}
+              className="text-sm font-bold"
+            >
+              {itemCount}
+            </motion.span>
+          </motion.button>
+        </div>
       )}
 
       {/* Hero */}
