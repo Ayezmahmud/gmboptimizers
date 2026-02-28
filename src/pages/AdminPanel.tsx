@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import AdminStats from "@/components/admin/AdminStats";
+import AdminActivityTimeline from "@/components/admin/AdminActivityTimeline";
 import AdminOrderCard from "@/components/admin/AdminOrderCard";
 import { OrderItem } from "@/components/admin/AdminItemRow";
 import { useToast } from "@/hooks/use-toast";
@@ -170,6 +171,13 @@ const AdminPanel = () => {
 
       {/* Stats */}
       <AdminStats orders={orders} />
+
+      {/* Activity Timeline */}
+      <section className="py-8 bg-secondary/30 border-b border-border">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <AdminActivityTimeline />
+        </div>
+      </section>
 
       {/* Orders Section */}
       <section className="py-10 bg-background">
