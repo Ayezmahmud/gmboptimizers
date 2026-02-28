@@ -8,6 +8,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import { CartProvider } from "./contexts/CartContext";
 import { CountryProvider } from "./contexts/CountryContext";
 import { DEFAULT_COUNTRY, isValidCountry } from "./data/countries";
+import CountryAutoDetect from "./components/CountryAutoDetect";
 import PageTransition from "./components/PageTransition";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
@@ -37,6 +38,7 @@ const queryClient = new QueryClient();
 const CountryRoutes = () => {
   return (
     <CountryProvider>
+      <CountryAutoDetect />
       <Routes>
         <Route index element={<PageTransition><Index /></PageTransition>} />
         <Route path="about" element={<PageTransition><About /></PageTransition>} />

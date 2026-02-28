@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
+import SEOHead from "@/components/SEOHead";
 
 const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
 
@@ -110,6 +111,7 @@ const Index = () => {
   const { localePath } = useCountry();
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead />
       <Header />
 
       {/* ═══ HERO ═══ */}
