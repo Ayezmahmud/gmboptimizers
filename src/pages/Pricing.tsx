@@ -17,16 +17,16 @@ import SEOHead from "@/components/SEOHead";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const AVAILABLE_SERVICES = [
-  "Google Business Profile Setup & Verification",
-  "Google Maps Ranking Optimization",
-  "Local SEO Strategy & Implementation",
-  "Review Growth & Reputation Management",
-  "Citation Building & NAP Consistency",
-  "Competitor Analysis & Market Intelligence",
-  "Monthly Performance Reporting & Analytics",
-  "Google Maps Photo & Visual Optimization",
-  "Google Posts & Content Marketing",
-  "Local Landing Page Optimization",
+  { name: "Google Business Profile Setup & Verification", desc: "Complete profile setup, verification & optimization" },
+  { name: "Google Maps Ranking Optimization", desc: "Boost your Maps ranking with proven SEO strategies" },
+  { name: "Local SEO Strategy & Implementation", desc: "Full local SEO roadmap with competitor analysis" },
+  { name: "Review Growth & Reputation Management", desc: "Automated review campaigns & reputation monitoring" },
+  { name: "Citation Building & NAP Consistency", desc: "100+ directory submissions & NAP audit" },
+  { name: "Competitor Analysis & Market Intelligence", desc: "Deep competitor research & strategic action plan" },
+  { name: "Monthly Performance Reporting & Analytics", desc: "Detailed ranking, traffic & ROI reports" },
+  { name: "Google Maps Photo & Visual Optimization", desc: "Geo-tagged photos, 360° tours & visual strategy" },
+  { name: "Google Posts & Content Marketing", desc: "Weekly posts, offers & content calendar management" },
+  { name: "Local Landing Page Optimization", desc: "Conversion-focused local pages with schema markup" },
 ];
 
 const packages = [
@@ -148,7 +148,7 @@ const Pricing = () => {
   // Get services already selected in other slots to prevent duplicates
   const getAvailableServices = (currentIndex: number) => {
     const otherSelected = selectedServices.filter((_, i) => i !== currentIndex);
-    return AVAILABLE_SERVICES.filter((s) => !otherSelected.includes(s));
+    return AVAILABLE_SERVICES.filter((s) => !otherSelected.includes(s.name));
   };
 
   const handleAddAllCustom = () => {
@@ -351,7 +351,12 @@ const Pricing = () => {
                     </SelectTrigger>
                     <SelectContent>
                       {getAvailableServices(i).map((s) => (
-                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                        <SelectItem key={s.name} value={s.name}>
+                          <div className="flex flex-col gap-0.5">
+                            <span className="font-medium">{s.name}</span>
+                            <span className="text-xs text-muted-foreground">{s.desc} — {country.currencySymbol}{localCustomPrice.toFixed(2)}</span>
+                          </div>
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
