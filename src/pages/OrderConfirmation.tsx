@@ -4,10 +4,12 @@ import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import { CheckCircle, Download, ArrowRight } from "lucide-react";
 import { generateOrderPDF } from "@/utils/generateOrderPDF";
+import { useCountry } from "@/contexts/CountryContext";
 import type { CartItem } from "@/contexts/CartContext";
 
 const OrderConfirmation = () => {
   const location = useLocation();
+  const { country, localePath } = useCountry();
   const { orderCode, items, total, customerName } = (location.state || {}) as {
     orderCode?: string;
     items?: CartItem[];
@@ -22,7 +24,7 @@ const OrderConfirmation = () => {
         <div className="flex items-center justify-center py-32">
           <div className="text-center">
             <p className="text-muted-foreground mb-4">No order found.</p>
-            <Link to="/pricing" className="text-google-blue underline text-sm">Go to Pricing</Link>
+            <Link to={localePath("/pricing")} className="text-google-blue underline text-sm">Go to Pricing</Link>
           </div>
         </div>
         <Footer />
@@ -31,7 +33,15 @@ const OrderConfirmation = () => {
   }
 
   const handleDownloadPDF = () => {
-    generateOrderPDF({ orderCode, customerName: customerName || "", customerEmail: "", items: items || [], total: total || 0 });
+    generateOrderPDF({
+      orderCode,
+      customerName: customerName || "",
+      customerEmail: "",
+      items: items || [],
+      total: total || 0,
+      currencySymbol: country.currencySymbol,
+      currencyCode: country.currency,
+    });
   };
 
   return (
@@ -58,13 +68,13 @@ const OrderConfirmation = () => {
                 {items?.map((item, i) => (
                   <div key={i} className="flex justify-between">
                     <span className="text-muted-foreground">{item.name}</span>
-                    <span className="text-foreground font-medium">${item.price.toFixed(2)}</span>
+                    <span className="text-foreground font-medium">{country.currencySymbol}{item.price.toFixed(2)}</span>
                   </div>
                 ))}
               </div>
               <div className="flex justify-between mt-4 pt-4 border-t border-border text-sm font-bold">
                 <span>Total</span>
-                <span className="text-google-blue">${total?.toFixed(2)} AUD</span>
+                <span className="text-google-blue">{country.currencySymbol}{total?.toFixed(2)} {country.currency}</span>
               </div>
             </div>
 
@@ -72,7 +82,7 @@ const OrderConfirmation = () => {
               <button onClick={handleDownloadPDF} className="flex-1 inline-flex items-center justify-center gap-2 py-3 text-xs font-bold uppercase tracking-wider bg-google-green text-white hover:opacity-90 transition-opacity">
                 <Download className="w-4 h-4" /> Download PDF
               </button>
-              <Link to="/dashboard" className="flex-1 inline-flex items-center justify-center gap-2 py-3 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity">
+              <Link to={localePath("/dashboard")} className="flex-1 inline-flex items-center justify-center gap-2 py-3 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity">
                 Go to Dashboard <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

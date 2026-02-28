@@ -89,6 +89,8 @@ const Checkout = () => {
       customerEmail: form.email,
       items,
       total,
+      currencySymbol: country.currencySymbol,
+      currencyCode: country.currency,
     });
 
     clearCart();
