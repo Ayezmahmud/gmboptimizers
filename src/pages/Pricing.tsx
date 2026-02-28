@@ -14,6 +14,20 @@ import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { useCountry } from "@/contexts/CountryContext";
 import SEOHead from "@/components/SEOHead";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+const AVAILABLE_SERVICES = [
+  "Google Business Profile Setup & Verification",
+  "Google Maps Ranking Optimization",
+  "Local SEO Strategy & Implementation",
+  "Review Growth & Reputation Management",
+  "Citation Building & NAP Consistency",
+  "Competitor Analysis & Market Intelligence",
+  "Monthly Performance Reporting & Analytics",
+  "Google Maps Photo & Visual Optimization",
+  "Google Posts & Content Marketing",
+  "Local Landing Page Optimization",
+];
 
 const packages = [
   {
@@ -104,9 +118,8 @@ const Pricing = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { toLocalPrice, formatLocalPrice, currencyLabel, country, localePath } = useCountry();
-  const [customServices, setCustomServices] = useState<string[]>([""]);
-
   const localCustomPrice = toLocalPrice(CUSTOM_SERVICE_PRICE);
+  const [selectedServices, setSelectedServices] = useState<string[]>([""]);
 
   const handleBuyNow = (pkg: typeof packages[0]) => {
     const localPrice = toLocalPrice(pkg.price);
@@ -121,26 +134,32 @@ const Pricing = () => {
   };
 
   const handleAddCustomService = (serviceName: string) => {
-    if (!serviceName.trim()) return;
-    addItem({ name: serviceName.trim(), price: localCustomPrice, type: "custom" });
-    toast({ title: "Service added to cart!", description: `${serviceName.trim()} — ${country.currencySymbol}${localCustomPrice.toFixed(2)} ${country.currency}` });
+    if (!serviceName) return;
+    addItem({ name: serviceName, price: localCustomPrice, type: "custom" });
+    toast({ title: "Service added to cart!", description: `${serviceName} — ${country.currencySymbol}${localCustomPrice.toFixed(2)} ${country.currency}` });
   };
 
-  const addCustomField = () => setCustomServices((prev) => [...prev, ""]);
-  const removeCustomField = (index: number) => setCustomServices((prev) => prev.filter((_, i) => i !== index));
-  const updateCustomField = (index: number, value: string) => {
-    setCustomServices((prev) => prev.map((s, i) => (i === index ? value : s)));
+  const addServiceSlot = () => setSelectedServices((prev) => [...prev, ""]);
+  const removeServiceSlot = (index: number) => setSelectedServices((prev) => prev.filter((_, i) => i !== index));
+  const updateServiceSlot = (index: number, value: string) => {
+    setSelectedServices((prev) => prev.map((s, i) => (i === index ? value : s)));
+  };
+
+  // Get services already selected in other slots to prevent duplicates
+  const getAvailableServices = (currentIndex: number) => {
+    const otherSelected = selectedServices.filter((_, i) => i !== currentIndex);
+    return AVAILABLE_SERVICES.filter((s) => !otherSelected.includes(s));
   };
 
   const handleAddAllCustom = () => {
-    const valid = customServices.filter((s) => s.trim());
+    const valid = selectedServices.filter((s) => s);
     if (valid.length === 0) {
-      toast({ title: "Enter at least one service", variant: "destructive" });
+      toast({ title: "Select at least one service", variant: "destructive" });
       return;
     }
-    valid.forEach((s) => addItem({ name: s.trim(), price: localCustomPrice, type: "custom" }));
+    valid.forEach((s) => addItem({ name: s, price: localCustomPrice, type: "custom" }));
     toast({ title: `${valid.length} service(s) added to cart!` });
-    setCustomServices([""]);
+    setSelectedServices([""]);
   };
 
   return (
@@ -319,31 +338,34 @@ const Pricing = () => {
           <ScrollTextReveal className="text-center mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">Customize</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-4">Build Your Own <span className="text-gradient-google">Bundle</span></h2>
-            <p className="text-muted-foreground">Add individual services at <span className="text-google-blue font-bold">{country.currencySymbol}{localCustomPrice.toFixed(2)} {country.currency}</span> each. Describe what you need and we'll make it happen.</p>
+            <p className="text-muted-foreground">Add individual services at <span className="text-google-blue font-bold">{country.currencySymbol}{localCustomPrice.toFixed(2)} {country.currency}</span> each. Select the services you need from our catalog.</p>
           </ScrollTextReveal>
 
           <div className="bg-card border border-border p-8 shadow-lg">
             <div className="space-y-3 mb-6">
-              {customServices.map((service, i) => (
+              {selectedServices.map((service, i) => (
                 <div key={i} className="flex gap-2">
-                  <input
-                    type="text"
-                    value={service}
-                    onChange={(e) => updateCustomField(i, e.target.value)}
-                    placeholder={`Service ${i + 1} — e.g. "Google Ads integration"`}
-                    maxLength={200}
-                    className="flex-1 px-4 py-3 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
-                  />
+                  <Select value={service} onValueChange={(val) => updateServiceSlot(i, val)}>
+                    <SelectTrigger className="flex-1 py-3 bg-background border-border text-sm">
+                      <SelectValue placeholder={`Select service ${i + 1}...`} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getAvailableServices(i).map((s) => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <button
                     type="button"
                     onClick={() => handleAddCustomService(service)}
-                    className="px-3 py-3 bg-google-green text-white hover:opacity-90 transition-opacity"
+                    disabled={!service}
+                    className="px-3 py-3 bg-google-green text-white hover:opacity-90 transition-opacity disabled:opacity-40"
                     title="Add to cart"
                   >
                     <ShoppingCart className="w-4 h-4" />
                   </button>
-                  {customServices.length > 1 && (
-                    <button type="button" onClick={() => removeCustomField(i)} className="px-3 py-3 border border-border text-muted-foreground hover:text-google-red transition-colors">
+                  {selectedServices.length > 1 && (
+                    <button type="button" onClick={() => removeServiceSlot(i)} className="px-3 py-3 border border-border text-muted-foreground hover:text-google-red transition-colors">
                       <X className="w-4 h-4" />
                     </button>
                   )}
@@ -351,7 +373,12 @@ const Pricing = () => {
               ))}
             </div>
             <div className="flex gap-3">
-              <button type="button" onClick={addCustomField} className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground transition-colors">
+              <button
+                type="button"
+                onClick={addServiceSlot}
+                disabled={selectedServices.length >= AVAILABLE_SERVICES.length}
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground transition-colors disabled:opacity-40"
+              >
                 <Plus className="w-3.5 h-3.5" /> Add Another
               </button>
               <button type="button" onClick={handleAddAllCustom} className="inline-flex items-center gap-2 px-6 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity">
