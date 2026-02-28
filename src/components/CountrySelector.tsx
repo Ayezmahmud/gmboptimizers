@@ -32,7 +32,7 @@ const CountrySelector = () => {
         onClick={() => setOpen(!open)}
         className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider border border-border text-foreground hover:bg-foreground/5 transition-colors duration-200 rounded-sm"
       >
-        <span className="text-base leading-none">{country.flag}</span>
+        <img src={`https://flagcdn.com/w40/${countryCode}.png`} alt={country.name} className="w-5 h-3.5 object-cover rounded-[2px]" />
         <span className="hidden sm:inline">{country.currency}</span>
         <ChevronDown className={`w-3 h-3 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
@@ -47,7 +47,7 @@ const CountrySelector = () => {
                 c.code === countryCode ? "bg-foreground/5 font-bold" : "text-muted-foreground"
               }`}
             >
-              <span className="text-lg leading-none">{c.flag}</span>
+              <img src={`https://flagcdn.com/w40/${c.code}.png`} alt={c.name} className="w-5 h-3.5 object-cover rounded-[2px]" />
               <span className="flex-1">{c.name}</span>
               <span className="text-xs text-muted-foreground">{c.currency}</span>
             </button>
