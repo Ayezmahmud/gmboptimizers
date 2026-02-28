@@ -2,10 +2,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AuthProvider } from "./hooks/useAuth";
 import { CartProvider } from "./contexts/CartContext";
+import { CountryProvider } from "./contexts/CountryContext";
+import { DEFAULT_COUNTRY, isValidCountry } from "./data/countries";
 import PageTransition from "./components/PageTransition";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
@@ -31,6 +33,28 @@ import Unauthorized from "./pages/Unauthorized";
 
 const queryClient = new QueryClient();
 
+/** Wraps country-prefixed routes with CountryProvider */
+const CountryRoutes = () => {
+  return (
+    <CountryProvider>
+      <Routes>
+        <Route index element={<PageTransition><Index /></PageTransition>} />
+        <Route path="about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="services" element={<PageTransition><Services /></PageTransition>} />
+        <Route path="pricing" element={<PageTransition><Pricing /></PageTransition>} />
+        <Route path="case-studies" element={<PageTransition><CaseStudies /></PageTransition>} />
+        <Route path="case-studies/:slug" element={<PageTransition><CaseStudyDetail /></PageTransition>} />
+        <Route path="testimonials" element={<PageTransition><Testimonials /></PageTransition>} />
+        <Route path="contact" element={<PageTransition><Contact /></PageTransition>} />
+        <Route path="privacy-policy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
+        <Route path="terms-and-conditions" element={<PageTransition><TermsConditions /></PageTransition>} />
+        <Route path="checkout" element={<PageTransition><Checkout /></PageTransition>} />
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+      </Routes>
+    </CountryProvider>
+  );
+};
+
 const AnimatedRoutes = () => {
   const location = useLocation();
 
@@ -38,28 +62,23 @@ const AnimatedRoutes = () => {
     <>
       <ScrollToTop />
       <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<PageTransition><Index /></PageTransition>} />
-        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
-        <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
-        <Route path="/pricing" element={<PageTransition><Pricing /></PageTransition>} />
-        <Route path="/case-studies" element={<PageTransition><CaseStudies /></PageTransition>} />
-        <Route path="/case-studies/:slug" element={<PageTransition><CaseStudyDetail /></PageTransition>} />
-        <Route path="/testimonials" element={<PageTransition><Testimonials /></PageTransition>} />
-        <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
-        <Route path="/privacy-policy" element={<PageTransition><PrivacyPolicy /></PageTransition>} />
-        <Route path="/terms-and-conditions" element={<PageTransition><TermsConditions /></PageTransition>} />
-        <Route path="/sign-in" element={<PageTransition><SignIn /></PageTransition>} />
-        <Route path="/sign-up" element={<PageTransition><SignUp /></PageTransition>} />
-        <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
-        <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
-        <Route path="/dashboard" element={<PageTransition><Dashboard /></PageTransition>} />
-        <Route path="/checkout" element={<PageTransition><Checkout /></PageTransition>} />
-        <Route path="/order-confirmation" element={<PageTransition><OrderConfirmation /></PageTransition>} />
-        <Route path="/admin" element={<PageTransition><AdminPanel /></PageTransition>} />
-        <Route path="/unauthorized" element={<PageTransition><Unauthorized /></PageTransition>} />
-        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
-      </Routes>
+        <Routes location={location} key={location.pathname}>
+          {/* Redirect root to default country */}
+          <Route path="/" element={<Navigate to={`/${DEFAULT_COUNTRY}`} replace />} />
+
+          {/* Auth routes (no country prefix needed) */}
+          <Route path="/sign-in" element={<PageTransition><SignIn /></PageTransition>} />
+          <Route path="/sign-up" element={<PageTransition><SignUp /></PageTransition>} />
+          <Route path="/forgot-password" element={<PageTransition><ForgotPassword /></PageTransition>} />
+          <Route path="/reset-password" element={<PageTransition><ResetPassword /></PageTransition>} />
+          <Route path="/dashboard" element={<PageTransition><Dashboard /></PageTransition>} />
+          <Route path="/order-confirmation" element={<PageTransition><OrderConfirmation /></PageTransition>} />
+          <Route path="/admin" element={<PageTransition><AdminPanel /></PageTransition>} />
+          <Route path="/unauthorized" element={<PageTransition><Unauthorized /></PageTransition>} />
+
+          {/* Country-prefixed routes */}
+          <Route path="/:country/*" element={<CountryRoutes />} />
+        </Routes>
       </AnimatePresence>
     </>
   );

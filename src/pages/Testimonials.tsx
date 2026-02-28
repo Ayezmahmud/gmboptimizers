@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import { Link } from "react-router-dom";
+import { useCountry } from "@/contexts/CountryContext";
 import { testimonials, Testimonial } from "@/data/testimonials";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
@@ -45,6 +46,7 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 };
 
 const Testimonials = () => {
+  const { localePath } = useCountry();
   const [idx, setIdx] = useState(0);
   const [filter, setFilter] = useState("All");
   const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);
@@ -293,7 +295,7 @@ const Testimonials = () => {
             <p className="text-white/60 mb-8 max-w-lg mx-auto">
               Join {testimonials.length * 16}+ businesses that trust GB Optimizers for their Google Maps rankings.
             </p>
-            <Link to="/pricing" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
+            <Link to={localePath("/pricing")} className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started
             </Link>
           </ScrollTextReveal>

@@ -10,6 +10,7 @@ import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStagg
 import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
 import { Link } from "react-router-dom";
+import { useCountry } from "@/contexts/CountryContext";
 
 const stats = [
   { value: 500, suffix: "+", label: "Businesses Ranked", color: "bg-google-blue", text: "text-google-blue", glow: "shadow-[0_0_30px_rgba(66,133,244,0.15)]", glowHover: "hover:shadow-[0_0_50px_rgba(66,133,244,0.3)]" },
@@ -54,6 +55,7 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 };
 
 const About = () => {
+  const { localePath } = useCountry();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -116,7 +118,7 @@ const About = () => {
               <p className="text-muted-foreground leading-relaxed mb-6">
                 With a team of experienced local SEO specialists, we've helped businesses across 30+ industries and 12+ countries achieve top rankings on Google Maps.
               </p>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:bg-google-blue/90 transition-colors">
+              <Link to={localePath("/contact")} className="inline-flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:bg-google-blue/90 transition-colors">
                 Get a Free Audit <ArrowRight className="w-4 h-4" />
               </Link>
             </ScrollTextReveal>
@@ -244,7 +246,7 @@ const About = () => {
             <p className="text-white/60 mb-8 max-w-lg mx-auto">
               Join 500+ businesses that trust GB Optimizers for their Google Maps success.
             </p>
-            <Link to="/pricing" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
+            <Link to={localePath("/pricing")} className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started Today
             </Link>
           </ScrollTextReveal>

@@ -2,6 +2,7 @@ import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCountry } from "@/contexts/CountryContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
@@ -11,6 +12,7 @@ import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 const CaseStudies = () => {
+  const { localePath } = useCountry();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -108,7 +110,7 @@ const CaseStudies = () => {
                     </div>
 
                     <Link
-                      to={`/case-studies/${c.slug}`}
+                      to={localePath(`/case-studies/${c.slug}`)}
                       className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-${accentColor} hover:opacity-80 transition-opacity group/link`}
                     >
                       Read Full Case Study <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
@@ -143,7 +145,7 @@ const CaseStudies = () => {
             <p className="text-white/60 mb-8 max-w-lg mx-auto">
               Join 500+ businesses that have achieved #1 rankings with GB Optimizers.
             </p>
-            <Link to="/pricing" className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
+            <Link to={localePath("/pricing")} className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started Today
             </Link>
           </ScrollTextReveal>

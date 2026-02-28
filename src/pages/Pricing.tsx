@@ -12,6 +12,7 @@ import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { useCountry } from "@/contexts/CountryContext";
 
 const packages = [
   {
@@ -101,22 +102,27 @@ const Pricing = () => {
   const { addItem, itemCount } = useCart();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { toLocalPrice, formatLocalPrice, currencyLabel, country, localePath } = useCountry();
   const [customServices, setCustomServices] = useState<string[]>([""]);
 
+  const localCustomPrice = toLocalPrice(CUSTOM_SERVICE_PRICE);
+
   const handleBuyNow = (pkg: typeof packages[0]) => {
-    addItem({ name: `${pkg.name} Package`, price: pkg.price, type: "package" });
-    navigate("/checkout");
+    const localPrice = toLocalPrice(pkg.price);
+    addItem({ name: `${pkg.name} Package`, price: localPrice, type: "package" });
+    navigate(localePath("/checkout"));
   };
 
   const handleAddToCart = (pkg: typeof packages[0]) => {
-    addItem({ name: `${pkg.name} Package`, price: pkg.price, type: "package" });
-    toast({ title: `${pkg.name} added to cart!`, description: `$${pkg.price.toFixed(2)} AUD` });
+    const localPrice = toLocalPrice(pkg.price);
+    addItem({ name: `${pkg.name} Package`, price: localPrice, type: "package" });
+    toast({ title: `${pkg.name} added to cart!`, description: formatLocalPrice(pkg.price) });
   };
 
   const handleAddCustomService = (serviceName: string) => {
     if (!serviceName.trim()) return;
-    addItem({ name: serviceName.trim(), price: CUSTOM_SERVICE_PRICE, type: "custom" });
-    toast({ title: "Service added to cart!", description: `${serviceName.trim()} — $${CUSTOM_SERVICE_PRICE} AUD` });
+    addItem({ name: serviceName.trim(), price: localCustomPrice, type: "custom" });
+    toast({ title: "Service added to cart!", description: `${serviceName.trim()} — ${country.currencySymbol}${localCustomPrice.toFixed(2)} ${country.currency}` });
   };
 
   const addCustomField = () => setCustomServices((prev) => [...prev, ""]);
@@ -131,7 +137,7 @@ const Pricing = () => {
       toast({ title: "Enter at least one service", variant: "destructive" });
       return;
     }
-    valid.forEach((s) => addItem({ name: s.trim(), price: CUSTOM_SERVICE_PRICE, type: "custom" }));
+    valid.forEach((s) => addItem({ name: s.trim(), price: localCustomPrice, type: "custom" }));
     toast({ title: `${valid.length} service(s) added to cart!` });
     setCustomServices([""]);
   };
@@ -145,7 +151,7 @@ const Pricing = () => {
         <motion.button
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          onClick={() => navigate("/checkout")}
+          onClick={() => navigate(localePath("/checkout"))}
           className="fixed bottom-6 right-6 z-50 bg-google-blue text-white p-4 rounded-full shadow-2xl hover:opacity-90 transition-opacity flex items-center gap-2"
         >
           <ShoppingCart className="w-5 h-5" />
@@ -256,8 +262,8 @@ const Pricing = () => {
                     )}
                     <h3 className="text-sm font-bold uppercase tracking-wider mb-2">{pkg.name}</h3>
                     <div className="mb-8">
-                      <span className="text-4xl font-black">${pkg.price.toFixed(2)}</span>
-                      <span className={`text-sm ml-1 ${pkg.popular ? "text-primary-foreground/60" : "text-muted-foreground"}`}>AUD/mo</span>
+                      <span className="text-4xl font-black">{country.currencySymbol}{toLocalPrice(pkg.price).toFixed(2)}</span>
+                      <span className={`text-sm ml-1 ${pkg.popular ? "text-primary-foreground/60" : "text-muted-foreground"}`}>{currencyLabel}</span>
                     </div>
                     <ul className="space-y-3">
                       {pkg.features.map((f, fi) => (
@@ -311,7 +317,7 @@ const Pricing = () => {
           <ScrollTextReveal className="text-center mb-12">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-red mb-3">Customize</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-4">Build Your Own <span className="text-gradient-google">Bundle</span></h2>
-            <p className="text-muted-foreground">Add individual services at <span className="text-google-blue font-bold">${CUSTOM_SERVICE_PRICE} AUD</span> each. Describe what you need and we'll make it happen.</p>
+            <p className="text-muted-foreground">Add individual services at <span className="text-google-blue font-bold">{country.currencySymbol}{localCustomPrice.toFixed(2)} {country.currency}</span> each. Describe what you need and we'll make it happen.</p>
           </ScrollTextReveal>
 
           <div className="bg-card border border-border p-8 shadow-lg">
