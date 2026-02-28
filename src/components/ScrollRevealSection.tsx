@@ -36,8 +36,8 @@ const ScrollRevealSection = ({
   });
 
   // Animations mapped to scroll progress
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.6]);
-  const scale = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [scaleFrom, 1, 1, 0.98]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+  const scale = useTransform(scrollYProgress, [0, 0.25], [scaleFrom, 1]);
   const y = useTransform(scrollYProgress, [0, 0.2], [60, 0]);
   
   // Clip-path for cinematic reveal
