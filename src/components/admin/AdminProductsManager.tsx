@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { AdminProduct, useAdminProducts } from "@/hooks/useAdminData";
-import { Plus, Edit2, Trash2, X, Check, Star, Zap, Clock, Tag, Database } from "lucide-react";
+import { Plus, Edit2, Trash2, X, Check, Star, Zap, Clock, Tag, Database, Copy, GripVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DEFAULT_PRODUCTS } from "@/data/defaultProducts";
 import { useToast } from "@/hooks/use-toast";
@@ -27,6 +27,10 @@ const AdminProductsManager = () => {
   const [deleting, setDeleting] = useState<string | null>(null);
   const [seeding, setSeeding] = useState(false);
   const { toast } = useToast();
+
+  // Drag-and-drop state
+  const dragIndex = useRef<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const seedDefaults = async () => {
     setSeeding(true);
@@ -64,6 +68,32 @@ const AdminProductsManager = () => {
     setDeleting(null);
   };
 
+  const handleDuplicate = async (product: AdminProduct) => {
+    const { id, created_at, updated_at, ...rest } = product;
+    await save({ ...rest, name: `${rest.name} (Copy)`, sort_order: products.length });
+    toast({ title: "Product duplicated" });
+  };
+
+  const handleDrop = useCallback(async (toIndex: number) => {
+    const fromIndex = dragIndex.current;
+    if (fromIndex === null || fromIndex === toIndex) {
+      dragIndex.current = null;
+      setDragOverIndex(null);
+      return;
+    }
+    const reordered = [...products];
+    const [moved] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, moved);
+    // Save new sort_order for all affected items
+    for (let i = 0; i < reordered.length; i++) {
+      if (reordered[i].sort_order !== i) {
+        await save({ id: reordered[i].id, sort_order: i });
+      }
+    }
+    dragIndex.current = null;
+    setDragOverIndex(null);
+  }, [products, save]);
+
   if (loading) return <div className="text-muted-foreground animate-pulse py-8 text-center">Loading products...</div>;
 
   return (
@@ -90,13 +120,24 @@ const AdminProductsManager = () => {
       </div>
 
       {/* Product List */}
-      <div className="space-y-3">
-        {products.map((p) => (
+      <div className="space-y-1">
+        {products.map((p, i) => (
           <motion.div
             key={p.id}
             layout
-            className={`border border-border bg-card p-4 flex items-center gap-4 ${!p.active ? "opacity-50" : ""}`}
+            draggable
+            onDragStart={() => { dragIndex.current = i; }}
+            onDragOver={(e) => { e.preventDefault(); setDragOverIndex(i); }}
+            onDragLeave={() => setDragOverIndex(null)}
+            onDrop={(e) => { e.preventDefault(); handleDrop(i); }}
+            onDragEnd={() => { dragIndex.current = null; setDragOverIndex(null); }}
+            className={`border bg-card p-3 flex items-center gap-3 transition-all cursor-grab active:cursor-grabbing ${
+              !p.active ? "opacity-50" : ""
+            } ${
+              dragOverIndex === i ? "border-google-blue border-2 bg-google-blue/5" : "border-border"
+            }`}
           >
+            <GripVertical className="w-4 h-4 text-muted-foreground/50 shrink-0" />
             <div className={`w-3 h-3 rounded-full bg-${p.color_theme} shrink-0`} />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
@@ -110,10 +151,13 @@ const AdminProductsManager = () => {
               </div>
               <p className="text-xs text-muted-foreground mt-1">{p.features.length} features · Order: {p.sort_order}</p>
             </div>
-            <button onClick={() => setEditing({ ...p })} className="p-2 text-muted-foreground hover:text-google-blue transition-colors">
+            <button onClick={() => handleDuplicate(p)} className="p-2 text-muted-foreground hover:text-google-green transition-colors" title="Duplicate">
+              <Copy className="w-4 h-4" />
+            </button>
+            <button onClick={() => setEditing({ ...p })} className="p-2 text-muted-foreground hover:text-google-blue transition-colors" title="Edit">
               <Edit2 className="w-4 h-4" />
             </button>
-            <button onClick={() => setDeleting(p.id)} className="p-2 text-muted-foreground hover:text-google-red transition-colors">
+            <button onClick={() => setDeleting(p.id)} className="p-2 text-muted-foreground hover:text-google-red transition-colors" title="Delete">
               <Trash2 className="w-4 h-4" />
             </button>
           </motion.div>
@@ -122,6 +166,12 @@ const AdminProductsManager = () => {
           <p className="text-center text-muted-foreground py-8">No products yet. Add your first product above.</p>
         )}
       </div>
+
+      {products.length > 1 && (
+        <p className="text-[11px] text-muted-foreground text-center">
+          <GripVertical className="w-3 h-3 inline -mt-0.5" /> Drag rows to reorder
+        </p>
+      )}
 
       {/* Delete Confirmation */}
       <AnimatePresence>
