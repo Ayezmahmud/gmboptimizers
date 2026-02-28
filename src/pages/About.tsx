@@ -137,8 +137,8 @@ const About = () => {
               </p>
             </ScrollTextReveal>
             <ScrollParallaxImage
-              src="/images/about-strategy.png"
-              alt="Team planning local SEO strategy on whiteboard"
+              src="/images/about-strategy-maps.jpg"
+              alt="World map representing global Google Maps optimization reach"
               className="shadow-lg border border-border aspect-[4/3]"
             />
           </div>
