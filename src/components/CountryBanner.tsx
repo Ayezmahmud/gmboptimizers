@@ -9,7 +9,7 @@ const CountryBanner = () => {
       <div className="container mx-auto px-6 py-1.5 flex items-center justify-between text-[11px] text-muted-foreground overflow-x-auto gap-4">
         <div className="flex items-center gap-4 shrink-0">
           <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
-            <img src={`https://flagcdn.com/w40/${country.code}.png`} alt={country.name} className="w-4 h-3 object-cover rounded-[1px]" />
+            <img src={`https://flagcdn.com/w40/${country.code === 'uk' ? 'gb' : country.code}.png`} alt={country.name} className="w-4 h-3 object-cover rounded-[1px]" />
             {country.name}
           </span>
           <span className="hidden sm:inline-flex items-center gap-1">
