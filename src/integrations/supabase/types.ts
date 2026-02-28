@@ -49,6 +49,96 @@ export type Database = {
           },
         ]
       }
+      admin_products: {
+        Row: {
+          active: boolean
+          color_theme: string
+          created_at: string
+          features: string[]
+          id: string
+          is_limited_offer: boolean
+          is_new_deal: boolean
+          is_upcoming: boolean
+          name: string
+          popular: boolean
+          price: number
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          color_theme?: string
+          created_at?: string
+          features?: string[]
+          id?: string
+          is_limited_offer?: boolean
+          is_new_deal?: boolean
+          is_upcoming?: boolean
+          name: string
+          popular?: boolean
+          price?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          color_theme?: string
+          created_at?: string
+          features?: string[]
+          id?: string
+          is_limited_offer?: boolean
+          is_new_deal?: boolean
+          is_upcoming?: boolean
+          name?: string
+          popular?: boolean
+          price?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      admin_services: {
+        Row: {
+          active: boolean
+          color_theme: string
+          created_at: string
+          description: string
+          details: string[]
+          icon_name: string
+          id: string
+          image_url: string | null
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          color_theme?: string
+          created_at?: string
+          description?: string
+          details?: string[]
+          icon_name?: string
+          id?: string
+          image_url?: string | null
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          color_theme?: string
+          created_at?: string
+          description?: string
+          details?: string[]
+          icon_name?: string
+          id?: string
+          image_url?: string | null
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string
@@ -168,6 +258,36 @@ export type Database = {
           phone?: string | null
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          content_type: string
+          created_at: string
+          id: string
+          key: string
+          section: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          content_type?: string
+          created_at?: string
+          id?: string
+          key: string
+          section: string
+          updated_at?: string
+          value?: string
+        }
+        Update: {
+          content_type?: string
+          created_at?: string
+          id?: string
+          key?: string
+          section?: string
+          updated_at?: string
+          value?: string
         }
         Relationships: []
       }

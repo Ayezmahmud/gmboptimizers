@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check, Shield, Zap, Users, RefreshCw, ShoppingCart, Plus, X } from "lucide-react";
+import { Check, Shield, Zap, Users, RefreshCw, ShoppingCart, Plus, X, Tag, Clock, Sparkles } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useCountry } from "@/contexts/CountryContext";
 import SEOHead from "@/components/SEOHead";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { usePublicProducts } from "@/hooks/usePublicData";
 
 const AVAILABLE_SERVICES = [
   { name: "Google Business Profile Setup & Verification", desc: "Complete profile setup, verification & optimization" },
@@ -114,6 +115,13 @@ const guarantees = [
 
 const CUSTOM_SERVICE_PRICE = 59.99;
 
+const COLOR_MAP: Record<string, { color: string; dotColor: string; borderColor: string; glowHover: string; bgHover: string }> = {
+  "google-green": { color: "border-t-google-green", dotColor: "bg-google-green", borderColor: "border-google-green/20", glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.25)]", bgHover: "bg-google-green/5" },
+  "google-blue": { color: "border-t-google-blue", dotColor: "bg-google-blue", borderColor: "border-google-blue/20", glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.25)]", bgHover: "bg-google-blue/5" },
+  "google-red": { color: "border-t-google-red", dotColor: "bg-google-red", borderColor: "border-google-red/20", glowHover: "hover:shadow-[0_0_40px_rgba(234,67,53,0.25)]", bgHover: "bg-google-red/5" },
+  "google-yellow": { color: "border-t-google-yellow", dotColor: "bg-google-yellow", borderColor: "border-google-yellow/20", glowHover: "hover:shadow-[0_0_40px_rgba(251,188,4,0.25)]", bgHover: "bg-google-yellow/5" },
+};
+
 const Pricing = () => {
   const { addItem, itemCount } = useCart();
   const { toast } = useToast();
@@ -122,6 +130,35 @@ const Pricing = () => {
   const localCustomPrice = toLocalPrice(CUSTOM_SERVICE_PRICE);
   const [selectedServices, setSelectedServices] = useState<string[]>([""]);
   const [confettiParticles, setConfettiParticles] = useState<{ id: number; x: number; y: number; color: string; rotation: number; scale: number }[]>([]);
+  const { dbProducts } = usePublicProducts();
+
+  // Merge: if DB has products, show them alongside hardcoded defaults
+  const allPackages = useMemo(() => {
+    const dbMapped = dbProducts.map((p) => {
+      const colors = COLOR_MAP[p.color_theme] || COLOR_MAP["google-blue"];
+      return {
+        name: p.name,
+        price: p.price,
+        popular: p.popular,
+        is_limited_offer: p.is_limited_offer,
+        is_new_deal: p.is_new_deal,
+        is_upcoming: p.is_upcoming,
+        color: p.popular ? "" : colors.color,
+        dotColor: p.popular ? "" : colors.dotColor,
+        borderColor: p.popular ? "" : colors.borderColor,
+        glowHover: p.popular
+          ? "hover:shadow-[0_0_50px_rgba(66,133,244,0.3),0_0_50px_rgba(234,67,53,0.15)]"
+          : colors.glowHover,
+        bgHover: p.popular ? "" : colors.bgHover,
+        features: p.features,
+        fromDb: true,
+      };
+    });
+
+    // If DB has products, use only DB products; otherwise fallback to hardcoded
+    if (dbMapped.length > 0) return dbMapped;
+    return packages.map((p) => ({ ...p, is_limited_offer: false, is_new_deal: false, is_upcoming: false, fromDb: false }));
+  }, [dbProducts]);
 
   const triggerConfetti = () => {
     const colors = ["#4285F4", "#EA4335", "#FBBC04", "#34A853"];
@@ -269,16 +306,16 @@ const Pricing = () => {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">Plans</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Choose Your <span className="text-gradient-google">Package</span></h2>
           </ScrollTextReveal>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {packages.map((pkg, i) => (
-              <MagneticCard key={pkg.name} intensity={6}>
+          <div className={`grid md:grid-cols-2 ${allPackages.length <= 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3 xl:grid-cols-4'} gap-6`}>
+            {allPackages.map((pkg, i) => (
+              <MagneticCard key={pkg.name + i} intensity={6}>
                 <ScrollStaggerItem
                   index={i}
                   className={`group relative overflow-hidden border flex flex-col h-full transition-all duration-700 ${
                     pkg.popular
                       ? `border-foreground bg-primary text-primary-foreground ${pkg.glowHover}`
                       : `${pkg.borderColor || 'border-border'} bg-background text-foreground border-t-4 ${pkg.color} ${pkg.glowHover}`
-                  }`}
+                  } ${pkg.is_upcoming ? 'opacity-75' : ''}`}
                 >
                   {pkg.popular && (
                     <div className="absolute -top-px left-0 right-0 h-1.5 bg-gradient-to-r from-google-blue via-google-red to-google-green transition-all duration-500 group-hover:h-2" />
@@ -287,9 +324,13 @@ const Pricing = () => {
                     <div className={`absolute inset-0 ${pkg.bgHover} opacity-0 group-hover:opacity-100 transition-opacity duration-700`} />
                   )}
                   <div className="relative p-8 flex-1">
-                    {pkg.popular && (
-                      <p className="text-xs font-bold uppercase tracking-wider mb-4 text-google-yellow">Most Popular</p>
-                    )}
+                    {/* Badges */}
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {pkg.popular && <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-google-yellow/20 text-google-yellow">Most Popular</span>}
+                      {pkg.is_limited_offer && <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-google-red/20 text-google-red inline-flex items-center gap-1"><Tag className="w-2.5 h-2.5" />Limited Offer</span>}
+                      {pkg.is_new_deal && <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-google-green/20 text-google-green inline-flex items-center gap-1"><Sparkles className="w-2.5 h-2.5" />New Deal</span>}
+                      {pkg.is_upcoming && <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 bg-google-blue/20 text-google-blue inline-flex items-center gap-1"><Clock className="w-2.5 h-2.5" />Coming Soon</span>}
+                    </div>
                     {!pkg.popular && (
                       <motion.div
                         className={`w-2 h-2 ${pkg.dotColor} rounded-full mb-4`}
@@ -319,27 +360,33 @@ const Pricing = () => {
                     </ul>
                   </div>
                   <div className="relative p-8 pt-0 space-y-2">
-                    <button
-                      onClick={() => handleBuyNow(pkg)}
-                      className={`block w-full text-center py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-                        pkg.popular
-                          ? "bg-background text-foreground hover:bg-background/90 hover:shadow-lg"
-                          : "bg-google-blue text-white hover:opacity-90 hover:shadow-lg"
-                      }`}
-                    >
-                      Buy Now
-                    </button>
-                    <button
-                      onClick={() => handleAddToCart(pkg)}
-                      className={`block w-full text-center py-3 text-xs font-bold uppercase tracking-wider border transition-all duration-300 ${
-                        pkg.popular
-                          ? "border-background/30 text-primary-foreground/70 hover:bg-background/10"
-                          : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30"
-                      }`}
-                    >
-                      <ShoppingCart className="w-3.5 h-3.5 inline mr-2" />
-                      Add to Cart
-                    </button>
+                    {pkg.is_upcoming ? (
+                      <div className="text-center py-3 text-xs font-bold uppercase tracking-wider text-muted-foreground border border-border">Coming Soon</div>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleBuyNow(pkg)}
+                          className={`block w-full text-center py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
+                            pkg.popular
+                              ? "bg-background text-foreground hover:bg-background/90 hover:shadow-lg"
+                              : "bg-google-blue text-white hover:opacity-90 hover:shadow-lg"
+                          }`}
+                        >
+                          Buy Now
+                        </button>
+                        <button
+                          onClick={() => handleAddToCart(pkg)}
+                          className={`block w-full text-center py-3 text-xs font-bold uppercase tracking-wider border transition-all duration-300 ${
+                            pkg.popular
+                              ? "border-background/30 text-primary-foreground/70 hover:bg-background/10"
+                              : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/30"
+                          }`}
+                        >
+                          <ShoppingCart className="w-3.5 h-3.5 inline mr-2" />
+                          Add to Cart
+                        </button>
+                      </>
+                    )}
                   </div>
                 </ScrollStaggerItem>
               </MagneticCard>
