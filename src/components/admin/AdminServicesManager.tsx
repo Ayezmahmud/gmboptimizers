@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
 import { AdminService, useAdminServices } from "@/hooks/useAdminData";
-import { Plus, Edit2, Trash2, X, Check, Upload, Link as LinkIcon } from "lucide-react";
+import { Plus, Edit2, Trash2, X, Check, Upload, Link as LinkIcon, Database } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { DEFAULT_SERVICES } from "@/data/defaultServices";
+import { useToast } from "@/hooks/use-toast";
 
 const COLOR_OPTIONS = ["google-blue", "google-red", "google-yellow", "google-green"];
 const ICON_OPTIONS = ["MapPin", "TrendingUp", "Search", "Star", "Building2", "BarChart3", "FileText", "Camera", "MessageSquare", "Smartphone", "Globe", "Shield", "Zap", "Award", "Users"];
@@ -25,6 +27,22 @@ const AdminServicesManager = () => {
   const [uploading, setUploading] = useState(false);
   const [imageMode, setImageMode] = useState<"upload" | "url">("upload");
   const fileRef = useRef<HTMLInputElement>(null);
+  const [seeding, setSeeding] = useState(false);
+  const { toast } = useToast();
+
+  const seedDefaults = async () => {
+    setSeeding(true);
+    const existingTitles = new Set(services.map((s) => s.title.toLowerCase()));
+    let added = 0;
+    for (const ds of DEFAULT_SERVICES) {
+      if (!existingTitles.has(ds.title.toLowerCase())) {
+        await save(ds);
+        added++;
+      }
+    }
+    toast({ title: added > 0 ? `${added} default service(s) seeded` : "All defaults already exist" });
+    setSeeding(false);
+  };
 
   const handleSave = async () => {
     if (!editing?.title) return;
@@ -61,14 +79,25 @@ const AdminServicesManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold uppercase tracking-wider text-foreground">Services</h3>
-        <button
-          onClick={() => setEditing({ ...emptyService, sort_order: services.length })}
-          className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-google-green text-white hover:opacity-90 transition-opacity"
-        >
-          <Plus className="w-3.5 h-3.5" /> Add Service
-        </button>
+        <div className="flex items-center gap-2">
+          {services.length === 0 && (
+            <button
+              onClick={seedDefaults}
+              disabled={seeding}
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors disabled:opacity-50"
+            >
+              <Database className="w-3.5 h-3.5" /> {seeding ? "Seeding..." : "Seed Defaults"}
+            </button>
+          )}
+          <button
+            onClick={() => setEditing({ ...emptyService, sort_order: services.length })}
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-google-green text-white hover:opacity-90 transition-opacity"
+          >
+            <Plus className="w-3.5 h-3.5" /> Add Service
+          </button>
+        </div>
       </div>
 
       <div className="space-y-3">

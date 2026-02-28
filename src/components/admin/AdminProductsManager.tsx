@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { AdminProduct, useAdminProducts } from "@/hooks/useAdminData";
-import { Plus, Edit2, Trash2, X, Check, Star, Zap, Clock, Tag } from "lucide-react";
+import { Plus, Edit2, Trash2, X, Check, Star, Zap, Clock, Tag, Database } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { DEFAULT_PRODUCTS } from "@/data/defaultProducts";
+import { useToast } from "@/hooks/use-toast";
 
 const COLOR_OPTIONS = ["google-blue", "google-red", "google-yellow", "google-green"];
 
@@ -23,6 +25,22 @@ const AdminProductsManager = () => {
   const [editing, setEditing] = useState<Partial<AdminProduct> | null>(null);
   const [featureInput, setFeatureInput] = useState("");
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [seeding, setSeeding] = useState(false);
+  const { toast } = useToast();
+
+  const seedDefaults = async () => {
+    setSeeding(true);
+    const existingNames = new Set(products.map((p) => p.name.toLowerCase()));
+    let added = 0;
+    for (const dp of DEFAULT_PRODUCTS) {
+      if (!existingNames.has(dp.name.toLowerCase())) {
+        await save(dp);
+        added++;
+      }
+    }
+    toast({ title: added > 0 ? `${added} default product(s) seeded` : "All defaults already exist" });
+    setSeeding(false);
+  };
 
   const handleSave = async () => {
     if (!editing?.name) return;
@@ -50,14 +68,25 @@ const AdminProductsManager = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold uppercase tracking-wider text-foreground">Products & Packages</h3>
-        <button
-          onClick={() => setEditing({ ...emptyProduct, sort_order: products.length })}
-          className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity"
-        >
-          <Plus className="w-3.5 h-3.5" /> Add Product
-        </button>
+        <div className="flex items-center gap-2">
+          {products.length === 0 && (
+            <button
+              onClick={seedDefaults}
+              disabled={seeding}
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors disabled:opacity-50"
+            >
+              <Database className="w-3.5 h-3.5" /> {seeding ? "Seeding..." : "Seed Defaults"}
+            </button>
+          )}
+          <button
+            onClick={() => setEditing({ ...emptyProduct, sort_order: products.length })}
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity"
+          >
+            <Plus className="w-3.5 h-3.5" /> Add Product
+          </button>
+        </div>
       </div>
 
       {/* Product List */}
