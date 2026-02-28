@@ -9,10 +9,8 @@ import CountrySelector from "@/components/CountrySelector";
 import CountryBanner from "@/components/CountryBanner";
 
 const navLinks = [
-  { label: "About", path: "/about" },
   { label: "Services", path: "/services" },
   { label: "Pricing", path: "/pricing" },
-  { label: "Case Studies", path: "/case-studies" },
   { label: "Testimonials", path: "/testimonials" },
   { label: "Contact", path: "/contact" },
 ];
