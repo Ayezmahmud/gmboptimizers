@@ -168,6 +168,17 @@ export const isValidCountry = (code: string): boolean => {
   return countries.some((c) => c.code === code);
 };
 
+export const stripCountryPrefix = (pathname: string): string => {
+  const [, maybeCountry, ...rest] = pathname.split("/");
+
+  if (maybeCountry && isValidCountry(maybeCountry.toLowerCase())) {
+    const remainingPath = rest.join("/");
+    return remainingPath ? `/${remainingPath}` : "/";
+  }
+
+  return pathname || "/";
+};
+
 /**
  * Convert an AUD price to the target country's currency.
  * Rounds to 2 decimals ending in .99 for clean pricing.

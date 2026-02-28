@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
-import { countries } from "@/data/countries";
+import { countries, isValidCountry, stripCountryPrefix } from "@/data/countries";
 import { useCountry } from "@/contexts/CountryContext";
 
 const CountrySelector = () => {
@@ -20,9 +20,11 @@ const CountrySelector = () => {
   }, []);
 
   const switchCountry = (newCode: string) => {
-    // Replace current country prefix in path
-    const pathWithoutCountry = location.pathname.replace(/^\/[a-z]{2}/, "") || "/";
-    navigate(`/${newCode}${pathWithoutCountry}`);
+    const currentPrefix = location.pathname.split("/")[1]?.toLowerCase();
+    const hasCountryPrefix = !!currentPrefix && isValidCountry(currentPrefix);
+    const pathWithoutCountry = hasCountryPrefix ? stripCountryPrefix(location.pathname) : "/";
+
+    navigate(`/${newCode}${pathWithoutCountry}${location.search}${location.hash}`);
     setOpen(false);
   };
 

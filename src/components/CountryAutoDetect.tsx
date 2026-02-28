@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { countries, DEFAULT_COUNTRY } from "@/data/countries";
+import { countries, DEFAULT_COUNTRY, stripCountryPrefix } from "@/data/countries";
 
 /**
  * On first visit to `/au` (default), detect user's timezone/locale
@@ -31,7 +31,7 @@ const CountryAutoDetect = () => {
     for (const c of countries) {
       if (c.code === DEFAULT_COUNTRY) continue;
       if (c.timezones.some((tz) => userTimezone === tz)) {
-        const pathWithoutCountry = location.pathname.replace(/^\/[a-z]{2}/, "") || "/";
+        const pathWithoutCountry = stripCountryPrefix(location.pathname);
         navigate(`/${c.code}${pathWithoutCountry}`, { replace: true });
         return;
       }
@@ -41,7 +41,7 @@ const CountryAutoDetect = () => {
     for (const c of countries) {
       if (c.code === DEFAULT_COUNTRY) continue;
       if (c.locales.some((loc) => userLocale.startsWith(loc.split("-")[0]) && userLocale.includes(loc.split("-")[1] || ""))) {
-        const pathWithoutCountry = location.pathname.replace(/^\/[a-z]{2}/, "") || "/";
+        const pathWithoutCountry = stripCountryPrefix(location.pathname);
         navigate(`/${c.code}${pathWithoutCountry}`, { replace: true });
         return;
       }
