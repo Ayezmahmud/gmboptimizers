@@ -287,33 +287,79 @@ const Earth = () => {
   );
 };
 
+const GlobeLoadingFallback = () => (
+  <div className="w-full h-full flex items-center justify-center relative">
+    {/* Pulsing globe silhouette */}
+    <div className="relative">
+      <div
+        className="w-48 h-48 sm:w-64 sm:h-64 rounded-full"
+        style={{
+          background: "radial-gradient(circle at 40% 35%, #1a3a5c 0%, #0a1628 60%, #060918 100%)",
+          boxShadow: "0 0 60px 10px rgba(66, 133, 244, 0.15), inset 0 0 40px rgba(66, 133, 244, 0.1)",
+          animation: "pulse 2s ease-in-out infinite",
+        }}
+      />
+      {/* Animated ring */}
+      <div
+        className="absolute inset-0 rounded-full border border-google-blue/20"
+        style={{ animation: "pulse 2s ease-in-out 0.5s infinite" }}
+      />
+      <div
+        className="absolute -inset-3 rounded-full border border-google-blue/10"
+        style={{ animation: "pulse 2s ease-in-out 1s infinite" }}
+      />
+      {/* Spinner overlay */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-google-blue/30 border-t-google-blue rounded-full animate-spin" />
+      </div>
+    </div>
+  </div>
+);
+
 const EarthGlobe = () => {
+  const [ready, setReady] = useState(false);
+
   return (
-    <div style={{ width: "100%", height: "100%", minHeight: "400px" }}>
-      <Canvas
-        camera={{ position: [0, 0, 7], fov: 45 }}
-        gl={{ antialias: true, alpha: true }}
-        style={{ background: "transparent" }}
+    <div style={{ width: "100%", height: "100%", minHeight: "400px" }} className="relative">
+      {/* Loading skeleton shown until canvas is ready */}
+      {!ready && (
+        <div className="absolute inset-0 z-10 transition-opacity duration-700">
+          <GlobeLoadingFallback />
+        </div>
+      )}
+      <div
+        className="w-full h-full transition-opacity duration-700"
+        style={{ opacity: ready ? 1 : 0 }}
       >
-        <ambientLight intensity={1.2} />
-        <directionalLight position={[5, 3, 5]} intensity={2.5} color="#ffffff" />
-        <directionalLight position={[-3, -1, -3]} intensity={0.8} color="#6699ff" />
-        <pointLight position={[0, 5, 3]} intensity={1} color="#ffffff" />
-        <Suspense fallback={null}>
-          <Earth />
-          <Stars radius={100} depth={50} count={1500} factor={3} fade speed={1} />
-        </Suspense>
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          autoRotate
-          autoRotateSpeed={0.4}
-          enableRotate
-          rotateSpeed={0.5}
-          enableDamping
-          dampingFactor={0.1}
-        />
-      </Canvas>
+        <Canvas
+          camera={{ position: [0, 0, 7], fov: 45 }}
+          gl={{ antialias: true, alpha: true }}
+          style={{ background: "transparent" }}
+          onCreated={() => {
+            // Small delay to let the first frame render
+            setTimeout(() => setReady(true), 300);
+          }}
+        >
+          <ambientLight intensity={1.2} />
+          <directionalLight position={[5, 3, 5]} intensity={2.5} color="#ffffff" />
+          <directionalLight position={[-3, -1, -3]} intensity={0.8} color="#6699ff" />
+          <pointLight position={[0, 5, 3]} intensity={1} color="#ffffff" />
+          <Suspense fallback={null}>
+            <Earth />
+            <Stars radius={100} depth={50} count={1500} factor={3} fade speed={1} />
+          </Suspense>
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            autoRotate
+            autoRotateSpeed={0.4}
+            enableRotate
+            rotateSpeed={0.5}
+            enableDamping
+            dampingFactor={0.1}
+          />
+        </Canvas>
+      </div>
     </div>
   );
 };
