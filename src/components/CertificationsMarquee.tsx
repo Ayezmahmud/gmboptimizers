@@ -12,14 +12,25 @@ const certifications = [
 
 const MarqueeRow = ({ reverse = false }: { reverse?: boolean }) => {
   const items = reverse ? certifications.slice().reverse() : certifications;
+  // Triple the items to ensure no gap during the loop
+  const repeatedItems = [...items, ...items, ...items];
+
   return (
-    <div className={`flex ${reverse ? "animate-marquee-reverse" : "animate-marquee"} whitespace-nowrap`}>
-      {[...items, ...items].map((cert, i) => (
-        <span key={i} className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em]">
-          <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
-          <span style={{ color: cert.color }}>{cert.name}</span>
-        </span>
-      ))}
+    <div className="overflow-hidden w-full">
+      <div
+        className={`flex w-max ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
+        style={{ willChange: "transform" }}
+      >
+        {repeatedItems.map((cert, i) => (
+          <span
+            key={i}
+            className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.12em] shrink-0"
+          >
+            <img src={cert.logo} alt={cert.name} className="w-5 h-5 shrink-0" loading="lazy" />
+            <span style={{ color: cert.color }}>{cert.name}</span>
+          </span>
+        ))}
+      </div>
     </div>
   );
 };
