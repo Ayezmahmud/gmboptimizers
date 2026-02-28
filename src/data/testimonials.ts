@@ -7,6 +7,8 @@ export interface Testimonial {
   industry: string;
   result: string;
   image: string;
+  /** Country code(s) this testimonial is relevant to. Empty = global/all. */
+  countries?: string[];
 }
 
 const colors = ["bg-google-blue", "bg-google-red", "bg-google-yellow", "bg-google-green"];
@@ -21,6 +23,7 @@ export const testimonials: Testimonial[] = [
     industry: "Food & Beverage",
     result: "Page 3 → #1 in 8 weeks",
     image: "/images/testimonial-1.png",
+    countries: ["au"],
   },
   {
     name: "James Chen",
@@ -31,6 +34,7 @@ export const testimonials: Testimonial[] = [
     industry: "Automotive",
     result: "+300% calls in 30 days",
     image: "/images/testimonial-2.png",
+    countries: ["au"],
   },
   {
     name: "Lisa Rodriguez",
@@ -313,3 +317,54 @@ export const testimonials: Testimonial[] = [
     image: "/images/testimonial-30.png",
   },
 ];
+
+/**
+ * Country assignments for testimonials.
+ * Index → country codes. Testimonials without an entry are global.
+ */
+const countryAssignments: Record<number, string[]> = {
+  0: ["au"],       // Sarah Mitchell - Melbourne
+  1: ["au"],       // James Chen - Sydney
+  2: ["au"],       // Lisa Rodriguez - Brisbane
+  3: ["au"],       // David Park - Perth
+  4: ["au"],       // Amanda Foster - Adelaide
+  5: ["au"],       // Michael Torres - Gold Coast
+  6: ["au"],       // Priya Sharma - Melbourne
+  7: ["uk"],       // Tom Henderson - repurposed as UK
+  8: ["uk"],       // Rebecca Nguyen - repurposed as UK
+  9: ["au"],       // Chris O'Brien - Perth
+  10: ["uk"],      // Emily Watson - repurposed as UK
+  11: ["au"],      // Hassan Ali - Sydney
+  12: ["us"],      // Jasmine Lee - repurposed as US
+  13: ["au"],      // Robert Fitzgerald - Gold Coast
+  14: ["us"],      // Mei Lin Zhang - repurposed as US
+  15: ["au"],      // Daniel Murphy - Melbourne
+  16: ["us"],      // Natasha Volkov - repurposed as US
+  17: ["au"],      // Ryan Cooper - Perth
+  18: ["ca"],      // Sophie Martin - repurposed as CA
+  19: ["ca"],      // Andrew Kim - repurposed as CA
+  20: ["au"],      // Olivia Thompson - Melbourne
+  21: ["uk"],      // Marcus Brown - repurposed as UK
+  22: ["ae"],      // Zara Patel - repurposed as UAE
+  23: ["au"],      // William Scott - Perth
+  24: ["ca"],      // Grace Taylor - repurposed as CA
+  25: ["qa"],      // Kevin Russo - repurposed as Qatar
+  26: ["au"],      // Diana Hughes - Melbourne
+  27: ["om"],      // Samuel Wright - repurposed as Oman
+  28: ["ae"],      // Isabella Garcia - repurposed as UAE
+  29: ["us"],      // Liam Anderson - repurposed as US
+};
+
+// Apply country assignments
+testimonials.forEach((t, i) => {
+  if (countryAssignments[i]) {
+    t.countries = countryAssignments[i];
+  }
+});
+
+/** Get testimonials for a specific country. Shows country-specific first, then global/other. */
+export const getTestimonialsForCountry = (countryCode: string): Testimonial[] => {
+  const local = testimonials.filter((t) => t.countries?.includes(countryCode));
+  const global = testimonials.filter((t) => !t.countries || !t.countries.includes(countryCode));
+  return [...local, ...global];
+};

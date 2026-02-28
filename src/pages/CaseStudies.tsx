@@ -6,13 +6,14 @@ import { useCountry } from "@/contexts/CountryContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies as allCaseStudies, getCaseStudiesForCountry } from "@/data/caseStudies";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 const CaseStudies = () => {
-  const { localePath } = useCountry();
+  const { localePath, countryCode } = useCountry();
+  const caseStudies = getCaseStudiesForCountry(countryCode);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />

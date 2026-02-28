@@ -7,12 +7,11 @@ import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
 import { Link } from "react-router-dom";
 import { useCountry } from "@/contexts/CountryContext";
-import { testimonials, Testimonial } from "@/data/testimonials";
+import { testimonials as allTestimonials, Testimonial, getTestimonialsForCountry } from "@/data/testimonials";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
 
-const industries = ["All", ...Array.from(new Set(testimonials.map(t => t.industry)))];
 
 const aggregateStats = [
   { icon: Users, value: 500, suffix: "+", label: "Businesses Ranked", color: "text-google-blue", dotColor: "bg-google-blue" },
@@ -46,7 +45,9 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 };
 
 const Testimonials = () => {
-  const { localePath } = useCountry();
+  const { localePath, countryCode } = useCountry();
+  const testimonials = getTestimonialsForCountry(countryCode);
+  const industries = ["All", ...Array.from(new Set(testimonials.map(t => t.industry)))];
   const [idx, setIdx] = useState(0);
   const [filter, setFilter] = useState("All");
   const [selectedTestimonial, setSelectedTestimonial] = useState<Testimonial | null>(null);

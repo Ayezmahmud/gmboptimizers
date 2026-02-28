@@ -37,6 +37,8 @@ export interface CaseStudy {
   duration: string;
   startRank: string;
   endRank: string;
+  /** Country code(s) this case study is relevant to */
+  countries?: string[];
 }
 
 export const caseStudies: CaseStudy[] = [
@@ -289,4 +291,19 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 
+// Assign countries to case studies
+caseStudies[0].countries = ["au"];       // Melbourne Dental Clinic
+caseStudies[1].countries = ["au"];       // Sydney Auto Repair
+caseStudies[2].countries = ["au"];       // Brisbane Law Firm
+caseStudies[3].countries = ["au"];       // Rossi's Italian Kitchen - Melbourne
+caseStudies[4].countries = ["au"];       // Coastal Realty Group - Sydney
+caseStudies[5].countries = ["au"];       // Ironclad Fitness - Gold Coast
+
 export const getCaseStudyBySlug = (slug: string) => caseStudies.find(c => c.slug === slug);
+
+/** Get case studies for a specific country. Shows country-specific first, then others. */
+export const getCaseStudiesForCountry = (countryCode: string): typeof caseStudies => {
+  const local = caseStudies.filter((c) => c.countries?.includes(countryCode));
+  const global = caseStudies.filter((c) => !c.countries || !c.countries.includes(countryCode));
+  return [...local, ...global];
+};
