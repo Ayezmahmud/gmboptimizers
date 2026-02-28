@@ -128,12 +128,22 @@ const Header = () => {
               </Link>
             ))}
             {user ? (
-              <button
-                onClick={() => { signOut(); setOpen(false); }}
-                className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-border text-foreground"
-              >
-                Sign Out
-              </button>
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setOpen(false)}
+                  className="text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-2"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => { signOut(); setOpen(false); }}
+                  className="mt-2 px-6 py-3 text-center text-xs font-bold uppercase tracking-wider border border-border text-foreground"
+                >
+                  Sign Out
+                </button>
+              </>
             ) : (
               <div className="flex flex-col gap-2 mt-2">
                 <Link
