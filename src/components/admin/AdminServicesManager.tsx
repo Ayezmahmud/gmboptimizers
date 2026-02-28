@@ -15,6 +15,7 @@ const emptyService: Partial<AdminService> = {
   color_theme: "google-blue",
   icon_name: "MapPin",
   image_url: "",
+  price: 99.99,
   sort_order: 0,
   active: true,
 };
@@ -155,7 +156,7 @@ const AdminServicesManager = () => {
             <div className="flex-1 min-w-0">
               <span className="font-bold text-sm text-foreground">{s.title}</span>
               <p className="text-xs text-muted-foreground mt-0.5 truncate">{s.description}</p>
-              <p className="text-xs text-muted-foreground">{s.details.length} details · Order: {s.sort_order}</p>
+              <p className="text-xs text-muted-foreground">{s.details.length} details · ${s.price} AUD · Order: {s.sort_order}</p>
             </div>
             <button onClick={() => handleDuplicate(s)} className="p-2 text-muted-foreground hover:text-google-green transition-colors" title="Duplicate">
               <Copy className="w-4 h-4" />
@@ -214,7 +215,11 @@ const AdminServicesManager = () => {
                   <textarea value={editing.description || ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })} rows={3} className="w-full px-3 py-2 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] resize-none" maxLength={1000} />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-foreground mb-1">Price (AUD)</label>
+                    <input type="number" step="0.01" min="0" value={editing.price ?? 99.99} onChange={(e) => setEditing({ ...editing, price: parseFloat(e.target.value) || 0 })} className="w-full px-3 py-2 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))]" />
+                  </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground mb-1">Icon</label>
                     <select value={editing.icon_name || "MapPin"} onChange={(e) => setEditing({ ...editing, icon_name: e.target.value })} className="w-full px-3 py-2 bg-background border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))]">

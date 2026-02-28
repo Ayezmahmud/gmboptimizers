@@ -26,6 +26,7 @@ export interface AdminService {
   color_theme: string;
   icon_name: string;
   image_url: string | null;
+  price: number;
   sort_order: number;
   active: boolean;
   created_at: string;

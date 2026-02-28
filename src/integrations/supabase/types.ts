@@ -107,6 +107,7 @@ export type Database = {
           icon_name: string
           id: string
           image_url: string | null
+          price: number
           sort_order: number
           title: string
           updated_at: string
@@ -120,6 +121,7 @@ export type Database = {
           icon_name?: string
           id?: string
           image_url?: string | null
+          price?: number
           sort_order?: number
           title: string
           updated_at?: string
@@ -133,6 +135,7 @@ export type Database = {
           icon_name?: string
           id?: string
           image_url?: string | null
+          price?: number
           sort_order?: number
           title?: string
           updated_at?: string
