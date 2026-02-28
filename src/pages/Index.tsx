@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useCountry } from "@/contexts/CountryContext";
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState, Suspense, lazy } from "react";
 import { useInView } from "framer-motion";
@@ -106,6 +107,7 @@ const FAQItem = ({ q, a }: { q: string; a: string }) => {
 
 /* ── Page ── */
 const Index = () => {
+  const { localePath } = useCountry();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -245,7 +247,7 @@ const Index = () => {
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Unlike generalist marketing agencies, we focus exclusively on Google Business Profile and Google Maps optimization. This specialization means deeper knowledge, faster results, and higher ROI for every client.
               </p>
-              <Link to="/about" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity">
+              <Link to={localePath("/about")} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity">
                 Learn More About Us <ArrowRight className="w-4 h-4" />
               </Link>
             </ScrollTextReveal>
@@ -268,7 +270,7 @@ const Index = () => {
                   <h3 className="text-sm font-bold uppercase text-foreground mb-2">{item.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
                   <div className="hover-reveal-content">
-                    <Link to="/about" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
+                    <Link to={localePath("/about")} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
                       Learn More <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
@@ -287,7 +289,7 @@ const Index = () => {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-green mb-3">What We Do</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground">Our Services</h2>
             </div>
-            <Link to="/services" className="text-xs font-bold uppercase tracking-wider text-google-blue underline underline-offset-4 hover:opacity-80 transition-opacity">
+            <Link to={localePath("/services")} className="text-xs font-bold uppercase tracking-wider text-google-blue underline underline-offset-4 hover:opacity-80 transition-opacity">
               View All Services →
             </Link>
           </ScrollTextReveal>
@@ -299,7 +301,7 @@ const Index = () => {
                   <h3 className="text-sm font-bold uppercase text-foreground mb-3">{s.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
                   <div className="hover-reveal-content">
-                    <Link to="/services" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
+                    <Link to={localePath("/services")} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue mt-4 hover:opacity-80 transition-opacity">
                       Explore <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
@@ -354,7 +356,7 @@ const Index = () => {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary-foreground/60 mb-3">Proven Results</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase">Case Studies</h2>
             </div>
-            <Link to="/case-studies" className="text-xs font-bold uppercase tracking-wider text-primary-foreground/60 underline underline-offset-4 hover:text-primary-foreground transition-colors">
+            <Link to={localePath("/case-studies")} className="text-xs font-bold uppercase tracking-wider text-primary-foreground/60 underline underline-offset-4 hover:text-primary-foreground transition-colors">
               View All Results →
             </Link>
           </ScrollTextReveal>
@@ -415,7 +417,7 @@ const Index = () => {
             ))}
           </div>
           <div className="text-center mt-10">
-            <Link to="/testimonials" className="text-xs font-bold uppercase tracking-wider text-google-blue underline underline-offset-4 hover:opacity-80 transition-opacity">
+            <Link to={localePath("/testimonials")} className="text-xs font-bold uppercase tracking-wider text-google-blue underline underline-offset-4 hover:opacity-80 transition-opacity">
               Read More Reviews →
             </Link>
           </div>
@@ -471,7 +473,7 @@ const Index = () => {
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Everything you need to know about our Google Maps optimization services. Can't find what you're looking for? Get in touch with our team.
               </p>
-              <Link to="/contact" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity">
+              <Link to={localePath("/contact")} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-google-blue hover:opacity-80 transition-opacity">
                 Contact Us <ArrowRight className="w-4 h-4" />
               </Link>
             </ScrollTextReveal>
@@ -499,7 +501,7 @@ const Index = () => {
               <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-google-yellow" /> 30-Day Money-Back Guarantee</span>
             </div>
             <Link
-              to="/pricing"
+              to={localePath("/pricing")}
               className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors"
             >
               Start Today

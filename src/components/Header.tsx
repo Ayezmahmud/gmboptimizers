@@ -3,9 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, LogOut, LayoutDashboard, ShoppingCart, Shield } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/contexts/CartContext";
+import { useCountry } from "@/contexts/CountryContext";
 import { supabase } from "@/integrations/supabase/client";
+import CountrySelector from "@/components/CountrySelector";
 
-const links = [
+const navLinks = [
   { label: "About", path: "/about" },
   { label: "Services", path: "/services" },
   { label: "Pricing", path: "/pricing" },
@@ -20,6 +22,7 @@ const Header = () => {
   const location = useLocation();
   const { user, signOut } = useAuth();
   const { itemCount } = useCart();
+  const { localePath } = useCountry();
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -52,30 +55,34 @@ const Header = () => {
     <header className={`sticky top-0 z-50 transition-all duration-300 border-b border-border shadow-lg shadow-black/5 backdrop-blur-xl`} style={{ background: 'linear-gradient(90deg, hsl(217 90% 61% / 0.3), hsl(9 81% 56% / 0.25), hsl(43 96% 50% / 0.25), hsl(142 53% 43% / 0.3)), hsl(0 0% 100% / 0.6)' }}>
       <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, #4285F4, #EA4335, #FBBC04, #34A853)' }} />
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
-        <Link to="/" className="text-xl font-black uppercase tracking-tight text-gradient-google">
+        <Link to={localePath("/")} className="text-xl font-black uppercase tracking-tight text-gradient-google">
           GB Optimizers
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-8">
-          {links.map((l) => (
-            <Link
-              key={l.path}
-              to={l.path}
-              className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-200 ${
-                location.pathname === l.path
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {navLinks.map((l) => {
+            const fullPath = localePath(l.path);
+            return (
+              <Link
+                key={l.path}
+                to={fullPath}
+                className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-200 ${
+                  location.pathname === fullPath
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
+          <CountrySelector />
           <Link
-            to="/checkout"
+            to={localePath("/checkout")}
             className="relative inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground transition-colors duration-200"
           >
             <ShoppingCart className="w-4 h-4" />
@@ -130,7 +137,8 @@ const Header = () => {
 
         {/* Mobile cart + toggle */}
         <div className="flex items-center gap-2 lg:hidden">
-          <Link to="/checkout" className="relative inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground">
+          <CountrySelector />
+          <Link to={localePath("/checkout")} className="relative inline-flex items-center justify-center w-10 h-10 text-muted-foreground hover:text-foreground">
             <ShoppingCart className="w-5 h-5" />
             {itemCount > 0 && (
               <span className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-google-red text-white text-[10px] font-bold leading-none px-1">
@@ -148,10 +156,10 @@ const Header = () => {
       {open && (
         <div className="lg:hidden border-t border-border bg-background">
           <nav className="container mx-auto px-6 py-6 flex flex-col gap-4">
-            {links.map((l) => (
+            {navLinks.map((l) => (
               <Link
                 key={l.path}
-                to={l.path}
+                to={localePath(l.path)}
                 onClick={() => setOpen(false)}
                 className="text-sm font-bold uppercase tracking-wider text-foreground"
               >

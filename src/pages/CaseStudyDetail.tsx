@@ -1,4 +1,5 @@
 import { useParams, Link } from "react-router-dom";
+import { useCountry } from "@/contexts/CountryContext";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, CheckCircle2, Clock, MapPin, TrendingUp } from "lucide-react";
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -37,6 +38,7 @@ const generateTrafficData = (timeline: { week: string }[]) => {
 };
 
 const CaseStudyDetail = () => {
+  const { localePath } = useCountry();
   const { slug } = useParams<{ slug: string }>();
   const study = getCaseStudyBySlug(slug || "");
 
@@ -46,7 +48,7 @@ const CaseStudyDetail = () => {
         <Header />
         <div className="container mx-auto px-6 py-40 text-center">
           <h1 className="text-4xl font-black uppercase mb-4">Case Study Not Found</h1>
-          <Link to="/case-studies" className="text-google-blue text-sm font-bold uppercase tracking-wider hover:opacity-80">
+          <Link to={localePath("/case-studies")} className="text-google-blue text-sm font-bold uppercase tracking-wider hover:opacity-80">
             ← Back to Case Studies
           </Link>
         </div>
@@ -72,7 +74,7 @@ const CaseStudyDetail = () => {
         </div>
         <div className="relative z-10 container mx-auto px-6">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-            <Link to="/case-studies" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/50 hover:text-white/80 transition-colors mb-8">
+            <Link to={localePath("/case-studies")} className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/50 hover:text-white/80 transition-colors mb-8">
               <ArrowLeft className="w-4 h-4" /> Back to Case Studies
             </Link>
             <div className="flex items-center gap-3 mb-6">
@@ -445,7 +447,7 @@ const CaseStudyDetail = () => {
           <div className="flex justify-between items-center">
             {prevStudy ? (
               <Link
-                to={`/case-studies/${prevStudy.slug}`}
+                to={localePath(`/case-studies/${prevStudy.slug}`)}
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-google-blue transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" /> {prevStudy.business}
@@ -453,7 +455,7 @@ const CaseStudyDetail = () => {
             ) : <div />}
             {nextStudy ? (
               <Link
-                to={`/case-studies/${nextStudy.slug}`}
+                to={localePath(`/case-studies/${nextStudy.slug}`)}
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground hover:text-google-blue transition-colors"
               >
                 {nextStudy.business} <ArrowRight className="w-4 h-4" />
@@ -476,7 +478,7 @@ const CaseStudyDetail = () => {
               Get a free consultation and see how we can transform your Google Maps presence.
             </p>
             <Link
-              to="/pricing"
+              to={localePath("/pricing")}
               className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors"
             >
               Get Started Today

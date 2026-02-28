@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useCountry } from "@/contexts/CountryContext";
 
 const Footer = () => {
+  const { localePath } = useCountry();
+
   return (
     <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-6 py-16">
@@ -23,7 +26,7 @@ const Footer = () => {
                 { label: "Contact", path: "/contact" },
               ].map((l) => (
                 <li key={l.path}>
-                  <Link to={l.path} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">
+                  <Link to={localePath(l.path)} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">
                     {l.label}
                   </Link>
                 </li>
@@ -36,7 +39,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               {["Basic", "Premium", "Advance", "Enterprise"].map((p) => (
                 <li key={p}>
-                  <Link to="/pricing" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">
+                  <Link to={localePath("/pricing")} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">
                     {p}
                   </Link>
                 </li>
@@ -47,8 +50,8 @@ const Footer = () => {
           <div>
             <h4 className="font-bold uppercase text-xs tracking-[0.15em] mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/privacy-policy" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">Privacy Policy</Link></li>
-              <li><Link to="/terms-and-conditions" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">Terms & Conditions</Link></li>
+              <li><Link to={localePath("/privacy-policy")} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">Privacy Policy</Link></li>
+              <li><Link to={localePath("/terms-and-conditions")} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">Terms & Conditions</Link></li>
             </ul>
           </div>
         </div>

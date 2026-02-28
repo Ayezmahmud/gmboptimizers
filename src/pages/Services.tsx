@@ -2,6 +2,7 @@ import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
 import { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, ArrowRight, Camera, MessageSquare, Smartphone } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCountry } from "@/contexts/CountryContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
@@ -132,6 +133,7 @@ const colorMap: Record<string, { text: string; bg: string; border: string; glow:
 };
 
 const Services = () => {
+  const { localePath } = useCountry();
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -211,7 +213,7 @@ const Services = () => {
               <p className="text-muted-foreground leading-relaxed mb-6">
                 Every service we offer is backed by real data and proven methodologies. We use advanced analytics tools to track your progress and continuously optimize your Google Maps presence.
               </p>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:bg-google-blue/90 transition-colors">
+              <Link to={localePath("/contact")} className="inline-flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:bg-google-blue/90 transition-colors">
                 Get a Free Audit <ArrowRight className="w-4 h-4" />
               </Link>
             </ScrollTextReveal>
@@ -365,7 +367,7 @@ const Services = () => {
               Every business is unique. Contact us for a tailored optimization strategy that fits your goals and budget.
             </p>
             <Link
-              to="/contact"
+              to={localePath("/contact")}
               className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors"
             >
               Contact Us
