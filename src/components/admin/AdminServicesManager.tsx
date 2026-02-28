@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import { AdminService, useAdminServices } from "@/hooks/useAdminData";
-import { Plus, Edit2, Trash2, X, Check, Upload, Link as LinkIcon, Database } from "lucide-react";
+import { Plus, Edit2, Trash2, X, Check, Upload, Link as LinkIcon, Database, Copy, GripVertical } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DEFAULT_SERVICES } from "@/data/defaultServices";
 import { useToast } from "@/hooks/use-toast";
@@ -29,6 +29,10 @@ const AdminServicesManager = () => {
   const fileRef = useRef<HTMLInputElement>(null);
   const [seeding, setSeeding] = useState(false);
   const { toast } = useToast();
+
+  // Drag-and-drop state
+  const dragIndex = useRef<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
   const seedDefaults = async () => {
     setSeeding(true);
@@ -75,6 +79,31 @@ const AdminServicesManager = () => {
     setDeleting(null);
   };
 
+  const handleDuplicate = async (service: AdminService) => {
+    const { id, created_at, updated_at, ...rest } = service;
+    await save({ ...rest, title: `${rest.title} (Copy)`, sort_order: services.length });
+    toast({ title: "Service duplicated" });
+  };
+
+  const handleDrop = useCallback(async (toIndex: number) => {
+    const fromIndex = dragIndex.current;
+    if (fromIndex === null || fromIndex === toIndex) {
+      dragIndex.current = null;
+      setDragOverIndex(null);
+      return;
+    }
+    const reordered = [...services];
+    const [moved] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, moved);
+    for (let i = 0; i < reordered.length; i++) {
+      if (reordered[i].sort_order !== i) {
+        await save({ id: reordered[i].id, sort_order: i });
+      }
+    }
+    dragIndex.current = null;
+    setDragOverIndex(null);
+  }, [services, save]);
+
   if (loading) return <div className="text-muted-foreground animate-pulse py-8 text-center">Loading services...</div>;
 
   return (
@@ -100,14 +129,29 @@ const AdminServicesManager = () => {
         </div>
       </div>
 
-      <div className="space-y-3">
-        {services.map((s) => (
-          <motion.div key={s.id} layout className={`border border-border bg-card p-4 flex items-center gap-4 ${!s.active ? "opacity-50" : ""}`}>
+      <div className="space-y-1">
+        {services.map((s, i) => (
+          <motion.div
+            key={s.id}
+            layout
+            draggable
+            onDragStart={() => { dragIndex.current = i; }}
+            onDragOver={(e) => { e.preventDefault(); setDragOverIndex(i); }}
+            onDragLeave={() => setDragOverIndex(null)}
+            onDrop={(e) => { e.preventDefault(); handleDrop(i); }}
+            onDragEnd={() => { dragIndex.current = null; setDragOverIndex(null); }}
+            className={`border bg-card p-3 flex items-center gap-3 transition-all cursor-grab active:cursor-grabbing ${
+              !s.active ? "opacity-50" : ""
+            } ${
+              dragOverIndex === i ? "border-google-blue border-2 bg-google-blue/5" : "border-border"
+            }`}
+          >
+            <GripVertical className="w-4 h-4 text-muted-foreground/50 shrink-0" />
             {s.image_url ? (
-              <img src={s.image_url} alt={s.title} className="w-12 h-12 object-cover rounded shrink-0 border border-border" />
+              <img src={s.image_url} alt={s.title} className="w-10 h-10 object-cover rounded shrink-0 border border-border" />
             ) : (
-              <div className={`w-12 h-12 bg-${s.color_theme}/10 flex items-center justify-center shrink-0 border border-border`}>
-                <span className="text-xs text-muted-foreground">{s.icon_name}</span>
+              <div className={`w-10 h-10 bg-${s.color_theme}/10 flex items-center justify-center shrink-0 border border-border rounded`}>
+                <span className="text-[10px] text-muted-foreground">{s.icon_name}</span>
               </div>
             )}
             <div className="flex-1 min-w-0">
@@ -115,16 +159,25 @@ const AdminServicesManager = () => {
               <p className="text-xs text-muted-foreground mt-0.5 truncate">{s.description}</p>
               <p className="text-xs text-muted-foreground">{s.details.length} details · Order: {s.sort_order}</p>
             </div>
-            <button onClick={() => { setEditing({ ...s }); setImageMode(s.image_url?.startsWith("http") ? "url" : "upload"); }} className="p-2 text-muted-foreground hover:text-google-blue transition-colors">
+            <button onClick={() => handleDuplicate(s)} className="p-2 text-muted-foreground hover:text-google-green transition-colors" title="Duplicate">
+              <Copy className="w-4 h-4" />
+            </button>
+            <button onClick={() => { setEditing({ ...s }); setImageMode(s.image_url?.startsWith("http") ? "url" : "upload"); }} className="p-2 text-muted-foreground hover:text-google-blue transition-colors" title="Edit">
               <Edit2 className="w-4 h-4" />
             </button>
-            <button onClick={() => setDeleting(s.id)} className="p-2 text-muted-foreground hover:text-google-red transition-colors">
+            <button onClick={() => setDeleting(s.id)} className="p-2 text-muted-foreground hover:text-google-red transition-colors" title="Delete">
               <Trash2 className="w-4 h-4" />
             </button>
           </motion.div>
         ))}
         {services.length === 0 && <p className="text-center text-muted-foreground py-8">No services yet. Add your first service above.</p>}
       </div>
+
+      {services.length > 1 && (
+        <p className="text-[11px] text-muted-foreground text-center">
+          <GripVertical className="w-3 h-3 inline -mt-0.5" /> Drag rows to reorder
+        </p>
+      )}
 
       {/* Delete Confirmation */}
       <AnimatePresence>
