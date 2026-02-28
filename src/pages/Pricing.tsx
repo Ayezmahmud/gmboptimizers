@@ -13,6 +13,7 @@ import CertificationsMarquee from "@/components/CertificationsMarquee";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
 import { useCountry } from "@/contexts/CountryContext";
+import SEOHead from "@/components/SEOHead";
 
 const packages = [
   {
@@ -144,6 +145,7 @@ const Pricing = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead pageTitle="Pricing" pageDescription={`Google Maps SEO packages in ${country.name}. Plans from ${country.currencySymbol}${toLocalPrice(99.99).toFixed(2)} ${country.currency}/mo. No contracts, 30-day money-back guarantee.`} />
       <Header />
 
       {/* Cart floating button */}

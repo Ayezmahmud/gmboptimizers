@@ -8,16 +8,26 @@ import HeroBackground from "@/components/HeroBackground";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
+import SEOHead from "@/components/SEOHead";
+import { useCountry } from "@/contexts/CountryContext";
 
-const contactInfo = [
-  { icon: Mail, label: "Email", value: "hello@gboptimizers.com", color: "text-google-blue", border: "border-google-blue/20", glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.2)]", bgHover: "bg-google-blue/5" },
-  { icon: Phone, label: "Phone", value: "+61 3 9000 0000", color: "text-google-red", border: "border-google-red/20", glowHover: "hover:shadow-[0_0_40px_rgba(234,67,53,0.2)]", bgHover: "bg-google-red/5" },
-  { icon: MapPin, label: "Location", value: "Melbourne, Australia", color: "text-google-green", border: "border-google-green/20", glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.2)]", bgHover: "bg-google-green/5" },
-  { icon: Clock, label: "Response Time", value: "Within 24 hours", color: "text-google-yellow", border: "border-google-yellow/20", glowHover: "hover:shadow-[0_0_40px_rgba(251,188,4,0.2)]", bgHover: "bg-google-yellow/5" },
+const packages = [
+  { name: "Basic", price: 99.99 },
+  { name: "Premium", price: 149.99 },
+  { name: "Advance", price: 199.99 },
+  { name: "Enterprise", price: 299.99 },
 ];
 
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
+  const { country, toLocalPrice, formatLocalPrice } = useCountry();
+
+  const contactInfo = [
+    { icon: Mail, label: "Email", value: country.email, color: "text-google-blue", border: "border-google-blue/20", glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.2)]", bgHover: "bg-google-blue/5" },
+    { icon: Phone, label: "Phone", value: country.phone, color: "text-google-red", border: "border-google-red/20", glowHover: "hover:shadow-[0_0_40px_rgba(234,67,53,0.2)]", bgHover: "bg-google-red/5" },
+    { icon: MapPin, label: "Location", value: `${country.address}, ${country.city}`, color: "text-google-green", border: "border-google-green/20", glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.2)]", bgHover: "bg-google-green/5" },
+    { icon: Clock, label: "Business Hours", value: country.businessHours, color: "text-google-yellow", border: "border-google-yellow/20", glowHover: "hover:shadow-[0_0_40px_rgba(251,188,4,0.2)]", bgHover: "bg-google-yellow/5" },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,6 +36,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEOHead pageTitle="Contact Us" pageDescription={`Contact GB Optimizers in ${country.name}. Call ${country.phone} or visit our office at ${country.city}. Get your free Google Maps consultation today.`} />
       <Header />
 
       <section className="relative overflow-hidden py-28 md:py-44 bg-[#060918]">
@@ -40,7 +51,7 @@ const Contact = () => {
               Today
             </h1>
             <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
-              Ready to dominate Google Maps? Get your free consultation and see how we can grow your business.
+              Ready to dominate Google Maps in {country.name}? Get your free consultation and see how we can grow your business.
             </p>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -80,7 +91,7 @@ const Contact = () => {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Reach Out</p>
               <h2 className="text-2xl font-black uppercase text-foreground mb-6">Let's Talk <span className="text-gradient-google">Growth</span></h2>
               <p className="text-muted-foreground leading-relaxed mb-8">
-                Ready to dominate Google Maps in your area? Fill out the form and our team will get back to you within 24 hours with a custom strategy proposal.
+                Ready to dominate Google Maps in {country.name}? Fill out the form and our {country.city.split(",")[0]} team will get back to you within 24 hours with a custom strategy proposal.
               </p>
               <div className="grid grid-cols-2 gap-4">
                 {contactInfo.map((c, i) => (
@@ -124,17 +135,18 @@ const Contact = () => {
                     </div>
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-foreground mb-2">Phone</label>
-                      <input type="tel" className="w-full px-4 py-3 bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-google-red focus:shadow-[0_0_20px_rgba(234,67,53,0.15)] transition-all" placeholder="Phone Number" />
+                      <input type="tel" className="w-full px-4 py-3 bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-google-red focus:shadow-[0_0_20px_rgba(234,67,53,0.15)] transition-all" placeholder={country.phonePrefix} />
                     </div>
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-wider text-foreground mb-2">Package</label>
                     <select className="w-full px-4 py-3 bg-background border border-border text-muted-foreground focus:outline-none focus:border-google-yellow focus:shadow-[0_0_20px_rgba(251,188,4,0.15)] transition-all appearance-none">
                       <option value="">Select Package</option>
-                      <option>Basic – $99.99 AUD</option>
-                      <option>Premium – $149.99 AUD</option>
-                      <option>Advance – $199.99 AUD</option>
-                      <option>Enterprise – $299.99 AUD</option>
+                      {packages.map((pkg) => (
+                        <option key={pkg.name} value={pkg.name}>
+                          {pkg.name} – {formatLocalPrice(pkg.price)} {country.currency}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div>
