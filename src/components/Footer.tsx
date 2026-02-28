@@ -6,12 +6,12 @@ const Footer = () => {
   const { localePath } = useCountry();
 
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="bg-background text-foreground">
       <div className="container mx-auto px-6 py-16">
         <div className="grid md:grid-cols-4 gap-10 mb-12">
           <div>
             <GoogleLogo className="text-xl mb-4 inline-block" />
-            <p className="text-primary-foreground/60 text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Dominating Google Maps for businesses worldwide.
             </p>
           </div>
@@ -27,7 +27,7 @@ const Footer = () => {
                 { label: "Contact", path: "/contact" },
               ].map((l) => (
                 <li key={l.path}>
-                  <Link to={localePath(l.path)} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">
+                  <Link to={localePath(l.path)} className="text-muted-foreground hover:text-foreground transition-colors duration-200">
                     {l.label}
                   </Link>
                 </li>
@@ -40,7 +40,7 @@ const Footer = () => {
             <ul className="space-y-2 text-sm">
               {["Basic", "Premium", "Advance", "Enterprise"].map((p) => (
                 <li key={p}>
-                  <Link to={localePath("/pricing")} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">
+                  <Link to={localePath("/pricing")} className="text-muted-foreground hover:text-foreground transition-colors duration-200">
                     {p}
                   </Link>
                 </li>
@@ -51,14 +51,14 @@ const Footer = () => {
           <div>
             <h4 className="font-bold uppercase text-xs tracking-[0.15em] mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to={localePath("/privacy-policy")} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">Privacy Policy</Link></li>
-              <li><Link to={localePath("/terms-and-conditions")} className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200">Terms & Conditions</Link></li>
+              <li><Link to={localePath("/privacy-policy")} className="text-muted-foreground hover:text-foreground transition-colors duration-200">Privacy Policy</Link></li>
+              <li><Link to={localePath("/terms-and-conditions")} className="text-muted-foreground hover:text-foreground transition-colors duration-200">Terms & Conditions</Link></li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/10 pt-8 text-center">
-          <p className="text-xs text-primary-foreground/40 uppercase tracking-wider">© 2026 GB Optimizers. All Rights Reserved.</p>
+        <div className="border-t border-border pt-8 text-center">
+          <p className="text-xs text-muted-foreground uppercase tracking-wider">© 2026 GB Optimizers. All Rights Reserved.</p>
         </div>
       </div>
     </footer>
