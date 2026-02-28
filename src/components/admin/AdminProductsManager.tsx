@@ -101,15 +101,13 @@ const AdminProductsManager = () => {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <h3 className="text-lg font-bold uppercase tracking-wider text-foreground">Products & Packages</h3>
         <div className="flex items-center gap-2">
-          {products.length === 0 && (
-            <button
-              onClick={seedDefaults}
-              disabled={seeding}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors disabled:opacity-50"
-            >
-              <Database className="w-3.5 h-3.5" /> {seeding ? "Seeding..." : "Seed Defaults"}
-            </button>
-          )}
+          <button
+            onClick={seedDefaults}
+            disabled={seeding}
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors disabled:opacity-50"
+          >
+            <Database className="w-3.5 h-3.5" /> {seeding ? "Seeding..." : "Seed Defaults"}
+          </button>
           <button
             onClick={() => setEditing({ ...emptyProduct, sort_order: products.length })}
             className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity"
