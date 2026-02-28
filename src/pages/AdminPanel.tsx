@@ -350,11 +350,17 @@ const AdminItemRow = ({
         <p className="text-xs text-muted-foreground">${Number(item.price).toFixed(2)} AUD</p>
       </div>
 
-      {/* Progress slider */}
       <div className="mb-3">
         <div className="flex items-center justify-between mb-1">
           <label className="text-xs text-muted-foreground">Progress</label>
-          <span className="text-xs font-bold text-foreground">{progress}%</span>
+          <input
+            type="number"
+            min={0}
+            max={100}
+            value={progress}
+            onChange={(e) => setProgress(Math.min(100, Math.max(0, Number(e.target.value))))}
+            className="w-16 px-2 py-1 bg-background border border-border text-foreground text-xs font-bold text-right focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
+          />
         </div>
         <input
           type="range"
