@@ -5,11 +5,8 @@ const certifications = [
   { name: "Trusted by Stripe", color: "#635BFF", logo: "https://cdn.simpleicons.org/stripe/635BFF" },
   { name: "SEMrush Certified", color: "#FF622D", logo: "https://cdn.simpleicons.org/semrush/FF622D" },
   { name: "HubSpot Partner", color: "#FF7A59", logo: "https://cdn.simpleicons.org/hubspot/FF7A59" },
-  { name: "Bing Ads Accredited", color: "#008373", logo: "https://cdn.simpleicons.org/microsoftbing/008373" },
   { name: "Shopify Partner", color: "#96BF48", logo: "https://cdn.simpleicons.org/shopify/96BF48" },
-  { name: "Clutch Top Agency", color: "#EF4335", logo: "https://cdn.simpleicons.org/clutch/EF4335" },
   { name: "BrightLocal Partner", color: "#1B98F5", logo: "https://cdn.simpleicons.org/google/1B98F5" },
-  { name: "Yext Partner", color: "#0F70F0", logo: "https://cdn.simpleicons.org/y/0F70F0" },
   { name: "AWS Certified", color: "#FF9900", logo: "https://cdn.simpleicons.org/amazonaws/FF9900" },
 ];
 
