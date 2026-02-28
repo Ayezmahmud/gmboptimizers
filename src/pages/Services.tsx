@@ -21,6 +21,7 @@ const services = [
     details: ["Profile creation & verification", "Category & attribute optimization", "Service area configuration", "Business description SEO", "Photo & logo upload strategy", "Q&A section management"],
     color: "google-blue",
     image: "/images/service-gbp-setup.jpg",
+    priceAud: 99.99,
   },
   {
     icon: TrendingUp,
@@ -29,6 +30,7 @@ const services = [
     details: ["Local keyword research & targeting", "Geo-grid ranking analysis", "Proximity optimization strategy", "Behavioral signal improvement", "Google Maps algorithm alignment", "Ranking position tracking"],
     color: "google-green",
     image: "/images/service-maps-ranking.jpg",
+    priceAud: 99.99,
   },
   {
     icon: Search,
@@ -37,6 +39,7 @@ const services = [
     details: ["Competitor gap analysis", "Local keyword mapping", "On-page SEO optimization", "Local link building campaigns", "Content strategy for local relevance", "Technical SEO audit & fixes"],
     color: "google-red",
     image: "/images/service-local-seo.jpg",
+    priceAud: 99.99,
   },
   {
     icon: Star,
@@ -45,6 +48,7 @@ const services = [
     details: ["Review generation campaigns", "Automated follow-up systems", "Professional review responses", "Negative review recovery", "Multi-platform monitoring", "Review analytics & insights"],
     color: "google-yellow",
     image: "/images/service-reviews.jpg",
+    priceAud: 99.99,
   },
   {
     icon: Building2,
@@ -53,6 +57,7 @@ const services = [
     details: ["100+ directory submissions", "NAP consistency audit", "Duplicate listing cleanup", "Industry-specific directories", "Data aggregator submissions", "Ongoing citation monitoring"],
     color: "google-blue",
     image: "/images/service-citations.jpg",
+    priceAud: 99.99,
   },
   {
     icon: BarChart3,
@@ -61,6 +66,7 @@ const services = [
     details: ["Top competitor identification", "Ranking factor comparison", "Review profile analysis", "Citation network mapping", "Content gap identification", "Strategic action plan"],
     color: "google-red",
     image: "/images/service-competitor.jpg",
+    priceAud: 99.99,
   },
   {
     icon: FileText,
@@ -69,6 +75,7 @@ const services = [
     details: ["Ranking position tracking", "Search impression analytics", "Customer action reports", "Review metric summaries", "ROI calculation", "Monthly strategy recommendations"],
     color: "google-green",
     image: "/images/service-reporting.jpg",
+    priceAud: 99.99,
   },
   {
     icon: Camera,
@@ -77,6 +84,7 @@ const services = [
     details: ["Photo audit & optimization", "Geo-tagged image uploads", "Cover & logo optimization", "360° virtual tour integration", "Photo category management", "Visual engagement tracking"],
     color: "google-yellow",
     image: "/images/service-photos.jpg",
+    priceAud: 99.99,
   },
   {
     icon: MessageSquare,
@@ -85,6 +93,7 @@ const services = [
     details: ["Weekly post creation", "Offer & event promotion", "Product showcase posts", "Call-to-action optimization", "Post performance analytics", "Content calendar management"],
     color: "google-blue",
     image: "/images/service-posts.jpg",
+    priceAud: 99.99,
   },
   {
     icon: Smartphone,
@@ -93,6 +102,7 @@ const services = [
     details: ["Location page creation", "Local schema markup", "Embedded map integration", "Conversion rate optimization", "Mobile-first design", "A/B testing & refinement"],
     color: "google-green",
     image: "/images/service-landing.jpg",
+    priceAud: 99.99,
   },
 ];
 
@@ -137,7 +147,7 @@ const colorMap: Record<string, { text: string; bg: string; border: string; glow:
 
 const ICON_MAP: Record<string, any> = { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, Camera, MessageSquare, Smartphone, Globe, Shield, Zap, Award, Users };
 
-const SERVICE_BASE_PRICE_AUD = 99.99;
+const DEFAULT_SERVICE_PRICE_AUD = 99.99;
 
 const Services = () => {
   const { localePath, formatLocalPrice, toLocalPrice } = useCountry();
@@ -156,6 +166,7 @@ const Services = () => {
         details: s.details,
         color: s.color_theme,
         image: s.image_url || "/images/service-gbp-setup.jpg",
+        priceAud: s.price ?? DEFAULT_SERVICE_PRICE_AUD,
       }));
       const remaining = services.filter((s) => !dbTitles.has(s.title));
       return [...mapped, ...remaining];
@@ -327,7 +338,7 @@ const Services = () => {
 
                         {/* Price */}
                         <div className="flex items-center gap-3 mb-4">
-                          <span className={`text-2xl font-black ${colors.text}`}>{formatLocalPrice(SERVICE_BASE_PRICE_AUD)}</span>
+                          <span className={`text-2xl font-black ${colors.text}`}>{formatLocalPrice(s.priceAud ?? DEFAULT_SERVICE_PRICE_AUD)}</span>
                           <span className="text-xs uppercase tracking-wider text-muted-foreground">One-time payment</span>
                         </div>
 
@@ -375,13 +386,13 @@ const Services = () => {
 
                         {/* Buy Now button */}
                         <motion.button
-                          onClick={() => addItem({ name: s.title, price: toLocalPrice(SERVICE_BASE_PRICE_AUD), type: "package" })}
+                          onClick={() => addItem({ name: s.title, price: toLocalPrice(s.priceAud ?? DEFAULT_SERVICE_PRICE_AUD), type: "package" })}
                           className={`inline-flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider bg-${s.color} text-white hover:opacity-90 transition-opacity`}
                           whileHover={{ scale: 1.03 }}
                           whileTap={{ scale: 0.97 }}
                         >
                           <ShoppingCart className="w-4 h-4" />
-                          Buy Now — {formatLocalPrice(SERVICE_BASE_PRICE_AUD)}
+                          Buy Now — {formatLocalPrice(s.priceAud ?? DEFAULT_SERVICE_PRICE_AUD)}
                         </motion.button>
                       </div>
                     </div>

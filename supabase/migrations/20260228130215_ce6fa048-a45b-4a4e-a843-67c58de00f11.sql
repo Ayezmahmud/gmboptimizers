@@ -1,0 +1,1 @@
+ALTER TABLE public.admin_services ADD COLUMN price numeric NOT NULL DEFAULT 99.99;
