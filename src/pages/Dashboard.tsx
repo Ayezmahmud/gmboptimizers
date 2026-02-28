@@ -21,6 +21,7 @@ interface OrderWithItems {
   order_code: string;
   total_amount: number;
   status: string;
+  payment_status: string;
   created_at: string;
   items: { service_name: string; price: number; progress_percentage: number; progress_notes: string | null; status: string }[];
 }
@@ -145,7 +146,7 @@ const Dashboard = () => {
   const fetchOrders = async () => {
     const { data: ordersData } = await supabase
       .from("orders")
-      .select("id, order_code, total_amount, status, created_at")
+      .select("id, order_code, total_amount, status, payment_status, created_at")
       .eq("user_id", user!.id)
       .order("created_at", { ascending: false });
 
@@ -292,6 +293,11 @@ const Dashboard = () => {
                             <div>
                               <p className="text-xs text-muted-foreground">Order</p>
                               <p className="text-lg font-black text-google-blue tracking-wider">{order.order_code}</p>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded ${order.payment_status === "received" ? "text-google-green bg-google-green/10" : "text-google-red bg-google-red/10"}`}>
+                                {order.payment_status === "received" ? "Paid" : "Unpaid"}
+                              </span>
                             </div>
                             <div className="text-right">
                               <p className="text-xs text-muted-foreground">{new Date(order.created_at).toLocaleDateString("en-AU")}</p>
