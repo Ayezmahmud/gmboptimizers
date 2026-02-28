@@ -233,8 +233,8 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="hover-zoom-img shadow-lg border border-border aspect-[4/3]">
               <ScrollParallaxImage
-                src="/images/team.png"
-                alt="GB Optimizers team of digital marketing professionals"
+                src="/images/google-maps-pin.jpg"
+                alt="Google Maps pin on city map"
                 className="w-full h-full"
               />
             </div>
