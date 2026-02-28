@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCountry } from "@/contexts/CountryContext";
+import GoogleLogo from "@/components/GoogleLogo";
 
 const Footer = () => {
   const { localePath } = useCountry();
@@ -9,7 +10,7 @@ const Footer = () => {
       <div className="container mx-auto px-6 py-16">
         <div className="grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <h3 className="text-xl font-black uppercase tracking-tight mb-4 text-gradient-google">GB Optimizers</h3>
+            <GoogleLogo className="text-xl mb-4 inline-block" />
             <p className="text-primary-foreground/60 text-sm leading-relaxed">
               Dominating Google Maps for businesses worldwide.
             </p>
