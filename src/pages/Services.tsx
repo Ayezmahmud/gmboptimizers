@@ -1,8 +1,10 @@
+import { useMemo } from "react";
 import AnimatedDots from "@/components/AnimatedDots";
 import { motion } from "framer-motion";
-import { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, ArrowRight, Camera, MessageSquare, Smartphone } from "lucide-react";
+import { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, ArrowRight, Camera, MessageSquare, Smartphone, Globe, Shield, Zap, Award, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCountry } from "@/contexts/CountryContext";
+import { usePublicServices } from "@/hooks/usePublicData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HeroBackground from "@/components/HeroBackground";
@@ -132,8 +134,29 @@ const colorMap: Record<string, { text: string; bg: string; border: string; glow:
   },
 };
 
+const ICON_MAP: Record<string, any> = { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, Camera, MessageSquare, Smartphone, Globe, Shield, Zap, Award, Users };
+
 const Services = () => {
   const { localePath } = useCountry();
+  const { dbServices } = usePublicServices();
+
+  const allServices = useMemo(() => {
+    if (dbServices.length > 0) {
+      // Merge: DB services come first, then append hardcoded ones not in DB
+      const dbTitles = new Set(dbServices.map((s) => s.title));
+      const mapped = dbServices.map((s) => ({
+        icon: ICON_MAP[s.icon_name] || MapPin,
+        title: s.title,
+        desc: s.description,
+        details: s.details,
+        color: s.color_theme,
+        image: s.image_url || "/images/service-gbp-setup.jpg",
+      }));
+      const remaining = services.filter((s) => !dbTitles.has(s.title));
+      return [...mapped, ...remaining];
+    }
+    return services;
+  }, [dbServices]);
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -183,7 +206,7 @@ const Services = () => {
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "10", label: "Specialized Services", color: "text-google-blue" },
+              { value: String(allServices.length), label: "Specialized Services", color: "text-google-blue" },
               { value: "500+", label: "Businesses Optimized", color: "text-google-red" },
               { value: "98%", label: "Client Retention", color: "text-google-yellow" },
               { value: "#1", label: "Rankings Achieved", color: "text-google-green" },
@@ -232,7 +255,7 @@ const Services = () => {
           <ScrollTextReveal className="text-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Full Service Suite</p>
             <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-4">
-              <span className="text-gradient-google">10 Services.</span> One Goal.
+              <span className="text-gradient-google">{allServices.length} Services.</span> One Goal.
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">Every service is designed to work together as a comprehensive Google Maps domination strategy.</p>
           </ScrollTextReveal>
@@ -242,7 +265,7 @@ const Services = () => {
       {/* Services - Alternating Layout */}
       <div className="pb-24">
         <div className="container mx-auto px-6 space-y-16">
-          {services.map((s, i) => {
+          {allServices.map((s, i) => {
             const colors = colorMap[s.color];
             const isEven = i % 2 === 0;
 

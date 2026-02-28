@@ -8,9 +8,12 @@ import HeroBackground from "@/components/HeroBackground";
 import AdminStats from "@/components/admin/AdminStats";
 import AdminActivityTimeline from "@/components/admin/AdminActivityTimeline";
 import AdminOrderCard from "@/components/admin/AdminOrderCard";
+import AdminProductsManager from "@/components/admin/AdminProductsManager";
+import AdminServicesManager from "@/components/admin/AdminServicesManager";
+import AdminSiteContentManager from "@/components/admin/AdminSiteContentManager";
 import { OrderItem } from "@/components/admin/AdminItemRow";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, Package, Search, RefreshCw, Filter, Download } from "lucide-react";
+import { Shield, Package, Search, RefreshCw, Filter, Download, ShoppingCart, Wrench, FileText } from "lucide-react";
 import { exportOrdersToCSV } from "@/utils/exportOrdersCSV";
 
 interface Order {
@@ -41,6 +44,13 @@ const PAYMENT_FILTERS = [
   { value: "received", label: "Paid" },
 ];
 
+const TABS = [
+  { id: "orders", label: "Orders", icon: Package },
+  { id: "products", label: "Products", icon: ShoppingCart },
+  { id: "services", label: "Services", icon: Wrench },
+  { id: "content", label: "Site Content", icon: FileText },
+];
+
 const AdminPanel = () => {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
@@ -55,6 +65,7 @@ const AdminPanel = () => {
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [savingItems, setSavingItems] = useState<Record<string, boolean>>({});
   const [savingOrders, setSavingOrders] = useState<Record<string, boolean>>({});
+  const [activeTab, setActiveTab] = useState("orders");
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -106,7 +117,6 @@ const AdminPanel = () => {
     if (isAdmin) fetchOrders();
   }, [isAdmin, fetchOrders]);
 
-  // Realtime
   useEffect(() => {
     if (!isAdmin) return;
     const channel = supabase
@@ -165,120 +175,129 @@ const AdminPanel = () => {
         <div className="relative z-10 text-center px-6 py-14">
           <Shield className="w-10 h-10 text-google-red mx-auto mb-3" />
           <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-gradient-google mb-2">Admin Panel</h1>
-          <p className="text-muted-foreground text-base">Manage orders, track progress & monitor revenue</p>
+          <p className="text-muted-foreground text-base">Manage orders, products, services & site content</p>
         </div>
       </section>
 
-      {/* Stats */}
-      <AdminStats orders={orders} />
-
-      {/* Activity Timeline */}
-      <section className="py-8 bg-secondary/30 border-b border-border">
+      {/* Tabs */}
+      <section className="border-b border-border bg-secondary/50 sticky top-0 z-30">
         <div className="container mx-auto px-6 max-w-7xl">
-          <AdminActivityTimeline />
+          <div className="flex gap-1 overflow-x-auto py-2">
+            {TABS.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? "bg-google-blue text-white"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                <tab.icon className="w-3.5 h-3.5" />
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Orders Section */}
-      <section className="py-10 bg-background">
-        <div className="container mx-auto px-6 max-w-7xl">
-          {/* Toolbar */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by order code, name, or email..."
-                className="w-full pl-10 pr-4 py-2.5 bg-card border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
-                maxLength={100}
-              />
+      {/* Tab Content */}
+      {activeTab === "orders" && (
+        <>
+          <AdminStats orders={orders} />
+          <section className="py-8 bg-secondary/30 border-b border-border">
+            <div className="container mx-auto px-6 max-w-7xl">
+              <AdminActivityTimeline />
             </div>
-
-            {/* Filters */}
-            <div className="flex items-center gap-3 flex-wrap">
-              <div className="flex items-center gap-1.5">
-                <Filter className="w-3.5 h-3.5 text-muted-foreground" />
-                <select
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="px-3 py-2 bg-card border border-border text-foreground text-xs font-medium focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors cursor-pointer"
-                >
-                  {STATUS_FILTERS.map((f) => (
-                    <option key={f.value} value={f.value}>{f.label}</option>
-                  ))}
-                </select>
+          </section>
+          <section className="py-10 bg-background">
+            <div className="container mx-auto px-6 max-w-7xl">
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-6">
+                <div className="relative flex-1 max-w-md w-full">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search by order code, name, or email..."
+                    className="w-full pl-10 pr-4 py-2.5 bg-card border border-border text-foreground text-sm focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
+                    maxLength={100}
+                  />
+                </div>
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-1.5">
+                    <Filter className="w-3.5 h-3.5 text-muted-foreground" />
+                    <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="px-3 py-2 bg-card border border-border text-foreground text-xs font-medium focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors cursor-pointer">
+                      {STATUS_FILTERS.map((f) => <option key={f.value} value={f.value}>{f.label}</option>)}
+                    </select>
+                  </div>
+                  <select value={paymentFilter} onChange={(e) => setPaymentFilter(e.target.value)} className="px-3 py-2 bg-card border border-border text-foreground text-xs font-medium focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors cursor-pointer">
+                    {PAYMENT_FILTERS.map((f) => <option key={f.value} value={f.value}>{f.label}</option>)}
+                  </select>
+                  <button onClick={() => fetchOrders()} className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors">
+                    <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} /> Refresh
+                  </button>
+                  <button onClick={() => exportOrdersToCSV(filteredOrders)} disabled={filteredOrders.length === 0} className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider bg-google-green text-white hover:opacity-90 transition-opacity disabled:opacity-50">
+                    <Download className="w-3.5 h-3.5" /> Export CSV
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground ml-auto">{filteredOrders.length} of {orders.length} order(s)</p>
               </div>
 
-              <select
-                value={paymentFilter}
-                onChange={(e) => setPaymentFilter(e.target.value)}
-                className="px-3 py-2 bg-card border border-border text-foreground text-xs font-medium focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors cursor-pointer"
-              >
-                {PAYMENT_FILTERS.map((f) => (
-                  <option key={f.value} value={f.value}>{f.label}</option>
-                ))}
-              </select>
-
-              <button
-                onClick={() => fetchOrders()}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-colors"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
-                Refresh
-              </button>
-
-              <button
-                onClick={() => exportOrdersToCSV(filteredOrders)}
-                disabled={filteredOrders.length === 0}
-                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold uppercase tracking-wider bg-google-green text-white hover:opacity-90 transition-opacity disabled:opacity-50"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Export CSV
-              </button>
-            </div>
-
-            <p className="text-xs text-muted-foreground ml-auto">
-              {filteredOrders.length} of {orders.length} order(s)
-            </p>
-          </div>
-
-          {/* Order list */}
-          {loading ? (
-            <div className="text-center py-16 text-muted-foreground animate-pulse">Loading orders...</div>
-          ) : filteredOrders.length === 0 ? (
-            <div className="text-center py-16">
-              <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-muted-foreground">No orders match your filters.</p>
-              {(statusFilter !== "all" || paymentFilter !== "all" || search) && (
-                <button
-                  onClick={() => { setSearch(""); setStatusFilter("all"); setPaymentFilter("all"); }}
-                  className="mt-3 text-xs text-google-blue hover:underline"
-                >
-                  Clear all filters
-                </button>
+              {loading ? (
+                <div className="text-center py-16 text-muted-foreground animate-pulse">Loading orders...</div>
+              ) : filteredOrders.length === 0 ? (
+                <div className="text-center py-16">
+                  <Package className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">No orders match your filters.</p>
+                  {(statusFilter !== "all" || paymentFilter !== "all" || search) && (
+                    <button onClick={() => { setSearch(""); setStatusFilter("all"); setPaymentFilter("all"); }} className="mt-3 text-xs text-google-blue hover:underline">Clear all filters</button>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {filteredOrders.map((order) => (
+                    <AdminOrderCard
+                      key={order.id}
+                      order={order}
+                      isExpanded={expandedOrder === order.id}
+                      onToggle={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
+                      onUpdateOrderField={updateOrderField}
+                      onUpdateItem={updateItem}
+                      savingOrder={!!savingOrders[order.id]}
+                      savingItems={savingItems}
+                    />
+                  ))}
+                </div>
               )}
             </div>
-          ) : (
-            <div className="space-y-4">
-              {filteredOrders.map((order) => (
-                <AdminOrderCard
-                  key={order.id}
-                  order={order}
-                  isExpanded={expandedOrder === order.id}
-                  onToggle={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
-                  onUpdateOrderField={updateOrderField}
-                  onUpdateItem={updateItem}
-                  savingOrder={!!savingOrders[order.id]}
-                  savingItems={savingItems}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+          </section>
+        </>
+      )}
+
+      {activeTab === "products" && (
+        <section className="py-10 bg-background">
+          <div className="container mx-auto px-6 max-w-4xl">
+            <AdminProductsManager />
+          </div>
+        </section>
+      )}
+
+      {activeTab === "services" && (
+        <section className="py-10 bg-background">
+          <div className="container mx-auto px-6 max-w-4xl">
+            <AdminServicesManager />
+          </div>
+        </section>
+      )}
+
+      {activeTab === "content" && (
+        <section className="py-10 bg-background">
+          <div className="container mx-auto px-6 max-w-4xl">
+            <AdminSiteContentManager />
+          </div>
+        </section>
+      )}
 
       <Footer />
     </div>
