@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/hooks/useAuth";
+import { useCountry } from "@/contexts/CountryContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
@@ -13,6 +14,7 @@ import { generateOrderPDF } from "@/utils/generateOrderPDF";
 const Checkout = () => {
   const { items, removeItem, total, clearCart } = useCart();
   const { user } = useAuth();
+  const { country } = useCountry();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [submitting, setSubmitting] = useState(false);
@@ -130,7 +132,7 @@ const Checkout = () => {
                             <p className="text-xs text-muted-foreground capitalize">{item.type}</p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-foreground font-bold">${item.price.toFixed(2)}</span>
+                            <span className="text-foreground font-bold">{country.currencySymbol}{item.price.toFixed(2)}</span>
                             <button onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-google-red transition-colors">
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -140,7 +142,7 @@ const Checkout = () => {
                     </div>
                     <div className="flex justify-between items-center border-t border-border pt-4">
                       <span className="text-sm font-bold uppercase text-foreground">Total</span>
-                      <span className="text-xl font-black text-google-blue">${total.toFixed(2)} AUD</span>
+                      <span className="text-xl font-black text-google-blue">{country.currencySymbol}{total.toFixed(2)} {country.currency}</span>
                     </div>
                   </>
                 )}
@@ -188,7 +190,7 @@ const Checkout = () => {
                     disabled={submitting || items.length === 0}
                     className="w-full py-4 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity disabled:opacity-50"
                   >
-                    {submitting ? "Processing..." : `Submit Order — $${total.toFixed(2)} AUD`}
+                    {submitting ? "Processing..." : `Submit Order — ${country.currencySymbol}${total.toFixed(2)} ${country.currency}`}
                   </button>
                 </form>
               </div>
