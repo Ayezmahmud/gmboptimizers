@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
@@ -119,12 +119,36 @@ const Dashboard = () => {
     if (!authLoading && !user) navigate("/sign-in");
   }, [user, authLoading, navigate]);
 
+  const fetchOrdersCallback = useCallback(async () => {
+    if (!user) return;
+    await fetchOrders();
+  }, [user]);
+
   useEffect(() => {
     if (user) {
       fetchProfile();
-      fetchOrders();
+      fetchOrdersCallback();
     }
   }, [user]);
+
+  // Realtime subscriptions
+  useEffect(() => {
+    if (!user) return;
+
+    const channel = supabase
+      .channel('dashboard-realtime')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders', filter: `user_id=eq.${user.id}` }, () => {
+        fetchOrdersCallback();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'order_items' }, () => {
+        fetchOrdersCallback();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user, fetchOrdersCallback]);
 
   const fetchProfile = async () => {
     const { data, error } = await supabase
