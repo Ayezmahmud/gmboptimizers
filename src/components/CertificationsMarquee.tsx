@@ -7,7 +7,6 @@ const certifications = [
   { name: "HubSpot Partner", color: "#FF7A59", logo: "https://cdn.simpleicons.org/hubspot/FF7A59" },
   { name: "Shopify Partner", color: "#96BF48", logo: "https://cdn.simpleicons.org/shopify/96BF48" },
   { name: "BrightLocal Partner", color: "#1B98F5", logo: "https://cdn.simpleicons.org/google/1B98F5" },
-  { name: "AWS Certified", color: "#FF9900", logo: "https://cdn.simpleicons.org/amazonaws/FF9900" },
 ];
 
 const MarqueeRow = ({ reverse = false }: { reverse?: boolean }) => {
