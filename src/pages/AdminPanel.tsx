@@ -33,7 +33,7 @@ interface Order {
 
 const PAYMENT_STATUSES = ["not_received", "received"];
 const PROGRESS_STATUSES = ["pending", "in_progress", "completed", "cancelled"];
-const ITEM_STATUSES = ["pending", "in_progress", "completed"];
+
 
 const AdminPanel = () => {
   const { user, loading: authLoading } = useAuth();
@@ -340,26 +340,14 @@ const AdminItemRow = ({
 }) => {
   const [progress, setProgress] = useState(item.progress_percentage);
   const [notes, setNotes] = useState(item.progress_notes || "");
-  const [status, setStatus] = useState(item.status);
 
-  const isDirty = progress !== item.progress_percentage || notes !== (item.progress_notes || "") || status !== item.status;
+  const isDirty = progress !== item.progress_percentage || notes !== (item.progress_notes || "");
 
   return (
     <div className="border border-border bg-card p-4">
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-        <div>
-          <p className="text-sm font-bold text-foreground">{item.service_name}</p>
-          <p className="text-xs text-muted-foreground">${Number(item.price).toFixed(2)} AUD</p>
-        </div>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="px-3 py-1.5 bg-background border border-border text-foreground text-xs focus:outline-none focus:border-[hsl(var(--google-blue))] transition-colors"
-        >
-          {ITEM_STATUSES.map((s) => (
-            <option key={s} value={s}>{s.replace("_", " ")}</option>
-          ))}
-        </select>
+      <div className="mb-3">
+        <p className="text-sm font-bold text-foreground">{item.service_name}</p>
+        <p className="text-xs text-muted-foreground">${Number(item.price).toFixed(2)} AUD</p>
       </div>
 
       {/* Progress slider */}
@@ -394,7 +382,7 @@ const AdminItemRow = ({
 
       {isDirty && (
         <button
-          onClick={() => onSave({ progress_percentage: progress, progress_notes: notes || null, status })}
+          onClick={() => onSave({ progress_percentage: progress, progress_notes: notes || null })}
           disabled={saving}
           className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider bg-google-blue text-white hover:opacity-90 transition-opacity disabled:opacity-50"
         >

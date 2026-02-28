@@ -308,12 +308,7 @@ const Dashboard = () => {
                           <div className="space-y-4">
                             {order.items.map((item, idx) => (
                               <div key={idx} className="border border-border p-4 bg-background">
-                                <div className="flex items-center justify-between mb-2">
-                                  <p className="text-sm font-bold text-foreground">{item.service_name}</p>
-                                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${statusColor(item.status)}`}>
-                                    {item.status.replace("_", " ")}
-                                  </span>
-                                </div>
+                                <p className="text-sm font-bold text-foreground mb-2">{item.service_name}</p>
                                 <ProgressBar value={item.progress_percentage} />
                                 <div className="flex justify-between mt-1">
                                   <p className="text-xs text-muted-foreground">{item.progress_notes || "Awaiting start"}</p>
