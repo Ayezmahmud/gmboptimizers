@@ -326,8 +326,8 @@ const Index = () => {
               </p>
               <div className="overflow-hidden w-64 mx-auto md:mx-0 shadow-lg border border-border">
                 <img
-                  src="/images/phone-maps.png"
-                  alt="Google Maps business ranking on mobile phone"
+                  src="/images/phone-google-maps.jpg"
+                  alt="Google Maps navigation on mobile phone"
                   className="w-full transition-transform duration-500 hover:scale-105"
                   loading="lazy"
                 />
