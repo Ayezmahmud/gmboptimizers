@@ -499,7 +499,7 @@ const Index = () => {
               <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5 text-google-yellow" /> 30-Day Money-Back Guarantee</span>
             </div>
             <Link
-              to="/contact"
+              to="/pricing"
               className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors"
             >
               Start Today
