@@ -27,10 +27,10 @@ const values = [
 ];
 
 const team = [
-  { name: "Alex Thompson", role: "Founder & CEO", initials: "AT", color: "bg-google-blue", border: "border-google-blue/20", glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.25)]" },
-  { name: "Maria Santos", role: "Head of SEO", initials: "MS", color: "bg-google-red", border: "border-google-red/20", glowHover: "hover:shadow-[0_0_40px_rgba(234,67,53,0.25)]" },
-  { name: "David Kim", role: "Lead Strategist", initials: "DK", color: "bg-google-green", border: "border-google-green/20", glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.25)]" },
-  { name: "Rachel Chen", role: "Client Success Manager", initials: "RC", color: "bg-google-yellow", border: "border-google-yellow/20", glowHover: "hover:shadow-[0_0_40px_rgba(251,188,4,0.25)]" },
+  { name: "Alex Thompson", role: "Founder & CEO", initials: "AT", image: "/images/team-alex.jpg", color: "bg-google-blue", border: "border-google-blue/20", glowHover: "hover:shadow-[0_0_40px_rgba(66,133,244,0.25)]" },
+  { name: "Maria Santos", role: "Head of SEO", initials: "MS", image: "/images/team-maria.jpg", color: "bg-google-red", border: "border-google-red/20", glowHover: "hover:shadow-[0_0_40px_rgba(234,67,53,0.25)]" },
+  { name: "David Kim", role: "Lead Strategist", initials: "DK", image: "/images/team-david.jpg", color: "bg-google-green", border: "border-google-green/20", glowHover: "hover:shadow-[0_0_40px_rgba(52,168,83,0.25)]" },
+  { name: "Rachel Chen", role: "Client Success Manager", initials: "RC", image: "/images/team-rachel.jpg", color: "bg-google-yellow", border: "border-google-yellow/20", glowHover: "hover:shadow-[0_0_40px_rgba(251,188,4,0.25)]" },
 ];
 
 const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
@@ -191,11 +191,11 @@ const About = () => {
                   {/* Top accent bar */}
                   <div className={`absolute top-0 left-0 right-0 h-1 ${t.color} transition-all duration-500 group-hover:h-1.5`} />
                   <motion.div
-                    className={`w-20 h-20 ${t.color} text-primary-foreground flex items-center justify-center text-lg font-black mx-auto mb-4`}
+                    className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-2 border-border"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    {t.initials}
+                    <img src={t.image} alt={t.name} className="w-full h-full object-cover" />
                   </motion.div>
                   <h3 className="text-sm font-bold uppercase text-foreground">{t.name}</h3>
                   <p className="text-xs text-muted-foreground mt-1">{t.role}</p>
