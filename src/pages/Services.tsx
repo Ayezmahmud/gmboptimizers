@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import AnimatedDots from "@/components/AnimatedDots";
-import { motion } from "framer-motion";
-import { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, ArrowRight, Camera, MessageSquare, Smartphone, Globe, Shield, Zap, Award, Users } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, ArrowRight, Camera, MessageSquare, Smartphone, Globe, Shield, Zap, Award, Users, ShoppingCart, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCountry } from "@/contexts/CountryContext";
+import { useCart } from "@/contexts/CartContext";
 import { usePublicServices } from "@/hooks/usePublicData";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -136,9 +137,13 @@ const colorMap: Record<string, { text: string; bg: string; border: string; glow:
 
 const ICON_MAP: Record<string, any> = { MapPin, TrendingUp, Search, Star, Building2, BarChart3, FileText, Camera, MessageSquare, Smartphone, Globe, Shield, Zap, Award, Users };
 
+const SERVICE_BASE_PRICE_AUD = 99.99;
+
 const Services = () => {
-  const { localePath } = useCountry();
+  const { localePath, formatLocalPrice, toLocalPrice } = useCountry();
+  const { addItem } = useCart();
   const { dbServices } = usePublicServices();
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const allServices = useMemo(() => {
     if (dbServices.length > 0) {
@@ -318,36 +323,66 @@ const Services = () => {
                           <h3 className="text-lg font-bold uppercase text-foreground">{s.title}</h3>
                         </div>
 
-                        <p className="text-sm text-muted-foreground leading-relaxed mb-6">{s.desc}</p>
+                        <p className="text-sm text-muted-foreground leading-relaxed mb-4">{s.desc}</p>
 
-                        <div>
-                          <p className={`text-xs font-bold uppercase tracking-wider ${colors.text} mb-3`}>What's Included:</p>
-                          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {s.details.map((d, di) => (
-                              <motion.li
-                                key={d}
-                                className="flex items-center gap-2 text-sm text-muted-foreground"
-                                initial={{ opacity: 0, x: -10 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: di * 0.05, duration: 0.3 }}
-                              >
-                                <div className={`w-1.5 h-1.5 rounded-full bg-${s.color} shrink-0`} />
-                                {d}
-                              </motion.li>
-                            ))}
-                          </ul>
+                        {/* Price */}
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className={`text-2xl font-black ${colors.text}`}>{formatLocalPrice(SERVICE_BASE_PRICE_AUD)}</span>
+                          <span className="text-xs uppercase tracking-wider text-muted-foreground">One-time payment</span>
                         </div>
 
-                        <motion.div className="mt-6">
-                          <Link
-                            to="/contact"
-                            className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${colors.text} hover:opacity-80 transition-opacity group/link`}
-                          >
-                            Learn More
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover/link:translate-x-1" />
-                          </Link>
-                        </motion.div>
+                        {/* Learn More toggle */}
+                        <button
+                          onClick={() => setExpandedIndex(expandedIndex === i ? null : i)}
+                          className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider ${colors.text} hover:opacity-80 transition-opacity group/link mb-4`}
+                        >
+                          {expandedIndex === i ? "Show Less" : "Learn More"}
+                          <motion.div animate={{ rotate: expandedIndex === i ? 180 : 0 }} transition={{ duration: 0.3 }}>
+                            <ChevronDown className="w-4 h-4" />
+                          </motion.div>
+                        </button>
+
+                        {/* Expandable details */}
+                        <AnimatePresence>
+                          {expandedIndex === i && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.4, ease: "easeInOut" }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pb-4">
+                                <p className={`text-xs font-bold uppercase tracking-wider ${colors.text} mb-3`}>What's Included:</p>
+                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+                                  {s.details.map((d, di) => (
+                                    <motion.li
+                                      key={d}
+                                      className="flex items-center gap-2 text-sm text-muted-foreground"
+                                      initial={{ opacity: 0, x: -10 }}
+                                      animate={{ opacity: 1, x: 0 }}
+                                      transition={{ delay: di * 0.05, duration: 0.3 }}
+                                    >
+                                      <div className={`w-1.5 h-1.5 rounded-full bg-${s.color} shrink-0`} />
+                                      {d}
+                                    </motion.li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        {/* Buy Now button */}
+                        <motion.button
+                          onClick={() => addItem({ name: s.title, price: toLocalPrice(SERVICE_BASE_PRICE_AUD), type: "package" })}
+                          className={`inline-flex items-center gap-2 px-6 py-3 text-xs font-bold uppercase tracking-wider bg-${s.color} text-white hover:opacity-90 transition-opacity`}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                        >
+                          <ShoppingCart className="w-4 h-4" />
+                          Buy Now — {formatLocalPrice(SERVICE_BASE_PRICE_AUD)}
+                        </motion.button>
                       </div>
                     </div>
                   </div>
