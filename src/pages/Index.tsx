@@ -231,11 +231,11 @@ const Index = () => {
       <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="hover-zoom-img shadow-lg border-4 border-border rounded-lg overflow-hidden aspect-[4/3]">
-              <ScrollParallaxImage
-                src="/images/google-maps-pin.jpg"
-                alt="Google Maps pin on city map"
-                className="w-full h-full"
+            <div className="flex items-center justify-center aspect-[4/3] bg-secondary rounded-lg border border-border">
+              <img
+                src="/images/google-maps-logo.png"
+                alt="Official Google Maps Logo"
+                className="w-2/3 max-w-[280px] object-contain drop-shadow-xl"
               />
             </div>
             <ScrollTextReveal>
