@@ -231,12 +231,13 @@ const Index = () => {
       <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="flex items-center justify-center aspect-[4/3] bg-secondary rounded-lg border border-border">
+            <div className="flex flex-col items-center justify-center aspect-[4/3] bg-secondary rounded-lg border border-border">
               <img
                 src="/images/google-maps-logo.png"
                 alt="Official Google Maps Logo"
                 className="w-2/3 max-w-[280px] object-contain drop-shadow-xl animate-float"
               />
+              <div className="w-1/3 max-w-[160px] h-4 mt-4 rounded-full bg-foreground/10 blur-lg animate-float-shadow" />
             </div>
             <ScrollTextReveal>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">About GB Optimizers</p>
