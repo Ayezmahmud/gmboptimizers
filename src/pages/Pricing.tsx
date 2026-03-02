@@ -288,33 +288,6 @@ const Pricing = () => {
       )}
 
 
-      {/* Growth Image + Intro */}
-      <ScrollRevealSection className="py-16 border-b border-border bg-secondary" clipReveal>
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <ScrollTextReveal>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Investment</p>
-              <h2 className="text-3xl font-black uppercase text-foreground mb-4">Invest in <span className="text-gradient-google">Growth</span></h2>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                Choose the package that fits your business goals. Every plan includes our proven Google Maps optimization methodology, dedicated support, and transparent reporting. No hidden fees, no surprises.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                {guarantees.map((g) => (
-                  <div key={g.title} className="flex items-center gap-2">
-                    <g.icon className={`w-4 h-4 ${g.color}`} />
-                    <span className="text-xs font-bold uppercase tracking-wider text-foreground">{g.title}</span>
-                  </div>
-                ))}
-              </div>
-            </ScrollTextReveal>
-            <ScrollParallaxImage
-              src="/images/pricing-growth.png"
-              alt="Business growth chart in Google brand colors"
-              className="aspect-[4/3]"
-            />
-          </div>
-        </div>
-      </ScrollRevealSection>
 
       {/* Pricing Cards */}
       <ScrollRevealSection className="py-24">
