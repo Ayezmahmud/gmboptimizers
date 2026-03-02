@@ -235,7 +235,7 @@ const Index = () => {
               <img
                 src="/images/google-maps-logo.png"
                 alt="Official Google Maps Logo"
-                className="w-2/3 max-w-[280px] object-contain drop-shadow-xl"
+                className="w-2/3 max-w-[280px] object-contain drop-shadow-xl animate-float"
               />
             </div>
             <ScrollTextReveal>
