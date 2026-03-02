@@ -72,7 +72,7 @@ const Header = () => {
                 className={`text-xs font-bold uppercase tracking-[0.15em] transition-colors duration-200 ${
                   location.pathname === fullPath
                     ? "text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
+                    : "text-foreground/70 hover:text-foreground"
                 }`}
               >
                 {l.label}
