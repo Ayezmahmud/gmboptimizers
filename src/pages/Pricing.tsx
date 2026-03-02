@@ -1,13 +1,13 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import AnimatedDots from "@/components/AnimatedDots";
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Check, Shield, Zap, Users, RefreshCw, ShoppingCart, Plus, X, Tag, Clock, Sparkles } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import HeroBackground from "@/components/HeroBackground";
+
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
 import CertificationsMarquee from "@/components/CertificationsMarquee";
@@ -287,43 +287,6 @@ const Pricing = () => {
         </div>
       )}
 
-      {/* Hero */}
-      <section className="relative overflow-hidden py-28 md:py-44 bg-[#060918]">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#060918] via-[#0a1628] to-[#060918]" />
-        <HeroBackground />
-        <div className="relative z-10 container mx-auto px-6 flex items-center justify-center text-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-2xl">
-            <AnimatedDots label="Packages" className="justify-center mb-6" />
-            <h1 className="text-5xl md:text-7xl font-black uppercase text-white leading-[0.95] mb-6">
-              <span className="text-gradient-google">Pricing</span>
-            </h1>
-            <p className="text-base md:text-lg text-white/60 max-w-lg leading-relaxed">
-              Transparent pricing, no hidden fees. Choose the plan that matches your growth ambitions.
-            </p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="mt-8 flex flex-wrap gap-3 justify-center"
-            >
-              {["google-blue", "google-red", "google-yellow", "google-green"].map((c, i) => (
-                <motion.div
-                  key={c}
-                  className={`w-3 h-3 rounded-full bg-${c}`}
-                  animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
-                />
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-1 flex z-10">
-          <div className="flex-1 bg-google-blue" />
-          <div className="flex-1 bg-google-red" />
-          <div className="flex-1 bg-google-yellow" />
-          <div className="flex-1 bg-google-green" />
-        </div>
-      </section>
 
       {/* Growth Image + Intro */}
       <ScrollRevealSection className="py-16 border-b border-border bg-secondary" clipReveal>
