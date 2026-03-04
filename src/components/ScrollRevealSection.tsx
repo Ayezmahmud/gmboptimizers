@@ -25,7 +25,7 @@ interface ScrollRevealSectionProps {
 const ScrollRevealSection = ({
   children,
   className = "",
-  scaleFrom = 0.92,
+  scaleFrom = 0.96,
   clipReveal = false,
 }: ScrollRevealSectionProps) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,13 +35,13 @@ const ScrollRevealSection = ({
     offset: ["start end", "end start"],
   });
 
-  // Animations mapped to scroll progress
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-  const scale = useTransform(scrollYProgress, [0, 0.25], [scaleFrom, 1]);
-  const y = useTransform(scrollYProgress, [0, 0.2], [60, 0]);
+  // Smooth rolling: gentler ranges for a fluid feel
+  const opacity = useTransform(scrollYProgress, [0.05, 0.3], [0, 1]);
+  const scale = useTransform(scrollYProgress, [0.05, 0.35], [scaleFrom, 1]);
+  const y = useTransform(scrollYProgress, [0.05, 0.3], [30, 0]);
   
   // Clip-path for cinematic reveal
-  const clipProgress = useTransform(scrollYProgress, [0, 0.25], [0, 100]);
+  const clipProgress = useTransform(scrollYProgress, [0.05, 0.35], [0, 100]);
   const clipPath = useTransform(clipProgress, (v) =>
     clipReveal ? `inset(0 0 ${100 - v}% 0)` : "none"
   );
@@ -49,7 +49,7 @@ const ScrollRevealSection = ({
   return (
     <motion.div
       ref={ref}
-      style={{ opacity, scale, y, clipPath }}
+      style={{ opacity, scale, y, clipPath, willChange: "transform, opacity" }}
       className={className}
     >
       {children}
@@ -107,14 +107,14 @@ export const ScrollTextReveal = ({
   
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.9", "start 0.4"],
+    offset: ["start 0.95", "start 0.35"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [40, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 0.8], [24, 0]);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y }} className={className}>
+    <motion.div ref={ref} style={{ opacity, y, willChange: "transform, opacity" }} className={className}>
       {children}
     </motion.div>
   );
@@ -136,29 +136,29 @@ export const ScrollStaggerItem = ({
   
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.95", "start 0.5"],
+    offset: ["start 0.98", "start 0.45"],
   });
 
-  const delay = index * 0.08;
-  const adjustedStart = Math.min(delay, 0.4);
+  const delay = index * 0.06;
+  const adjustedStart = Math.min(delay, 0.35);
   const opacity = useTransform(
     scrollYProgress,
-    [adjustedStart, adjustedStart + 0.4],
+    [adjustedStart, adjustedStart + 0.5],
     [0, 1]
   );
   const y = useTransform(
     scrollYProgress,
-    [adjustedStart, adjustedStart + 0.4],
-    [50, 0]
+    [adjustedStart, adjustedStart + 0.5],
+    [30, 0]
   );
   const scale = useTransform(
     scrollYProgress,
-    [adjustedStart, adjustedStart + 0.4],
-    [0.95, 1]
+    [adjustedStart, adjustedStart + 0.5],
+    [0.97, 1]
   );
 
   return (
-    <motion.div ref={ref} style={{ opacity, y, scale }} className={className}>
+    <motion.div ref={ref} style={{ opacity, y, scale, willChange: "transform, opacity" }} className={className}>
       {children}
     </motion.div>
   );
