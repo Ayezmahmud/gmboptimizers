@@ -1,5 +1,5 @@
 import { useRef, ReactNode } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 
 interface ScrollRevealSectionProps {
   children: ReactNode;
@@ -77,8 +77,18 @@ export const ScrollParallaxImage = ({
     offset: ["start end", "end start"],
   });
 
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.15, 1]);
-  const imgY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  const rawScale = useTransform(scrollYProgress, [0.05, 0.95], [1.08, 1.01]);
+  const rawY = useTransform(scrollYProgress, [0.05, 0.95], ["-2.5%", "2.5%"]);
+  const imgScale = useSpring(rawScale, {
+    stiffness: 55,
+    damping: 24,
+    mass: 0.8,
+  });
+  const imgY = useSpring(rawY, {
+    stiffness: 55,
+    damping: 24,
+    mass: 0.8,
+  });
 
   return (
     <div ref={ref} className={`overflow-hidden ${className}`}>
@@ -86,7 +96,7 @@ export const ScrollParallaxImage = ({
         src={src}
         alt={alt}
         style={{ scale: imgScale, y: imgY }}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-cover will-change-transform"
         loading="lazy"
       />
     </div>
