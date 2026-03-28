@@ -318,10 +318,17 @@ const GlobeLoadingFallback = () => (
 
 const EarthGlobe = () => {
   const [ready, setReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   return (
     <div style={{ width: "100%", height: "100%", minHeight: "400px" }} className="relative">
-      {/* Loading skeleton shown until canvas is ready */}
       {!ready && (
         <div className="absolute inset-0 z-10 transition-opacity duration-700">
           <GlobeLoadingFallback />
@@ -336,7 +343,6 @@ const EarthGlobe = () => {
           gl={{ antialias: true, alpha: true }}
           style={{ background: "transparent" }}
           onCreated={() => {
-            // Small delay to let the first frame render
             setTimeout(() => setReady(true), 300);
           }}
         >
@@ -353,7 +359,7 @@ const EarthGlobe = () => {
             enablePan={false}
             autoRotate
             autoRotateSpeed={0.4}
-            enableRotate
+            enableRotate={!isMobile}
             rotateSpeed={0.5}
             enableDamping
             dampingFactor={0.1}
