@@ -54,7 +54,7 @@ const Header = () => {
   return (
     <>
       <CountryBanner />
-      <header className={`sticky top-0 z-50 transition-all duration-300 border-b border-border shadow-lg shadow-black/5 backdrop-blur-xl`} style={{ background: 'linear-gradient(90deg, hsl(217 90% 61% / 0.3), hsl(9 81% 56% / 0.25), hsl(43 96% 50% / 0.25), hsl(142 53% 43% / 0.3)), hsl(0 0% 100% / 0.6)' }}>
+      <header className={`sticky top-0 z-50 transition-all duration-300 border-b border-border shadow-lg shadow-black/5 bg-white`}>
       <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(90deg, #4285F4, #EA4335, #FBBC04, #34A853)' }} />
       <div className="container mx-auto px-6 flex items-center justify-between h-16">
         <Link to={localePath("/")} className="text-xl">
