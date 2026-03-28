@@ -59,7 +59,10 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider">© 2026 GB Optimizers. All Rights Reserved.</p>
+          <div className="text-xs text-muted-foreground uppercase tracking-wider">
+            <p>© 2026 GB Optimizers. All Rights Reserved.</p>
+            <p className="mt-1">Designed by Peter Smith · Developed by GB Optimizers</p>
+          </div>
           <CountryInfo />
         </div>
       </div>
