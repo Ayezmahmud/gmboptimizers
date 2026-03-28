@@ -328,7 +328,10 @@ const EarthGlobe = () => {
   }, []);
 
   return (
-    <div style={{ width: "100%", height: "100%", minHeight: "400px" }} className="relative">
+    <div
+      style={{ width: "100%", height: "100%", minHeight: "400px", touchAction: isMobile ? "pan-y" : "auto" }}
+      className={`relative ${isMobile ? "pointer-events-none" : ""}`}
+    >
       {!ready && (
         <div className="absolute inset-0 z-10 transition-opacity duration-700">
           <GlobeLoadingFallback />
@@ -354,16 +357,27 @@ const EarthGlobe = () => {
             <Earth />
             <Stars radius={100} depth={50} count={1500} factor={3} fade speed={1} />
           </Suspense>
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            autoRotate
-            autoRotateSpeed={0.4}
-            enableRotate={!isMobile}
-            rotateSpeed={0.5}
-            enableDamping
-            dampingFactor={0.1}
-          />
+          {!isMobile && (
+            <OrbitControls
+              enableZoom={false}
+              enablePan={false}
+              autoRotate
+              autoRotateSpeed={0.4}
+              enableRotate
+              rotateSpeed={0.5}
+              enableDamping
+              dampingFactor={0.1}
+            />
+          )}
+          {isMobile && (
+            <OrbitControls
+              enableZoom={false}
+              enablePan={false}
+              enableRotate={false}
+              autoRotate
+              autoRotateSpeed={0.4}
+            />
+          )}
         </Canvas>
       </div>
     </div>
