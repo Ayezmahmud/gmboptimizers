@@ -178,7 +178,9 @@ const Testimonials = () => {
                   "{t.text}"
                 </p>
                 <div className="flex items-center gap-4">
-                  <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-border" />
+                  <div className={`w-12 h-12 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-sm border-2 border-border`}>
+                    {t.initials}
+                  </div>
                   <div>
                     <p className="font-bold text-foreground uppercase text-sm">{t.name}</p>
                     <p className="text-xs text-muted-foreground">{t.business}</p>
