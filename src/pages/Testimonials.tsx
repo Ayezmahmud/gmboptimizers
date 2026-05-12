@@ -178,7 +178,9 @@ const Testimonials = () => {
                   "{t.text}"
                 </p>
                 <div className="flex items-center gap-4">
-                  <img src={t.image} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-border" />
+                  <div className={`w-12 h-12 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-sm border-2 border-border`}>
+                    {t.initials}
+                  </div>
                   <div>
                     <p className="font-bold text-foreground uppercase text-sm">{t.name}</p>
                     <p className="text-xs text-muted-foreground">{t.business}</p>
@@ -243,7 +245,9 @@ const Testimonials = () => {
 
                   {/* Portrait overlay on hover */}
                   <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
-                    <img src={t.image} alt={t.name} className="w-24 h-24 rounded-full object-cover border-4 border-google-blue mb-4 shadow-lg" />
+                    <div className={`w-24 h-24 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-xl border-4 border-google-blue mb-4 shadow-lg`}>
+                      {t.initials}
+                    </div>
                     <p className="text-sm font-bold uppercase text-foreground text-center">{t.name}</p>
                     <p className="text-xs text-muted-foreground text-center mb-2">{t.business}</p>
                     <p className="text-xs font-bold text-google-green">{t.result}</p>
@@ -262,7 +266,9 @@ const Testimonials = () => {
                   <p className="text-xs uppercase tracking-wider text-google-blue mb-3">{t.industry}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1 line-clamp-4">"{t.text}"</p>
                   <div className="flex items-center gap-3 pt-4 border-t border-border">
-                    <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover border-2 border-border" />
+                    <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-xs border-2 border-border`}>
+                      {t.initials}
+                    </div>
                     <div>
                       <p className="text-xs font-bold uppercase text-foreground">{t.name}</p>
                       <p className="text-xs text-muted-foreground">{t.business}</p>
@@ -331,7 +337,9 @@ const Testimonials = () => {
               </button>
 
               <div className="bg-secondary border-b border-border p-10 flex flex-col items-center text-center">
-                <img src={selectedTestimonial.image} alt={selectedTestimonial.name} className="w-32 h-32 rounded-full object-cover border-4 border-google-blue shadow-lg mb-6" />
+                <div className={`w-32 h-32 rounded-full ${selectedTestimonial.color} flex items-center justify-center text-white font-bold text-2xl border-4 border-google-blue shadow-lg mb-6`}>
+                  {selectedTestimonial.initials}
+                </div>
                 <h3 className="text-xl font-black uppercase text-foreground mb-1">{selectedTestimonial.name}</h3>
                 <p className="text-sm text-muted-foreground mb-3">{selectedTestimonial.business}</p>
                 <div className="flex items-center gap-3">
