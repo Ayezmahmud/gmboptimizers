@@ -245,7 +245,9 @@ const Testimonials = () => {
 
                   {/* Portrait overlay on hover */}
                   <div className="absolute inset-0 bg-background/95 flex flex-col items-center justify-center p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
-                    <img src={t.image} alt={t.name} className="w-24 h-24 rounded-full object-cover border-4 border-google-blue mb-4 shadow-lg" />
+                    <div className={`w-24 h-24 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-xl border-4 border-google-blue mb-4 shadow-lg`}>
+                      {t.initials}
+                    </div>
                     <p className="text-sm font-bold uppercase text-foreground text-center">{t.name}</p>
                     <p className="text-xs text-muted-foreground text-center mb-2">{t.business}</p>
                     <p className="text-xs font-bold text-google-green">{t.result}</p>
