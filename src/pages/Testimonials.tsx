@@ -102,7 +102,7 @@ const Testimonials = () => {
         <div className="container mx-auto px-6 py-16">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <ScrollParallaxImage
-              src="/images/testimonials-hero.png"
+              src="/images/testimonials-hero.jpg"
               alt="Happy business owners showing 5-star Google Maps reviews on their phones"
               className="shadow-lg border border-border aspect-[4/3]"
             />
