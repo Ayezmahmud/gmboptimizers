@@ -337,7 +337,9 @@ const Testimonials = () => {
               </button>
 
               <div className="bg-secondary border-b border-border p-10 flex flex-col items-center text-center">
-                <img src={selectedTestimonial.image} alt={selectedTestimonial.name} className="w-32 h-32 rounded-full object-cover border-4 border-google-blue shadow-lg mb-6" />
+                <div className={`w-32 h-32 rounded-full ${selectedTestimonial.color} flex items-center justify-center text-white font-bold text-2xl border-4 border-google-blue shadow-lg mb-6`}>
+                  {selectedTestimonial.initials}
+                </div>
                 <h3 className="text-xl font-black uppercase text-foreground mb-1">{selectedTestimonial.name}</h3>
                 <p className="text-sm text-muted-foreground mb-3">{selectedTestimonial.business}</p>
                 <div className="flex items-center gap-3">
