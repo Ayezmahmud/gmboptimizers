@@ -209,7 +209,7 @@ const Index = () => {
       {/* ═══ MARQUEE CERTIFICATIONS ═══ */}
 
       {/* ═══ STATS ═══ */}
-      <ScrollRevealSection className="border-b border-border">
+      <ScrollRevealSection className="border-b border-border bg-gradient-google-soft">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {stats.map((s, i) => (
@@ -226,7 +226,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ ABOUT COMPANY ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border" clipReveal>
+      <ScrollRevealSection className="py-24 border-b border-border bg-gradient-google-soft-alt" clipReveal>
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-center justify-center aspect-[4/3] bg-secondary rounded-lg border border-border">
@@ -283,7 +283,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ SERVICES ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border bg-gradient-google-soft-warm">
         <div className="container mx-auto px-6">
           <ScrollTextReveal className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
             <div>
@@ -390,7 +390,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ TESTIMONIALS ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border bg-gradient-google-soft">
         <div className="container mx-auto px-6">
           <ScrollTextReveal className="text-center mb-16">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Client Feedback</p>
@@ -462,7 +462,7 @@ const Index = () => {
       </ScrollRevealSection>
 
       {/* ═══ FAQ ═══ */}
-      <ScrollRevealSection className="py-24 border-b border-border">
+      <ScrollRevealSection className="py-24 border-b border-border bg-gradient-google-soft-alt">
         <div className="container mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-16">
             <ScrollTextReveal>
