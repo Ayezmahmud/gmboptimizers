@@ -266,7 +266,9 @@ const Testimonials = () => {
                   <p className="text-xs uppercase tracking-wider text-google-blue mb-3">{t.industry}</p>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1 line-clamp-4">"{t.text}"</p>
                   <div className="flex items-center gap-3 pt-4 border-t border-border">
-                    <img src={t.image} alt={t.name} className="w-10 h-10 rounded-full object-cover border-2 border-border" />
+                    <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center text-white font-bold text-xs border-2 border-border`}>
+                      {t.initials}
+                    </div>
                     <div>
                       <p className="text-xs font-bold uppercase text-foreground">{t.name}</p>
                       <p className="text-xs text-muted-foreground">{t.business}</p>
