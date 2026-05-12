@@ -12,7 +12,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
-import CertificationsMarquee from "@/components/CertificationsMarquee";
 import SEOHead from "@/components/SEOHead";
 
 const EarthGlobe = lazy(() => import("@/components/EarthGlobe"));
@@ -208,7 +207,6 @@ const Index = () => {
       </section>
 
       {/* ═══ MARQUEE CERTIFICATIONS ═══ */}
-      <CertificationsMarquee className="border-b border-border bg-secondary" />
 
       {/* ═══ STATS ═══ */}
       <ScrollRevealSection className="border-b border-border">
@@ -461,7 +459,6 @@ const Index = () => {
         </div>
 
         {/* Certifications Marquee */}
-        <CertificationsMarquee className="mt-16" />
       </ScrollRevealSection>
 
       {/* ═══ FAQ ═══ */}

@@ -10,7 +10,6 @@ import { useCountry } from "@/contexts/CountryContext";
 import { testimonials as allTestimonials, Testimonial, getTestimonialsForCountry } from "@/data/testimonials";
 import ScrollRevealSection, { ScrollParallaxImage, ScrollTextReveal, ScrollStaggerItem } from "@/components/ScrollRevealSection";
 import MagneticCard from "@/components/MagneticCard";
-import CertificationsMarquee from "@/components/CertificationsMarquee";
 
 
 const aggregateStats = [
@@ -303,7 +302,6 @@ const Testimonials = () => {
         </div>
       </ScrollRevealSection>
 
-      <CertificationsMarquee className="border-t border-border bg-secondary" />
       <Footer />
 
       {/* Testimonial Modal */}
