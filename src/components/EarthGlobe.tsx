@@ -221,10 +221,13 @@ const Earth = () => {
     }
   }, [texture]);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     const t = clock.getElapsedTime();
     if (cloudsRef.current) {
       cloudsRef.current.rotation.y = t * 0.03;
+    }
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.07;
     }
   });
 
