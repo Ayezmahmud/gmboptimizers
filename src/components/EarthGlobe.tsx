@@ -1,5 +1,5 @@
 import { useRef, Suspense, useMemo, useState, useEffect } from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Html, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -319,6 +319,42 @@ const GlobeLoadingFallback = () => (
   </div>
 );
 
+// Earth radius in scene units (matches Earth mesh scale 2.4)
+const EARTH_RADIUS = 2.4;
+
+// Auto-frame camera so the earth always fully fits within the viewport,
+// regardless of aspect ratio. Uses both vertical and horizontal FOV.
+const ResponsiveCamera = ({ isMobile }: { isMobile: boolean }) => {
+  const { camera, size } = useThree();
+
+  useEffect(() => {
+    const perspective = camera as THREE.PerspectiveCamera;
+    const aspect = size.width / Math.max(size.height, 1);
+
+    // Base vertical FOV — slightly wider on mobile for a softer frame
+    const baseFov = isMobile ? 48 : 42;
+    perspective.fov = baseFov;
+    perspective.aspect = aspect;
+
+    // Compute the distance required so the earth (plus a margin) fits
+    // both vertically and horizontally.
+    const margin = isMobile ? 1.18 : 1.25; // extra room around the globe
+    const target = EARTH_RADIUS * margin;
+
+    const vFov = (perspective.fov * Math.PI) / 180;
+    const distV = target / Math.tan(vFov / 2);
+    const hFov = 2 * Math.atan(Math.tan(vFov / 2) * aspect);
+    const distH = target / Math.tan(hFov / 2);
+
+    const distance = Math.max(distV, distH);
+    perspective.position.set(0, 0, distance);
+    perspective.lookAt(0, 0, 0);
+    perspective.updateProjectionMatrix();
+  }, [camera, size.width, size.height, isMobile]);
+
+  return null;
+};
+
 const EarthGlobe = () => {
   const [ready, setReady] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -348,13 +384,15 @@ const EarthGlobe = () => {
         }}
       >
         <Canvas
-          camera={{ position: [0, 0, isMobile ? 6.2 : 7], fov: isMobile ? 50 : 45 }}
+          camera={{ position: [0, 0, 7], fov: 45 }}
           gl={{ antialias: true, alpha: true }}
-          style={{ background: "transparent", touchAction: "pan-y", display: "block" }}
+          resize={{ scroll: false, debounce: { scroll: 50, resize: 50 } }}
+          style={{ background: "transparent", touchAction: "pan-y", display: "block", width: "100%", height: "100%" }}
           onCreated={() => {
             setTimeout(() => setReady(true), 300);
           }}
         >
+          <ResponsiveCamera isMobile={isMobile} />
           <ambientLight intensity={1.2} />
           <directionalLight position={[5, 3, 5]} intensity={2.5} color="#ffffff" />
           <directionalLight position={[-3, -1, -3]} intensity={0.8} color="#6699ff" />
@@ -372,6 +410,7 @@ const EarthGlobe = () => {
             rotateSpeed={isMobile ? 0.35 : 0.5}
             enableDamping
             dampingFactor={0.1}
+            target={[0, 0, 0]}
           />
         </Canvas>
       </div>
