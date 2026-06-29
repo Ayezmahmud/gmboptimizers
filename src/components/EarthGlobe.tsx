@@ -332,8 +332,8 @@ const EarthGlobe = () => {
 
   return (
     <div
-      style={{ width: "100%", height: "100%", touchAction: "pan-y" }}
-      className="relative"
+      style={{ width: "100%", height: "100%", touchAction: "pan-y", background: "transparent" }}
+      className="relative overflow-visible"
     >
       {!ready && (
         <div className="absolute inset-0 z-10 transition-opacity duration-700 pointer-events-none">
@@ -341,16 +341,16 @@ const EarthGlobe = () => {
         </div>
       )}
       <div
-        className="w-full h-full transition-opacity duration-700"
+        className="w-full h-full transition-opacity duration-700 overflow-visible"
         style={{
           opacity: ready ? 1 : 0,
           touchAction: "pan-y",
         }}
       >
         <Canvas
-          camera={{ position: [0, 0, 7], fov: 45 }}
+          camera={{ position: [0, 0, isMobile ? 6.2 : 7], fov: isMobile ? 50 : 45 }}
           gl={{ antialias: true, alpha: true }}
-          style={{ background: "transparent", touchAction: "pan-y" }}
+          style={{ background: "transparent", touchAction: "pan-y", display: "block" }}
           onCreated={() => {
             setTimeout(() => setReady(true), 300);
           }}
