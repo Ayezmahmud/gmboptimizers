@@ -1,4 +1,4 @@
-import { useRef, Suspense, useMemo, useState, useEffect } from "react";
+import { useRef, Suspense, useMemo, useState, useEffect, type MutableRefObject, type PointerEvent } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Html, useTexture } from "@react-three/drei";
 import * as THREE from "three";
@@ -208,10 +208,11 @@ const ArcLine = ({ from, to, color, delay }: { from: { lat: number; lng: number 
   );
 };
 
-const Earth = () => {
+const Earth = ({ mobileRotationRef }: { mobileRotationRef?: MutableRefObject<number> }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const cloudsRef = useRef<THREE.Mesh>(null);
   const groupRef = useRef<THREE.Group>(null);
+  const autoRotationRef = useRef(0);
   const texture = useLoader(THREE.TextureLoader, "/images/earth-texture-hq.jpg");
 
   // Make texture brighter
@@ -227,7 +228,12 @@ const Earth = () => {
       cloudsRef.current.rotation.y = t * 0.03;
     }
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.07;
+      autoRotationRef.current += delta * 0.07;
+      groupRef.current.rotation.set(
+        initialRotation[0],
+        initialRotation[1] + autoRotationRef.current + (mobileRotationRef?.current ?? 0),
+        initialRotation[2]
+      );
     }
   });
 
@@ -358,6 +364,14 @@ const ResponsiveCamera = ({ isMobile }: { isMobile: boolean }) => {
 const EarthGlobe = () => {
   const [ready, setReady] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const mobileRotationRef = useRef(0);
+  const touchStateRef = useRef<{
+    pointerId: number | null;
+    startX: number;
+    startY: number;
+    lastX: number;
+    mode: "pending" | "rotate" | "scroll";
+  }>({ pointerId: null, startX: 0, startY: 0, lastX: 0, mode: "pending" });
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -365,6 +379,57 @@ const EarthGlobe = () => {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  const handleMobilePointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (!isMobile || event.pointerType !== "touch" || !event.isPrimary) return;
+    touchStateRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      lastX: event.clientX,
+      mode: "pending",
+    };
+  };
+
+  const handleMobilePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const state = touchStateRef.current;
+    if (!isMobile || event.pointerType !== "touch" || state.pointerId !== event.pointerId) return;
+
+    const totalX = event.clientX - state.startX;
+    const totalY = event.clientY - state.startY;
+    const absX = Math.abs(totalX);
+    const absY = Math.abs(totalY);
+
+    if (state.mode === "pending") {
+      if (absY > 8 && absY > absX * 1.15) {
+        state.mode = "scroll";
+        return;
+      }
+      if (absX > 8 && absX > absY * 1.15) {
+        state.mode = "rotate";
+        event.currentTarget.setPointerCapture(event.pointerId);
+      } else {
+        return;
+      }
+    }
+
+    if (state.mode === "rotate") {
+      event.preventDefault();
+      const deltaX = event.clientX - state.lastX;
+      state.lastX = event.clientX;
+      mobileRotationRef.current += deltaX * 0.007;
+    }
+  };
+
+  const handleMobilePointerEnd = (event: PointerEvent<HTMLDivElement>) => {
+    const state = touchStateRef.current;
+    if (state.pointerId === event.pointerId) {
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+      touchStateRef.current = { pointerId: null, startX: 0, startY: 0, lastX: 0, mode: "pending" };
+    }
+  };
 
   return (
     <div
@@ -398,21 +463,34 @@ const EarthGlobe = () => {
           <directionalLight position={[-3, -1, -3]} intensity={0.8} color="#6699ff" />
           <pointLight position={[0, 5, 3]} intensity={1} color="#ffffff" />
           <Suspense fallback={null}>
-            <Earth />
+            <Earth mobileRotationRef={mobileRotationRef} />
             <Stars radius={100} depth={50} count={1500} factor={3} fade speed={1} />
           </Suspense>
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            autoRotate
-            autoRotateSpeed={0.4}
-            enableRotate
-            rotateSpeed={isMobile ? 0.35 : 0.5}
-            enableDamping
-            dampingFactor={0.1}
-            target={[0, 0, 0]}
-          />
+          {!isMobile && (
+            <OrbitControls
+              enableZoom={false}
+              enablePan={false}
+              autoRotate
+              autoRotateSpeed={0.4}
+              enableRotate
+              rotateSpeed={0.5}
+              enableDamping
+              dampingFactor={0.1}
+              target={[0, 0, 0]}
+            />
+          )}
         </Canvas>
+        {isMobile && (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 z-20 cursor-grab active:cursor-grabbing"
+            style={{ touchAction: "pan-y", background: "transparent" }}
+            onPointerDown={handleMobilePointerDown}
+            onPointerMove={handleMobilePointerMove}
+            onPointerUp={handleMobilePointerEnd}
+            onPointerCancel={handleMobilePointerEnd}
+          />
+        )}
       </div>
     </div>
   );
