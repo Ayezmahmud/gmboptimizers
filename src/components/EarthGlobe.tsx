@@ -1,4 +1,4 @@
-import { useRef, Suspense, useMemo, useState, useEffect, type MutableRefObject } from "react";
+import { useRef, Suspense, useMemo, useState, useEffect, type MutableRefObject, type PointerEvent } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { OrbitControls, Stars, Html, useTexture } from "@react-three/drei";
 import * as THREE from "three";
@@ -380,7 +380,7 @@ const EarthGlobe = () => {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const handleMobilePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+  const handleMobilePointerDown = (event: PointerEvent<HTMLDivElement>) => {
     if (!isMobile || event.pointerType !== "touch" || !event.isPrimary) return;
     touchStateRef.current = {
       pointerId: event.pointerId,
@@ -391,7 +391,7 @@ const EarthGlobe = () => {
     };
   };
 
-  const handleMobilePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+  const handleMobilePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     const state = touchStateRef.current;
     if (!isMobile || event.pointerType !== "touch" || state.pointerId !== event.pointerId) return;
 
@@ -421,7 +421,7 @@ const EarthGlobe = () => {
     }
   };
 
-  const handleMobilePointerEnd = (event: React.PointerEvent<HTMLDivElement>) => {
+  const handleMobilePointerEnd = (event: PointerEvent<HTMLDivElement>) => {
     const state = touchStateRef.current;
     if (state.pointerId === event.pointerId) {
       if (event.currentTarget.hasPointerCapture(event.pointerId)) {
