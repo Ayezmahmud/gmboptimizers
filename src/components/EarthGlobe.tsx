@@ -332,7 +332,7 @@ const EarthGlobe = () => {
 
   return (
     <div
-      style={{ width: "100%", height: "100%", touchAction: isMobile ? "pan-y" : "auto" }}
+      style={{ width: "100%", height: "100%", touchAction: "pan-y" }}
       className="relative"
     >
       {!ready && (
@@ -344,14 +344,13 @@ const EarthGlobe = () => {
         className="w-full h-full transition-opacity duration-700"
         style={{
           opacity: ready ? 1 : 0,
-          pointerEvents: isMobile ? "none" : "auto",
-          touchAction: isMobile ? "pan-y" : "auto",
+          touchAction: "pan-y",
         }}
       >
         <Canvas
           camera={{ position: [0, 0, 7], fov: 45 }}
           gl={{ antialias: true, alpha: true }}
-          style={{ background: "transparent", touchAction: isMobile ? "pan-y" : "auto" }}
+          style={{ background: "transparent", touchAction: "pan-y" }}
           onCreated={() => {
             setTimeout(() => setReady(true), 300);
           }}
@@ -364,18 +363,16 @@ const EarthGlobe = () => {
             <Earth />
             <Stars radius={100} depth={50} count={1500} factor={3} fade speed={1} />
           </Suspense>
-          {!isMobile && (
-            <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              autoRotate
-              autoRotateSpeed={0.4}
-              enableRotate
-              rotateSpeed={0.5}
-              enableDamping
-              dampingFactor={0.1}
-            />
-          )}
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            autoRotate
+            autoRotateSpeed={0.4}
+            enableRotate
+            rotateSpeed={isMobile ? 0.35 : 0.5}
+            enableDamping
+            dampingFactor={0.1}
+          />
         </Canvas>
       </div>
     </div>
