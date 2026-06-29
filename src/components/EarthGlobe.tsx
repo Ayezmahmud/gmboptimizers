@@ -329,22 +329,26 @@ const EarthGlobe = () => {
 
   return (
     <div
-      style={{ width: "100%", height: "100%", minHeight: "400px", touchAction: isMobile ? "pan-y" : "auto" }}
-      className={`relative ${isMobile ? "pointer-events-none" : ""}`}
+      style={{ width: "100%", height: "100%", touchAction: isMobile ? "pan-y" : "auto" }}
+      className="relative"
     >
       {!ready && (
-        <div className="absolute inset-0 z-10 transition-opacity duration-700">
+        <div className="absolute inset-0 z-10 transition-opacity duration-700 pointer-events-none">
           <GlobeLoadingFallback />
         </div>
       )}
       <div
         className="w-full h-full transition-opacity duration-700"
-        style={{ opacity: ready ? 1 : 0 }}
+        style={{
+          opacity: ready ? 1 : 0,
+          pointerEvents: isMobile ? "none" : "auto",
+          touchAction: isMobile ? "pan-y" : "auto",
+        }}
       >
         <Canvas
           camera={{ position: [0, 0, 7], fov: 45 }}
           gl={{ antialias: true, alpha: true }}
-          style={{ background: "transparent" }}
+          style={{ background: "transparent", touchAction: isMobile ? "pan-y" : "auto" }}
           onCreated={() => {
             setTimeout(() => setReady(true), 300);
           }}
@@ -367,15 +371,6 @@ const EarthGlobe = () => {
               rotateSpeed={0.5}
               enableDamping
               dampingFactor={0.1}
-            />
-          )}
-          {isMobile && (
-            <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-              autoRotate
-              autoRotateSpeed={0.4}
             />
           )}
         </Canvas>
