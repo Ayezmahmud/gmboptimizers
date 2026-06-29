@@ -186,7 +186,7 @@ const Index = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0 }}
-            className="w-full lg:w-1/2 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px]"
+            className="w-full lg:w-1/2 aspect-square sm:aspect-auto sm:h-[450px] md:h-[500px] lg:h-[600px]"
           >
             <Suspense fallback={
               <div className="w-full h-full flex items-center justify-center">
