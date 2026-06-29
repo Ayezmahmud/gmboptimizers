@@ -203,28 +203,6 @@ export const testimonials: Testimonial[] = [
     image: "/images/testimonial-18.png",
   },
   {
-    name: "Sophie Martin",
-    business: "Martin Interior Design, Toronto",
-    text: "As a boutique interior designer in Toronto, I compete against large firms with big marketing budgets. GB Optimizers levelled the playing field. They optimized my Google profile with project photos, got me listed in Canadian design directories, and helped me accumulate 35 stunning reviews. I now get 80% of my new clients through Google Maps. My revenue doubled in 6 months.",
-    initials: "SM",
-    color: colors[2],
-    industry: "Design",
-    result: "Revenue doubled in 6 months",
-    image: "/images/testimonial-19.png",
-    countries: ["ca"],
-  },
-  {
-    name: "Andrew Kim",
-    business: "Kim's Taekwondo Academy, Vancouver",
-    text: "Running a martial arts school in Vancouver depends on local visibility. Parents search Google Maps for kids' activities. We had a great program but were invisible online. GB Optimizers changed that completely. Our profile now showcases our classes, belt ceremonies, and has 90+ reviews from happy parents. Enrollment increased by 150% in two terms.",
-    initials: "AK",
-    color: colors[3],
-    industry: "Sports & Recreation",
-    result: "+150% enrollment",
-    image: "/images/testimonial-20.png",
-    countries: ["ca"],
-  },
-  {
     name: "Olivia Thompson",
     business: "Thompson Veterinary Clinic, Melbourne",
     text: "Pet owners are incredibly loyal once they find a good vet, so the key is being found first. We were ranked #8 in our area. GB Optimizers optimized our profile with specific animal categories, emergency services, and built our review count from 20 to 110. We're now #1 and see 15 new patients per week directly from Google Maps searches.",
@@ -246,17 +224,6 @@ export const testimonials: Testimonial[] = [
     countries: ["uk"],
   },
   {
-    name: "Zara Al-Rashid",
-    business: "Al-Rashid Optical, Dubai",
-    text: "We have three optical stores across Dubai and managing Google profiles for all of them was a nightmare. GB Optimizers took over everything — optimisation, reviews, posts, and reporting for all locations. Within 3 months, all three stores were in the top 3 for 'optometrist near me' in their respective areas. Their multi-location expertise is unmatched.",
-    initials: "ZR",
-    color: colors[2],
-    industry: "Healthcare",
-    result: "All 3 locations in top 3",
-    image: "/images/testimonial-23.png",
-    countries: ["ae"],
-  },
-  {
     name: "William Scott",
     business: "Scott's Roofing, Perth",
     text: "Roofing is a high-value service and every lead counts. We were spending $3,000/month on leads from lead generation companies. GB Optimizers got us ranking #1 on Google Maps and now we get better quality leads for free. We've completely eliminated our lead-gen spend. The savings alone paid for their service 10 times over in the first year.",
@@ -267,28 +234,6 @@ export const testimonials: Testimonial[] = [
     image: "/images/testimonial-24.png",
   },
   {
-    name: "Grace Taylor",
-    business: "Taylor's Dance Academy, Calgary",
-    text: "Our dance academy was well-known locally through word-of-mouth here in Calgary, but we weren't getting new families from online searches. GB Optimizers created a stunning Google profile with class photos, recital videos, and a systematic review collection process. We now have 140+ five-star reviews and rank #1 for dance classes. Our competition can't figure out what happened!",
-    initials: "GT",
-    color: colors[0],
-    industry: "Arts & Education",
-    result: "140+ reviews, #1 ranking",
-    image: "/images/testimonial-25.png",
-    countries: ["ca"],
-  },
-  {
-    name: "Khalid Al-Thani",
-    business: "Al-Thani Shawarma House, Doha",
-    text: "In Doha's food scene, Google Maps ranking is everything. People search, pick the top result, and order. We were stuck at #5 and watching competitors steal our customers. GB Optimizers optimised our menu, photos, and delivery area settings. We climbed to #1 in 6 weeks. Delivery orders from Google increased by 180%. They literally changed our business overnight.",
-    initials: "KT",
-    color: colors[1],
-    industry: "Food Delivery",
-    result: "+180% delivery orders",
-    image: "/images/testimonial-26.png",
-    countries: ["qa"],
-  },
-  {
     name: "Diana Hughes",
     business: "Hughes Photography, Melbourne",
     text: "Wedding photography is a passion, but finding clients was my biggest struggle. My website was great, but I wasn't showing up on Google Maps where couples actually search. GB Optimizers built my local presence from nothing. Now I rank #2 for 'wedding photographer Melbourne' and my calendar is booked 8 months in advance. Worth every cent.",
@@ -297,28 +242,6 @@ export const testimonials: Testimonial[] = [
     industry: "Photography",
     result: "Booked 8 months in advance",
     image: "/images/testimonial-27.png",
-  },
-  {
-    name: "Said Al-Habsi",
-    business: "Al-Habsi Fitness Centre, Muscat",
-    text: "Gyms in Muscat are brutally competitive on Google Maps. There are 15+ within 3km of us. GB Optimizers did a deep competitive analysis and found our unique angles — 24/7 access, personal training, and ladies-only sessions. They optimised our profile around these strengths. Membership sign-ups from Google Maps went from 5/month to 25/month. Our membership is now at capacity.",
-    initials: "SA",
-    color: colors[3],
-    industry: "Fitness",
-    result: "5 → 25 sign-ups/month",
-    image: "/images/testimonial-28.png",
-    countries: ["om"],
-  },
-  {
-    name: "Fatima Al-Maktoum",
-    business: "Al-Maktoum Wedding Planning, Abu Dhabi",
-    text: "As a wedding planner in Abu Dhabi, my business is all about trust and first impressions. GB Optimizers understood that. They transformed my Google profile into a portfolio showcase with stunning photos, detailed service descriptions, and over 50 heartfelt reviews from past couples. I went from 2-3 inquiries per month to 15+. Every bride mentions seeing my Google reviews first.",
-    initials: "FM",
-    color: colors[0],
-    industry: "Events",
-    result: "2-3 → 15+ monthly inquiries",
-    image: "/images/testimonial-29.png",
-    countries: ["ae"],
   },
   {
     name: "Liam Anderson",
@@ -334,40 +257,26 @@ export const testimonials: Testimonial[] = [
 ];
 
 /**
- * Country assignments for testimonials.
- * Index → country codes. Testimonials without an entry are global.
+ * Country assignments for testimonials by index.
+ * Testimonials without an entry are global.
  */
 const countryAssignments: Record<number, string[]> = {
-  0: ["au"],       // Sarah Mitchell - Melbourne
-  1: ["au"],       // James Chen - Sydney
-  2: ["au"],       // Lisa Rodriguez - Brisbane
-  3: ["au"],       // David Park - Perth
-  4: ["au"],       // Amanda Foster - Adelaide
-  5: ["au"],       // Michael Torres - Gold Coast
-  6: ["au"],       // Priya Sharma - Melbourne
-  7: ["uk"],       // Tom Henderson - repurposed as UK
-  8: ["uk"],       // Rebecca Nguyen - repurposed as UK
-  9: ["au"],       // Chris O'Brien - Perth
-  10: ["uk"],      // Emily Watson - repurposed as UK
-  11: ["au"],      // Hassan Ali - Sydney
-  12: ["us"],      // Jasmine Lee - repurposed as US
-  13: ["au"],      // Robert Fitzgerald - Gold Coast
-  14: ["us"],      // Mei Lin Zhang - repurposed as US
-  15: ["au"],      // Daniel Murphy - Melbourne
-  16: ["us"],      // Natasha Volkov - repurposed as US
-  17: ["au"],      // Ryan Cooper - Perth
-  18: ["ca"],      // Sophie Martin - repurposed as CA
-  19: ["ca"],      // Andrew Kim - repurposed as CA
-  20: ["au"],      // Olivia Thompson - Melbourne
-  21: ["uk"],      // Marcus Brown - repurposed as UK
-  22: ["ae"],      // Zara Patel - repurposed as UAE
-  23: ["au"],      // William Scott - Perth
-  24: ["ca"],      // Grace Taylor - repurposed as CA
-  25: ["qa"],      // Kevin Russo - repurposed as Qatar
-  26: ["au"],      // Diana Hughes - Melbourne
-  27: ["om"],      // Samuel Wright - repurposed as Oman
-  28: ["ae"],      // Isabella Garcia - repurposed as UAE
-  29: ["us"],      // Liam Anderson - repurposed as US
+  0: ["au"], 1: ["au"], 2: ["au"], 3: ["au"], 4: ["au"], 5: ["au"], 6: ["au"],
+  7: ["uk"], 8: ["uk"],
+  9: ["au"],
+  10: ["uk"],
+  11: ["au"],
+  12: ["us"],
+  13: ["au"],
+  14: ["us"],
+  15: ["au"],
+  16: ["us"],
+  17: ["au"],
+  18: ["au"], // Olivia Thompson
+  19: ["uk"], // Marcus Brown
+  20: ["au"], // William Scott
+  21: ["au"], // Diana Hughes
+  22: ["us"], // Liam Anderson
 };
 
 // Apply country assignments
