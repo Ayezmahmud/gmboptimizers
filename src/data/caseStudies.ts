@@ -366,6 +366,7 @@ export const caseStudies: CaseStudy[] = [
     startRank: "#19",
     endRank: "#1",
     countries: ["us"],
+  },
   {
     slug: "manchester-bakery",
     business: "Charlotte's Artisan Bakery",
