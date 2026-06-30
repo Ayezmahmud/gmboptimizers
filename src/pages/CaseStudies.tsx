@@ -190,13 +190,13 @@ const CaseStudyCard = ({ study: c, index: i, accentColor, localePath }: CaseStud
       <h3 className="text-3xl md:text-4xl font-black uppercase text-foreground mb-4">{c.business}</h3>
       <p className="text-muted-foreground leading-relaxed mb-6">{c.summary}</p>
 
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-8">
         {c.stats.slice(0, 3).map((s) => (
           <MagneticCard key={s.label} intensity={4}>
-            <div className={`group relative overflow-hidden bg-secondary p-4 border border-border/50 h-full transition-all duration-700 hover:shadow-[0_0_30px_rgba(66,133,244,0.15)]`}>
+            <div className={`group relative overflow-hidden bg-secondary p-2.5 sm:p-4 border border-border/50 h-full min-w-0 flex flex-col items-center justify-center text-center transition-all duration-700 hover:shadow-[0_0_30px_rgba(66,133,244,0.15)]`}>
               <div className={`absolute top-0 left-0 right-0 h-0.5 bg-${accentColor} transition-all duration-500 group-hover:h-1`} />
-              <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
-              <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">{s.label}</p>
+              <p className={`text-base sm:text-2xl font-black ${s.color} leading-tight break-words w-full`}>{s.value}</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground mt-1 uppercase tracking-wider leading-tight w-full">{s.label}</p>
             </div>
           </MagneticCard>
         ))}
