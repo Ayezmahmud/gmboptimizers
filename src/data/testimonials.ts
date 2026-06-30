@@ -26,10 +26,10 @@ export const testimonials: Testimonial[] = [
     countries: ["au"],
   },
   {
-    name: "James Chen",
-    business: "Chen Auto Repairs, Sydney",
+    name: "Mark Tanaka",
+    business: "Tanaka Auto Service, Brisbane",
     text: "As a family-owned auto shop competing against big chains, we felt hopeless. GB Optimizers changed everything. They optimized our profile, built our citations, and within the first month our phone calls increased by 300%. Now we're booked solid every week. Their monthly reports are detailed and transparent — we always know exactly where we stand.",
-    initials: "JC",
+    initials: "MT",
     color: colors[1],
     industry: "Automotive",
     result: "+300% calls in 30 days",
