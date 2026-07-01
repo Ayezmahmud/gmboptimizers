@@ -13,7 +13,7 @@ const navLinks = [
   { label: "Services", path: "/services" },
   { label: "Pricing", path: "/pricing" },
   { label: "Testimonials", path: "/testimonials" },
-  { label: "Contact", path: "/contact" },
+  { label: "Case Studies", path: "/case-studies" },
 ];
 
 const Header = () => {
