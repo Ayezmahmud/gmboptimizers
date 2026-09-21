@@ -70,7 +70,7 @@ const SignUp = () => {
         <div className="relative z-10 w-full max-w-md mx-auto px-6">
           <div className="bg-card border border-border p-8 shadow-2xl">
             <h1 className="text-3xl font-black uppercase tracking-tight text-gradient-google mb-2 text-center">Sign Up</h1>
-            <p className="text-muted-foreground text-sm text-center mb-8">Create your GB Optimizers account</p>
+            <p className="text-muted-foreground text-sm text-center mb-8">Create your GMB Optimizers account</p>
 
             <form onSubmit={handleSignUp} className="space-y-5">
               <div>

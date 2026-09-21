@@ -35,7 +35,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <SEOHead pageTitle="Contact Us" pageDescription={`Contact GB Optimizers in ${country.name}. Call ${country.phone} or visit our office at ${country.city}. Get your free Google Maps consultation today.`} />
+      <SEOHead pageTitle="Contact Us" pageDescription={`Contact GMB Optimizers in ${country.name}. Call ${country.phone} or visit our office at ${country.city}. Get your free Google Maps consultation today.`} />
       <Header />
 
       <section className="relative overflow-hidden py-28 md:py-44 bg-[#060918]">

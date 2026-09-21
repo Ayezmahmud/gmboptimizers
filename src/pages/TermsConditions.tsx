@@ -29,14 +29,14 @@ const TermsConditions = () => {
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">1. Agreement to Terms</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  By accessing or using GB Optimizers' website and services, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.
+                  By accessing or using GMB Optimizers' website and services, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our services.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">2. Services</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  GB Optimizers provides Google Business Profile optimization, local SEO, Google Maps ranking, citation building, review management, and related digital marketing services. The specific services provided will be outlined in your service agreement or package selection.
+                  GMB Optimizers provides Google Business Profile optimization, local SEO, Google Maps ranking, citation building, review management, and related digital marketing services. The specific services provided will be outlined in your service agreement or package selection.
                 </p>
               </div>
 
@@ -73,14 +73,14 @@ const TermsConditions = () => {
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">6. Intellectual Property</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  All content, designs, strategies, and materials created by GB Optimizers remain our intellectual property unless explicitly transferred in writing. You retain ownership of your business information, logos, and pre-existing content provided to us.
+                  All content, designs, strategies, and materials created by GMB Optimizers remain our intellectual property unless explicitly transferred in writing. You retain ownership of your business information, logos, and pre-existing content provided to us.
                 </p>
               </div>
 
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">7. Limitation of Liability</h2>
                 <p className="text-muted-foreground leading-relaxed">
-                  GB Optimizers shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from or related to your use of our services. Our total liability shall not exceed the amount paid by you for the services in the 12 months preceding the claim.
+                  GMB Optimizers shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from or related to your use of our services. Our total liability shall not exceed the amount paid by you for the services in the 12 months preceding the claim.
                 </p>
               </div>
 

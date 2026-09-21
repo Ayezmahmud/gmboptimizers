@@ -21,7 +21,7 @@ export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
-  doc.text("GB Optimizers", 20, 22);
+  doc.text("GMB Optimizers", 20, 22);
   doc.setFontSize(10);
   doc.text("Google Maps Optimization Services", 20, 32);
 
@@ -73,8 +73,8 @@ export const generateOrderPDF = ({ orderCode, customerName, customerEmail, items
   doc.setTextColor(150, 150, 150);
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
-  doc.text("Thank you for choosing GB Optimizers. We will begin working on your services shortly.", 20, 270);
+  doc.text("Thank you for choosing GMB Optimizers. We will begin working on your services shortly.", 20, 270);
   doc.text("For support, contact us at hello@gboptimizers.com", 20, 278);
 
-  doc.save(`GBO-Order-${orderCode}.pdf`);
+  doc.save(`GMBO-Order-${orderCode}.pdf`);
 };

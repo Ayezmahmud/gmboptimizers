@@ -7,7 +7,7 @@ const COLORS = [
   "#EA4335", "#4285F4", "#34A853", "#EA4335",
 ];
 
-const LETTERS = "GB Optimizers";
+const LETTERS = "GMB Optimizers";
 
 const GoogleLogo = ({ className = "" }: { className?: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
@@ -42,7 +42,7 @@ const GoogleLogo = ({ className = "" }: { className?: string }) => {
         transformStyle: "preserve-3d",
         textShadow: "0 2px 8px rgba(0,0,0,0.15)",
       }}
-      aria-label="GB Optimizers"
+      aria-label="GMB Optimizers"
     >
       {LETTERS.split("").map((char, i) =>
         char === " " ? (

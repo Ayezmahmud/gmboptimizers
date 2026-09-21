@@ -76,7 +76,7 @@ const faqs = [
   { q: "How long does it take to see results?", a: "Most clients see measurable improvements within 4-8 weeks. Significant ranking changes typically occur within 2-3 months depending on competition level." },
   { q: "Do you guarantee #1 rankings?", a: "While no ethical SEO provider can guarantee specific rankings, our 98% client retention rate and proven track record speak to our consistent ability to deliver top results." },
   { q: "What industries do you work with?", a: "We've successfully optimized businesses across 30+ industries including healthcare, legal, automotive, hospitality, retail, real estate, and professional services." },
-  { q: "How is GB Optimizers different from other agencies?", a: "We specialize exclusively in Google Maps and local SEO optimization. This singular focus means deeper expertise, better strategies, and faster results than generalist agencies." },
+  { q: "How is GMB Optimizers different from other agencies?", a: "We specialize exclusively in Google Maps and local SEO optimization. This singular focus means deeper expertise, better strategies, and faster results than generalist agencies." },
   { q: "What's included in the monthly reports?", a: "Our reports cover ranking positions, search impressions, customer actions (calls, website visits, direction requests), review metrics, and strategic recommendations." },
 ];
 
@@ -238,12 +238,12 @@ const Index = () => {
               <div className="w-1/3 max-w-[160px] h-4 mt-4 rounded-full bg-foreground/10 blur-lg animate-float-shadow" />
             </div>
             <ScrollTextReveal>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">About GB Optimizers</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">About GMB Optimizers</p>
               <h2 className="text-4xl md:text-5xl font-black uppercase text-foreground mb-6">
                 The #1 Google Maps Agency
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Founded with a singular mission — to make every local business discoverable — GB Optimizers has grown into a globally trusted Google Maps optimization agency. We combine deep technical expertise with data-driven strategies to deliver measurable results.
+                Founded with a singular mission — to make every local business discoverable — GMB Optimizers has grown into a globally trusted Google Maps optimization agency. We combine deep technical expertise with data-driven strategies to deliver measurable results.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-8">
                 Unlike generalist marketing agencies, we focus exclusively on Google Business Profile and Google Maps optimization. This specialization means deeper knowledge, faster results, and higher ROI for every client.
@@ -492,7 +492,7 @@ const Index = () => {
           <ScrollTextReveal>
             <h2 className="text-4xl md:text-5xl font-black uppercase mb-6">Ready to Rank #1?</h2>
             <p className="text-primary-foreground/70 mb-4 max-w-lg mx-auto">
-              Join 500+ businesses that trust GB Optimizers to dominate their local market on Google Maps.
+              Join 500+ businesses that trust GMB Optimizers to dominate their local market on Google Maps.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-6 text-primary-foreground/50 text-xs uppercase tracking-wider mb-10">
               <span className="flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" /> No Contracts</span>

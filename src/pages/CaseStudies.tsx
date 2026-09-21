@@ -74,7 +74,7 @@ const CaseStudies = () => {
                 {country.name} <span className="text-gradient-google">Success Stories</span>
               </h2>
               <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-                Businesses across {country.name} trust GB Optimizers to dominate their local Google Maps rankings.
+                Businesses across {country.name} trust GMB Optimizers to dominate their local Google Maps rankings.
               </p>
             </ScrollTextReveal>
 
@@ -144,7 +144,7 @@ const CaseStudies = () => {
               Ready to Dominate Google Maps in <span className="text-google-yellow">{country.name}</span>?
             </h2>
             <p className="text-white/60 mb-8 max-w-lg mx-auto">
-              Join hundreds of businesses across {country.name} that have achieved #1 rankings with GB Optimizers.
+              Join hundreds of businesses across {country.name} that have achieved #1 rankings with GMB Optimizers.
             </p>
             <Link to={localePath("/pricing")} className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started Today
