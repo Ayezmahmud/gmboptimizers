@@ -33,7 +33,7 @@ const HeroBackground = () => {
 
         {/* Google Maps pin */}
         <motion.div
-          className="absolute left-1/2 top-[15%] h-[760px] w-[560px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+          className="absolute left-1/2 top-[2%] h-[760px] w-[560px] -translate-x-1/2 -translate-y-0 pointer-events-none"
           animate={{ y: [0, -20, 0], opacity: [0.18, 0.3, 0.18] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         >
