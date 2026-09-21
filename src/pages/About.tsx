@@ -67,7 +67,7 @@ const About = () => {
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="max-w-2xl">
             <AnimatedDots label="About Us" className="justify-center mb-6" />
             <h1 className="text-5xl md:text-7xl font-black uppercase text-white leading-[0.95] mb-6">
-              Why GB
+              Why GMB
               <br />
               <span className="text-gradient-google">Optimizers?</span>
             </h1>
@@ -243,7 +243,7 @@ const About = () => {
           <ScrollTextReveal>
             <h2 className="text-3xl md:text-5xl font-black uppercase mb-4 text-white">Ready to <span className="text-google-yellow">Dominate</span>?</h2>
             <p className="text-white/60 mb-8 max-w-lg mx-auto">
-              Join 500+ businesses that trust GB Optimizers for their Google Maps success.
+              Join 500+ businesses that trust GMB Optimizers for their Google Maps success.
             </p>
             <Link to={localePath("/pricing")} className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started Today

@@ -110,7 +110,7 @@ const Testimonials = () => {
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-google-blue mb-3">Social Proof</p>
               <h2 className="text-3xl font-black uppercase text-foreground mb-4">Trusted by <span className="text-gradient-google">500+ Businesses</span></h2>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Our clients consistently achieve top rankings on Google Maps across 30+ industries. These aren't just reviews — they're detailed success stories from real business owners who share their complete journey with GB Optimizers.
+                Our clients consistently achieve top rankings on Google Maps across 30+ industries. These aren't just reviews — they're detailed success stories from real business owners who share their complete journey with GMB Optimizers.
               </p>
               <div className="flex gap-1 mb-2">
                 {[...Array(5)].map((_, i) => (
@@ -299,7 +299,7 @@ const Testimonials = () => {
           <ScrollTextReveal>
             <h2 className="text-3xl md:text-4xl font-black uppercase mb-4 text-white">Ready to Be Our Next <span className="text-google-yellow">Success Story</span>?</h2>
             <p className="text-white/60 mb-8 max-w-lg mx-auto">
-              Join {testimonials.length * 16}+ businesses that trust GB Optimizers for their Google Maps rankings.
+              Join {testimonials.length * 16}+ businesses that trust GMB Optimizers for their Google Maps rankings.
             </p>
             <Link to={localePath("/pricing")} className="inline-flex px-8 py-4 text-xs font-bold uppercase tracking-wider bg-background text-foreground hover:bg-background/90 transition-colors">
               Get Started

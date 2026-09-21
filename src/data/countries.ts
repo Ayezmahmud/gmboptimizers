@@ -39,7 +39,7 @@ export const countries: CountryConfig[] = [
     timezone: "AEST",
     timezones: ["Australia/Sydney", "Australia/Melbourne", "Australia/Brisbane", "Australia/Perth", "Australia/Adelaide", "Australia/Hobart", "Australia/Darwin"],
     locales: ["en-AU"],
-    seoTitle: "GB Optimizers Australia – #1 Google Maps SEO Agency",
+    seoTitle: "GMB Optimizers Australia – #1 Google Maps SEO Agency",
     seoDescription: "Dominate Google Maps in Australia. Proven local SEO strategies trusted by 500+ businesses. Get your free consultation today.",
   },
   {
@@ -58,7 +58,7 @@ export const countries: CountryConfig[] = [
     timezone: "GMT",
     timezones: ["Europe/London"],
     locales: ["en-GB"],
-    seoTitle: "GB Optimizers UK – #1 Google Maps SEO Agency",
+    seoTitle: "GMB Optimizers UK – #1 Google Maps SEO Agency",
     seoDescription: "Dominate Google Maps in the UK. Proven local SEO strategies trusted by 500+ businesses. Get your free consultation today.",
   },
   {
@@ -77,7 +77,7 @@ export const countries: CountryConfig[] = [
     timezone: "EST",
     timezones: ["America/New_York", "America/Chicago", "America/Denver", "America/Los_Angeles", "America/Phoenix", "America/Anchorage", "Pacific/Honolulu"],
     locales: ["en-US"],
-    seoTitle: "GB Optimizers USA – #1 Google Maps SEO Agency",
+    seoTitle: "GMB Optimizers USA – #1 Google Maps SEO Agency",
     seoDescription: "Dominate Google Maps in the United States. Proven local SEO strategies trusted by 500+ businesses. Get your free consultation today.",
   },
 ];

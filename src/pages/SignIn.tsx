@@ -57,7 +57,7 @@ const SignIn = () => {
         <div className="relative z-10 w-full max-w-md mx-auto px-6">
           <div className="bg-card border border-border p-8 shadow-2xl">
             <h1 className="text-3xl font-black uppercase tracking-tight text-gradient-google mb-2 text-center">Sign In</h1>
-            <p className="text-muted-foreground text-sm text-center mb-8">Welcome back to GB Optimizers</p>
+            <p className="text-muted-foreground text-sm text-center mb-8">Welcome back to GMB Optimizers</p>
 
             <form onSubmit={handleSignIn} className="space-y-5">
               <div>

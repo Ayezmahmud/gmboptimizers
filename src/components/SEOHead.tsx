@@ -17,7 +17,7 @@ const SEOHead = ({ pageTitle, pageDescription }: SEOHeadProps) => {
   useEffect(() => {
     // Title
     const title = pageTitle
-      ? `${pageTitle} | GB Optimizers ${country.name}`
+      ? `${pageTitle} | GMB Optimizers ${country.name}`
       : country.seoTitle;
     document.title = title;
 
